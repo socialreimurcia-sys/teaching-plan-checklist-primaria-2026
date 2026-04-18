@@ -2364,44 +2364,34 @@ document.getElementById('report-overlay').addEventListener('click', e => {
     document.getElementById('report-overlay').classList.remove('visible');
 });
 
-document.getElementById('btn-report-dl').addEventListener('click', async () => {
+document.getElementById('btn-report-dl').addEventListener('click', () => {
   const btn = document.getElementById('btn-report-dl');
   btn.disabled = true;
   btn.textContent = 'Generating PDF…';
-  try {
-    const reportBody = document.getElementById('report-body');
-    const canvas = await html2canvas(reportBody, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
-    const imgData = canvas.toDataURL('image/png');
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ unit: 'mm', format: 'a4' });
-    const pageW = pdf.internal.pageSize.getWidth();
-    const pageH = pdf.internal.pageSize.getHeight();
-    const margin = 10;
-    const imgW = pageW - margin * 2;
-    const imgH = (canvas.height * imgW) / canvas.width;
-    let y = margin;
-    let remaining = imgH;
-    const srcH = canvas.height;
-    const srcW = canvas.width;
-    let srcY = 0;
-    while (remaining > 0) {
-      const sliceH = Math.min(remaining, pageH - margin * 2);
-      const sliceSrcH = (sliceH / imgH) * srcH;
-      const sliceCanvas = document.createElement('canvas');
-      sliceCanvas.width = srcW;
-      sliceCanvas.height = sliceSrcH;
-      sliceCanvas.getContext('2d').drawImage(canvas, 0, srcY, srcW, sliceSrcH, 0, 0, srcW, sliceSrcH);
-      pdf.addImage(sliceCanvas.toDataURL('image/png'), 'PNG', margin, y, imgW, sliceH);
-      remaining -= sliceH;
-      srcY += sliceSrcH;
-      if (remaining > 0) { pdf.addPage(); y = margin; }
-    }
-    const dateFile = new Date().toISOString().slice(0, 10);
-    pdf.save(`FUSTERSAURA_Report_${dateFile}.pdf`);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '⬇ Download as PDF';
-  }
+
+  const reportBody = document.getElementById('report-body');
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+  const dateFile = new Date().toISOString().slice(0, 10);
+
+  pdf.html(reportBody, {
+    callback(doc) {
+      doc.save(`FUSTERSAURA_Report_${dateFile}.pdf`);
+      btn.disabled = false;
+      btn.textContent = '⬇ Download as PDF';
+    },
+    x: 10,
+    y: 10,
+    width: 190,
+    windowWidth: reportBody.offsetWidth || 800,
+    html2canvas: {
+      scale: 0.75,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      logging: false
+    },
+    autoPaging: 'text'
+  });
 });
 
 // Filters
