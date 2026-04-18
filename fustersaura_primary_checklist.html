@@ -8,6 +8,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root {
     --granate: #8B0000;
@@ -641,6 +642,213 @@
     font-style: italic;
   }
 
+  /* ─── TABS ─── */
+  .tab-nav {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--grey-200);
+    background: var(--white);
+  }
+  .tab-btn {
+    padding: 16px 28px 14px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--grey-400);
+    transition: color 0.2s, border-color 0.2s;
+    text-align: left;
+  }
+  .tab-btn .tab-label { display: block; }
+  .tab-btn .tab-byline { display: block; font-size: 0.72rem; font-weight: 400; color: var(--grey-400); margin-top: 2px; }
+  .tab-btn.active { color: var(--navy); border-bottom-color: var(--granate); }
+  .tab-btn.active .tab-byline { color: var(--grey-600); }
+  .tab-btn:hover:not(.active) { color: var(--navy); }
+
+  /* ─── GENERATE REPORT BUTTON ─── */
+  .btn-generate-report {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 22px;
+    background: var(--granate);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+  }
+  .btn-generate-report:hover { background: var(--granate-light); }
+  .btn-generate-report .report-tooltip {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 280px;
+    background: var(--navy);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 10px 13px;
+    border-radius: var(--radius-sm);
+    z-index: 100;
+    pointer-events: none;
+  }
+  .btn-generate-report:hover .report-tooltip { display: block; }
+  .tab1-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+  /* ─── REPORT MODAL ─── */
+  .report-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(27,42,74,0.55);
+    z-index: 10000;
+    overflow-y: auto;
+    padding: 32px 16px;
+  }
+  .report-overlay.visible { display: block; }
+  .report-modal {
+    max-width: 860px;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+    overflow: hidden;
+  }
+  .report-modal-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 14px 24px;
+    border-top: 1px solid var(--grey-200);
+    background: var(--grey-50);
+  }
+  .btn-report-close {
+    padding: 9px 20px;
+    border: 1.5px solid var(--grey-200);
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--grey-600);
+    transition: border-color 0.2s;
+  }
+  .btn-report-close:hover { border-color: var(--granate); color: var(--granate); }
+  .btn-report-dl {
+    padding: 9px 20px;
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-report-dl:hover { background: var(--navy-light); }
+  .report-body { padding: 32px 36px; }
+  .report-header-block {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid var(--granate);
+    margin-bottom: 24px;
+  }
+  .report-logo { height: 52px; width: auto; }
+  .report-header-text { flex: 1; }
+  .report-title { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--navy); }
+  .report-meta { font-size: 0.8rem; color: var(--grey-600); margin-top: 4px; }
+  .report-summary {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .report-summary-pill {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .report-summary-pill.total { background: var(--grey-100); color: var(--navy); }
+  .report-summary-pill.done { background: var(--success-bg); color: var(--success); }
+  .report-summary-pill.pending { background: var(--granate-pale); color: var(--granate); }
+  .report-section-block { margin-bottom: 28px; }
+  .report-section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--navy);
+    padding: 8px 12px;
+    background: var(--grey-100);
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+    border-left: 4px solid var(--granate);
+  }
+  .report-item { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--grey-100); }
+  .report-item:last-child { border-bottom: none; margin-bottom: 0; }
+  .report-item-label { font-size: 0.85rem; font-weight: 700; color: var(--grey-800); margin-bottom: 8px; }
+  .report-item-num { color: var(--grey-400); font-weight: 400; font-size: 0.78rem; margin-right: 6px; }
+  .report-missing {
+    font-size: 0.8rem;
+    color: var(--granate);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .report-suggestion {
+    background: var(--gold-pale);
+    border-left: 3px solid var(--gold);
+    padding: 8px 12px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+  .report-suggestion-label { font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .report-suggestion-text { color: var(--grey-600); font-style: italic; }
+
+  /* ─── TAB 2 AI LAYOUT ─── */
+  .tab2-ai-wrap {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border-top: 3px solid var(--gold);
+    overflow: hidden;
+  }
+  .tab2-ai-header {
+    background: var(--gold-pale);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(200,169,81,0.2);
+  }
+  .tab2-ai-icon { font-size: 1.3rem; }
+  .tab2-ai-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--navy); }
+  .tab2-ai-subtitle { font-size: 0.78rem; color: var(--grey-600); margin-top: 2px; }
+  .tab2-ai-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 14px; }
+  .tab2-ai-body .ai-section-select { font-size: 0.85rem; padding: 10px 12px; }
+  .tab2-ai-body .ai-textarea { height: 140px; font-size: 0.82rem; }
+  .tab2-ai-body .btn-analyze { padding: 12px; font-size: 0.88rem; }
+  .tab2-ai-body .ai-response { font-size: 0.82rem; max-height: 400px; }
+  .tab2-ai-body .btn-download-pdf { font-size: 0.85rem; padding: 11px; }
+
   /* ─── DOCUMENT UPLOAD ─── */
   .doc-upload-area {
     margin-bottom: 10px;
@@ -735,6 +943,18 @@
   <p class="hero-subtitle">Convocatoria <span>2026 · Región de Murcia</span> · Decreto 209/2022 · RD 157/2022 · LOMLOE</p>
 </div>
 
+<!-- TAB NAV -->
+<nav class="tab-nav">
+  <button class="tab-btn active" id="tab-btn-1" onclick="switchTab(1)">
+    <span class="tab-label">Checklist &amp; Report</span>
+    <span class="tab-byline">Track what you have and get a personalised report</span>
+  </button>
+  <button class="tab-btn" id="tab-btn-2" onclick="switchTab(2)">
+    <span class="tab-label">AI Quality Review</span>
+    <span class="tab-byline">Upload your teaching plan sections and get expert feedback</span>
+  </button>
+</nav>
+
 <!-- MAIN LAYOUT -->
 <div class="app-layout">
 
@@ -760,63 +980,8 @@
       <div class="section-progress-list" id="section-progress-list"></div>
     </div>
 
-    <!-- AI Feedback Card -->
-    <div class="ai-card">
-      <div class="ai-card-header">
-        <span class="ai-icon">🤖</span>
-        <span class="ai-card-title">AI Feedback · Modelo FUSTERSAURA</span>
-      </div>
-      <div class="ai-card-body">
-        <select class="ai-section-select" id="ai-section-select">
-          <option value="">— Select a section —</option>
-          <option value="cover">Cover & Table of Contents</option>
-          <option value="formatting">Formatting</option>
-          <option value="introduction">I. Introduction</option>
-          <option value="justification">2. Justification (Foundations)</option>
-          <option value="setting">3. Setting & Addressees</option>
-          <option value="diversity">4. Attention to Diversity</option>
-          <option value="stage_obj">5.1 Stage Objectives</option>
-          <option value="key_comp">5.2 Key Competences & Exit Profile</option>
-          <option value="spc">5.4 Specific Competences</option>
-          <option value="assessment_criteria">5.5 Assessment Criteria</option>
-          <option value="basic_knowledge">4.6 Basic Knowledge</option>
-          <option value="transversal">4.7 Transversal & Interdisciplinary</option>
-          <option value="sequencing">9. Sequencing of Units</option>
-          <option value="unit_charts">Unit Charts</option>
-          <option value="methodology">10. Methodology</option>
-          <option value="materials">11. Materials & Resources</option>
-          <option value="groupings">12. Groupings & Layout</option>
-          <option value="reading">15. Reading Habits</option>
-          <option value="assessment_learning">15. Assessment of Learning</option>
-          <option value="eval_teaching">16. Evaluation of Teaching</option>
-          <option value="communication">17. Communication</option>
-          <option value="bibliography">18. Bibliography</option>
-        </select>
-        <div class="doc-upload-area">
-          <label class="doc-upload-label" id="doc-upload-label">
-            <span class="doc-upload-icon">📄</span>
-            <span>Upload PDF or DOCX (optional)</span>
-            <input type="file" id="doc-file-input" accept=".pdf,.docx">
-          </label>
-          <div class="doc-uploaded-info" id="doc-uploaded-info">
-            <span class="doc-upload-icon">📄</span>
-            <span class="doc-filename" id="doc-filename"></span>
-            <button class="doc-clear-btn" id="doc-clear-btn" title="Remove file">✕</button>
-          </div>
-          <div class="doc-processing" id="doc-processing" style="display:none">Extracting text…</div>
-          <div class="doc-note" id="doc-note" style="display:none">Document uploaded — AI will read your full teaching plan</div>
-        </div>
-        <textarea class="ai-textarea" id="ai-input" placeholder="Paste your draft here, or describe what you've written. I'll compare it against the FUSTERSAURA model and give you specific feedback..."></textarea>
-        <button class="btn-analyze" id="btn-analyze">
-          <span class="btn-label">Analyse with AI</span>
-        </button>
-        <div class="ai-response" id="ai-response"></div>
-        <button class="btn-download-pdf" id="btn-download-pdf">⬇ Download feedback as PDF</button>
-      </div>
-    </div>
-
-    <!-- Filters & Controls -->
-    <div class="controls-card">
+    <!-- Filters & Controls (Tab 1 only) -->
+    <div class="controls-card" id="sidebar-controls">
       <h3>Filter Items</h3>
       <div class="filter-row">
         <button class="filter-btn active" data-filter="all">All</button>
@@ -830,12 +995,94 @@
 
   <!-- MAIN -->
   <main class="main-content">
-    <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input class="search-input" id="search-input" placeholder="Search checklist items..." type="text">
+
+    <!-- TAB 1: Checklist & Report -->
+    <div id="tab1-main">
+      <div class="tab1-toolbar">
+        <div class="search-wrap" style="flex:1;margin-bottom:0">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="search-input" placeholder="Search checklist items..." type="text">
+        </div>
+        <button class="btn-generate-report" id="btn-generate-report">
+          📋 Generate Report
+          <span class="report-tooltip">Generates a visual report of all unticked items with model suggestions for each one. No AI required — instant and free.</span>
+        </button>
+      </div>
+      <div id="sections-container"></div>
     </div>
-    <div id="sections-container"></div>
+
+    <!-- TAB 2: AI Quality Review -->
+    <div id="tab2-main" style="display:none">
+      <div class="tab2-ai-wrap">
+        <div class="tab2-ai-header">
+          <span class="tab2-ai-icon">🤖</span>
+          <div>
+            <div class="tab2-ai-title">AI Feedback · Modelo FUSTERSAURA</div>
+            <div class="tab2-ai-subtitle">Select a section, optionally upload your plan, and get expert feedback</div>
+          </div>
+        </div>
+        <div class="tab2-ai-body">
+          <select class="ai-section-select" id="ai-section-select">
+            <option value="">— Select a section —</option>
+            <option value="cover">Cover &amp; Table of Contents</option>
+            <option value="formatting">Formatting</option>
+            <option value="introduction">I. Introduction</option>
+            <option value="justification">2. Justification (Foundations)</option>
+            <option value="setting">3. Setting &amp; Addressees</option>
+            <option value="diversity">4. Attention to Diversity</option>
+            <option value="stage_obj">5.1 Stage Objectives</option>
+            <option value="key_comp">5.2 Key Competences &amp; Exit Profile</option>
+            <option value="spc">5.4 Specific Competences</option>
+            <option value="assessment_criteria">5.5 Assessment Criteria</option>
+            <option value="basic_knowledge">4.6 Basic Knowledge</option>
+            <option value="transversal">4.7 Transversal &amp; Interdisciplinary</option>
+            <option value="sequencing">9. Sequencing of Units</option>
+            <option value="unit_charts">Unit Charts</option>
+            <option value="methodology">10. Methodology</option>
+            <option value="materials">11. Materials &amp; Resources</option>
+            <option value="groupings">12. Groupings &amp; Layout</option>
+            <option value="reading">15. Reading Habits</option>
+            <option value="assessment_learning">15. Assessment of Learning</option>
+            <option value="eval_teaching">16. Evaluation of Teaching</option>
+            <option value="communication">17. Communication</option>
+            <option value="bibliography">18. Bibliography</option>
+          </select>
+          <div class="doc-upload-area">
+            <label class="doc-upload-label" id="doc-upload-label">
+              <span class="doc-upload-icon">📄</span>
+              <span>Upload PDF or DOCX (optional)</span>
+              <input type="file" id="doc-file-input" accept=".pdf,.docx">
+            </label>
+            <div class="doc-uploaded-info" id="doc-uploaded-info">
+              <span class="doc-upload-icon">📄</span>
+              <span class="doc-filename" id="doc-filename"></span>
+              <button class="doc-clear-btn" id="doc-clear-btn" title="Remove file">✕</button>
+            </div>
+            <div class="doc-processing" id="doc-processing" style="display:none">Extracting text…</div>
+            <div class="doc-note" id="doc-note" style="display:none">Document uploaded — AI will read your full teaching plan</div>
+          </div>
+          <textarea class="ai-textarea" id="ai-input" placeholder="Paste your draft here, or describe what you've written. I'll compare it against the FUSTERSAURA model and give you specific feedback..."></textarea>
+          <button class="btn-analyze" id="btn-analyze">
+            <span class="btn-label">Analyse with AI</span>
+          </button>
+          <div class="ai-response" id="ai-response"></div>
+          <button class="btn-download-pdf" id="btn-download-pdf">⬇ Download feedback as PDF</button>
+        </div>
+      </div>
+    </div>
+
   </main>
+</div>
+
+<!-- REPORT MODAL -->
+<div class="report-overlay" id="report-overlay">
+  <div class="report-modal">
+    <div class="report-body" id="report-body"></div>
+    <div class="report-modal-actions">
+      <button class="btn-report-close" id="btn-report-close">✕ Close</button>
+      <button class="btn-report-dl" id="btn-report-dl">⬇ Download as PDF</button>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -2036,6 +2283,125 @@ document.getElementById('btn-download-pdf').addEventListener('click', () => {
   const safeName = (sectionLabel).replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_');
   const dateFile = today.toISOString().slice(0, 10);
   doc.save(`FUSTERSAURA_feedback_${safeName}_${dateFile}.pdf`);
+});
+
+/* ═══════════════════════════════════════════════
+   TAB SWITCHING
+   ═══════════════════════════════════════════════ */
+function switchTab(n) {
+  document.getElementById('tab-btn-1').classList.toggle('active', n === 1);
+  document.getElementById('tab-btn-2').classList.toggle('active', n === 2);
+  document.getElementById('tab1-main').style.display = n === 1 ? '' : 'none';
+  document.getElementById('tab2-main').style.display = n === 2 ? '' : 'none';
+  document.getElementById('sidebar-controls').style.display = n === 1 ? '' : 'none';
+}
+
+/* ═══════════════════════════════════════════════
+   GENERATE REPORT
+   ═══════════════════════════════════════════════ */
+document.getElementById('btn-generate-report').addEventListener('click', () => {
+  const allItems = getAllItems();
+  const total = allItems.length;
+  const done = allItems.filter(i => state.checked.has(i.id)).length;
+  const pending = total - done;
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+
+  // Build per-section unticked items
+  const sectionsHtml = CHECKLIST.map(section => {
+    const unticked = section.subsections.flatMap(sub => sub.items).filter(i => !state.checked.has(i.id));
+    if (unticked.length === 0) return '';
+
+    const itemsHtml = unticked.map(item => {
+      const tip = TIPS[item.id];
+      const suggestionBlock = tip ? `
+        <div class="report-suggestion">
+          <div class="report-suggestion-label">💡 Suggested content</div>
+          <div class="report-suggestion-text">${tip.example}</div>
+        </div>` : '';
+      return `
+        <div class="report-item">
+          <div class="report-item-label"><span class="report-item-num">#${item.id}</span>${item.text}</div>
+          <div class="report-missing">⚠️ This seems to be missing</div>
+          ${suggestionBlock}
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="report-section-block">
+        <div class="report-section-title">${section.num ? section.num + '. ' : ''}${section.label}</div>
+        ${itemsHtml}
+      </div>`;
+  }).join('');
+
+  const reportHtml = `
+    <div class="report-header-block">
+      <img class="report-logo" src="./logo fustersaura sin fondo.png" alt="FUSTERSAURA" onerror="this.style.display='none'">
+      <div class="report-header-text">
+        <div class="report-title">Teaching Plan Report</div>
+        <div class="report-meta">Generated: ${dateStr} · FUSTERSAURA · Primary 2025–26</div>
+      </div>
+    </div>
+    <div class="report-summary">
+      <span class="report-summary-pill total">📋 Total items: ${total}</span>
+      <span class="report-summary-pill done">✅ Completed: ${done}</span>
+      <span class="report-summary-pill pending">⚠️ Pending: ${pending}</span>
+    </div>
+    ${pending === 0
+      ? '<p style="color:var(--success);font-weight:600;font-size:1rem;text-align:center;padding:32px 0">🎉 All items are ticked — your teaching plan looks complete!</p>'
+      : sectionsHtml}
+  `;
+
+  document.getElementById('report-body').innerHTML = reportHtml;
+  document.getElementById('report-overlay').classList.add('visible');
+});
+
+document.getElementById('btn-report-close').addEventListener('click', () => {
+  document.getElementById('report-overlay').classList.remove('visible');
+});
+document.getElementById('report-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('report-overlay'))
+    document.getElementById('report-overlay').classList.remove('visible');
+});
+
+document.getElementById('btn-report-dl').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-report-dl');
+  btn.disabled = true;
+  btn.textContent = 'Generating PDF…';
+  try {
+    const reportBody = document.getElementById('report-body');
+    const canvas = await html2canvas(reportBody, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit: 'mm', format: 'a4' });
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+    const margin = 10;
+    const imgW = pageW - margin * 2;
+    const imgH = (canvas.height * imgW) / canvas.width;
+    let y = margin;
+    let remaining = imgH;
+    const srcH = canvas.height;
+    const srcW = canvas.width;
+    let srcY = 0;
+    while (remaining > 0) {
+      const sliceH = Math.min(remaining, pageH - margin * 2);
+      const sliceSrcH = (sliceH / imgH) * srcH;
+      const sliceCanvas = document.createElement('canvas');
+      sliceCanvas.width = srcW;
+      sliceCanvas.height = sliceSrcH;
+      sliceCanvas.getContext('2d').drawImage(canvas, 0, srcY, srcW, sliceSrcH, 0, 0, srcW, sliceSrcH);
+      pdf.addImage(sliceCanvas.toDataURL('image/png'), 'PNG', margin, y, imgW, sliceH);
+      remaining -= sliceH;
+      srcY += sliceSrcH;
+      if (remaining > 0) { pdf.addPage(); y = margin; }
+    }
+    const dateFile = new Date().toISOString().slice(0, 10);
+    pdf.save(`FUSTERSAURA_Report_${dateFile}.pdf`);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '⬇ Download as PDF';
+  }
 });
 
 // Filters
