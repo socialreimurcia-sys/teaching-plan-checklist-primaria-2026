@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root {
     --granate: #8B0000;
@@ -282,6 +283,26 @@
   }
   .ai-response.visible { display: block; }
   .ai-response strong { color: var(--navy); }
+  .btn-download-pdf {
+    width: 100%;
+    margin-top: 10px;
+    padding: 9px;
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.80rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-download-pdf.visible { display: flex; }
+  .btn-download-pdf:hover { background: var(--navy-light); }
 
   /* ─── CONTROLS CARD ─── */
   .controls-card {
@@ -790,6 +811,7 @@
           <span class="btn-label">Analyse with AI</span>
         </button>
         <div class="ai-response" id="ai-response"></div>
+        <button class="btn-download-pdf" id="btn-download-pdf">⬇ Download feedback as PDF</button>
       </div>
     </div>
 
@@ -1885,11 +1907,15 @@ document.getElementById('doc-clear-btn').addEventListener('click', () => {
 /* ═══════════════════════════════════════════════
    EVENT LISTENERS
    ═══════════════════════════════════════════════ */
+let lastFeedbackText = '';
+let lastFeedbackSection = '';
+
 document.getElementById('btn-analyze').addEventListener('click', async () => {
   const sectionId = document.getElementById('ai-section-select').value;
   const userText = document.getElementById('ai-input').value.trim();
   const btn = document.getElementById('btn-analyze');
   const responseEl = document.getElementById('ai-response');
+  const dlBtn = document.getElementById('btn-download-pdf');
 
   if (!sectionId) {
     showToast('Please select a section first');
@@ -1899,12 +1925,16 @@ document.getElementById('btn-analyze').addEventListener('click', async () => {
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Analysing...';
   responseEl.classList.remove('visible');
+  dlBtn.classList.remove('visible');
 
   try {
     const result = await callAnthropicAPI(sectionId, userText, extractedDocText);
+    lastFeedbackText = result;
+    lastFeedbackSection = sectionId;
     const formatted = result.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
     responseEl.innerHTML = formatted;
     responseEl.classList.add('visible');
+    dlBtn.classList.add('visible');
   } catch (err) {
     responseEl.innerHTML = `<strong style="color:var(--granate)">Error:</strong> ${err.message}`;
     responseEl.classList.add('visible');
@@ -1912,6 +1942,100 @@ document.getElementById('btn-analyze').addEventListener('click', async () => {
     btn.disabled = false;
     btn.innerHTML = '<span class="btn-label">Analyse with AI</span>';
   }
+});
+
+document.getElementById('btn-download-pdf').addEventListener('click', () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const margin = 18;
+  const contentW = pageW - margin * 2;
+
+  // Header bar (granate)
+  doc.setFillColor(139, 0, 0);
+  doc.rect(0, 0, pageW, 22, 'F');
+
+  // Brand name
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(13);
+  doc.setTextColor(255, 255, 255);
+  doc.text('FUSTERSAURA', margin, 14);
+
+  // Subtitle in header
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(220, 190, 120);
+  doc.text('AI Feedback Report · Modelo FUSTERSAURA', pageW - margin, 14, { align: 'right' });
+
+  // Navy divider
+  doc.setFillColor(27, 42, 74);
+  doc.rect(0, 22, pageW, 4, 'F');
+
+  // Section label
+  const sectionNames = {
+    cover: 'Cover Page & Table of Contents', formatting: 'Formatting',
+    introduction: 'Introduction', justification: 'Justification (Foundations)',
+    setting: 'Setting & Addressees', diversity: 'Attention to Diversity',
+    stage_obj: 'Stage Objectives (5.1)', key_comp: 'Key Competences & Exit Profile (5.2)',
+    spc: 'Specific Competences (5.4)', assessment_criteria: 'Assessment Criteria (5.5)',
+    basic_knowledge: 'Basic Knowledge (4.6)', transversal: 'Transversal & Interdisciplinary (4.7)',
+    sequencing: 'Sequencing of Units (9)', unit_charts: 'Unit Charts',
+    methodology: 'Methodology (10)', materials: 'Materials & Resources (11)',
+    groupings: 'Groupings & Classroom Layout (12)', reading: 'Promotion of Reading Habits (15)',
+    assessment_learning: 'Assessment of Learning (15)', eval_teaching: 'Evaluation of Teaching (16)',
+    communication: 'Communication (17)', bibliography: 'Bibliography (18)'
+  };
+  const sectionLabel = sectionNames[lastFeedbackSection] || lastFeedbackSection;
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+
+  let y = 34;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.setTextColor(27, 42, 74);
+  doc.text(`Section: ${sectionLabel}`, margin, y);
+
+  y += 7;
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(90, 85, 80);
+  doc.text(`Generated: ${dateStr}`, margin, y);
+
+  // Divider line
+  y += 5;
+  doc.setDrawColor(200, 169, 81);
+  doc.setLineWidth(0.5);
+  doc.line(margin, y, pageW - margin, y);
+  y += 8;
+
+  // Feedback body
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9.5);
+  doc.setTextColor(45, 42, 38);
+
+  const lines = doc.splitTextToSize(lastFeedbackText, contentW);
+  lines.forEach(line => {
+    if (y > pageH - 20) {
+      doc.addPage();
+      y = 20;
+    }
+    const isBold = /^(Strengths|Gaps|Issues|Specific Suggestions|1\.|2\.|3\.)/.test(line.trim());
+    doc.setFont('helvetica', isBold ? 'bold' : 'normal');
+    doc.text(line, margin, y);
+    y += 5.5;
+  });
+
+  // Footer
+  doc.setFont('helvetica', 'italic');
+  doc.setFontSize(7.5);
+  doc.setTextColor(157, 151, 140);
+  doc.text('FUSTERSAURA · Primary Teaching Plan 2025–26', margin, pageH - 10);
+  doc.text(dateStr, pageW - margin, pageH - 10, { align: 'right' });
+
+  const safeName = (sectionLabel).replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_');
+  const dateFile = today.toISOString().slice(0, 10);
+  doc.save(`FUSTERSAURA_feedback_${safeName}_${dateFile}.pdf`);
 });
 
 // Filters
