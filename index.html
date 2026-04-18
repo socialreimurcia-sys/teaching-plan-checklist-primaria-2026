@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FUSTERSAURA · Primary Checklist 2025–26</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -849,6 +850,207 @@
   .tab2-ai-body .ai-response { font-size: 0.82rem; max-height: 400px; }
   .tab2-ai-body .btn-download-pdf { font-size: 0.85rem; padding: 11px; }
 
+  /* ─── LOGIN SCREEN ─── */
+  .login-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: var(--navy);
+    overflow-y: auto;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-overlay.visible { display: flex; }
+  .login-box {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 60px rgba(0,0,0,0.4);
+    padding: 48px 44px;
+    width: 100%;
+    max-width: 420px;
+    margin: 32px auto;
+  }
+  .login-logo {
+    display: block;
+    height: 56px;
+    width: auto;
+    margin: 0 auto 20px;
+  }
+  .login-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    color: var(--navy);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .login-subtitle {
+    font-size: 0.82rem;
+    color: var(--grey-600);
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .login-field { margin-bottom: 16px; }
+  .login-field label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .login-field input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid var(--grey-200);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--grey-800);
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+  .login-field input:focus { outline: none; border-color: var(--gold); }
+  .btn-login {
+    width: 100%;
+    padding: 12px;
+    background: var(--granate);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+  .btn-login:hover { background: var(--granate-light); }
+  .btn-login:disabled { background: var(--grey-400); cursor: not-allowed; }
+  .login-error {
+    display: none;
+    margin-top: 14px;
+    padding: 10px 14px;
+    background: var(--granate-pale);
+    border-left: 3px solid var(--granate);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    color: var(--granate);
+  }
+  .login-error.visible { display: block; }
+  .login-gold-bar {
+    height: 4px;
+    background: linear-gradient(90deg, var(--granate), var(--gold), var(--navy));
+    border-radius: var(--radius) var(--radius) 0 0;
+    margin: -48px -44px 32px;
+  }
+
+  /* ─── LOGOUT BUTTON ─── */
+  .btn-logout {
+    padding: 7px 14px;
+    background: none;
+    border: 1.5px solid rgba(255,255,255,0.35);
+    border-radius: var(--radius-sm);
+    color: rgba(255,255,255,0.85);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    display: none;
+  }
+  .btn-logout.visible { display: inline-flex; align-items: center; gap: 6px; }
+  .btn-logout:hover { border-color: var(--gold); color: var(--gold); }
+  .header-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-user-name {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.7);
+    display: none;
+  }
+  .header-user-name.visible { display: block; }
+
+  /* ─── ADMIN TAB ─── */
+  .admin-tab-wrap {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .admin-stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .admin-stat-card {
+    background: var(--grey-50);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    border-top: 3px solid var(--gold);
+  }
+  .admin-stat-value { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--navy); }
+  .admin-stat-label { font-size: 0.75rem; color: var(--grey-600); margin-top: 2px; }
+  .admin-table-wrap { overflow-x: auto; }
+  .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+  .admin-table th {
+    background: var(--navy);
+    color: var(--white);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.78rem;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .admin-table th:hover { background: var(--navy-light); }
+  .admin-table td { padding: 10px 14px; border-bottom: 1px solid var(--grey-100); vertical-align: middle; }
+  .admin-table tr:last-child td { border-bottom: none; }
+  .admin-table tr:hover td { background: var(--grey-50); }
+  .status-badge {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.73rem;
+    font-weight: 600;
+  }
+  .status-badge.active { background: var(--success-bg); color: var(--success); }
+  .status-badge.blocked { background: var(--granate-pale); color: var(--granate); }
+  .btn-admin-action {
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.73rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: none;
+    transition: background 0.15s;
+    margin-right: 4px;
+  }
+  .btn-admin-action.block { border-color: var(--granate); color: var(--granate); }
+  .btn-admin-action.block:hover { background: var(--granate-pale); }
+  .btn-admin-action.unblock { border-color: var(--success); color: var(--success); }
+  .btn-admin-action.unblock:hover { background: var(--success-bg); }
+  .btn-admin-action.reset { border-color: var(--gold); color: var(--warning); }
+  .btn-admin-action.reset:hover { background: var(--gold-pale); }
+  .admin-header-bar {
+    background: var(--navy);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .admin-header-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--white); }
+  .admin-body { padding: 24px; }
+  @media (max-width: 900px) { .admin-stats-row { grid-template-columns: repeat(2,1fr); } }
+
   /* ─── DOCUMENT UPLOAD ─── */
   .doc-upload-area {
     margin-bottom: 10px;
@@ -920,6 +1122,10 @@
         <span class="header-title-sub">Primary Checklist 2025–26</span>
       </div>
     </a>
+    <div class="header-user">
+      <span class="header-user-name" id="header-user-name"></span>
+      <button class="btn-logout" id="btn-logout">⎋ Log out</button>
+    </div>
     <div class="header-stats">
       <div class="stat-badge">
         <span class="stat-number" id="hdr-done">0</span>
@@ -952,6 +1158,10 @@
   <button class="tab-btn" id="tab-btn-2" onclick="switchTab(2)">
     <span class="tab-label">AI Quality Review</span>
     <span class="tab-byline">Upload your teaching plan sections and get expert feedback</span>
+  </button>
+  <button class="tab-btn" id="tab-btn-3" onclick="switchTab(3)" style="display:none">
+    <span class="tab-label">🔒 Admin</span>
+    <span class="tab-byline">Student management &amp; usage dashboard</span>
   </button>
 </nav>
 
@@ -1071,6 +1281,42 @@
       </div>
     </div>
 
+    <!-- TAB 3: Admin -->
+    <div id="tab3-main" style="display:none">
+      <div class="admin-tab-wrap">
+        <div class="admin-header-bar">
+          <span style="font-size:1.3rem">🔒</span>
+          <div class="admin-header-title">Admin Dashboard · FUSTERSAURA</div>
+        </div>
+        <div class="admin-body">
+          <div class="admin-stats-row" id="admin-stats-row">
+            <div class="admin-stat-card"><div class="admin-stat-value" id="admin-stat-total">—</div><div class="admin-stat-label">Total students</div></div>
+            <div class="admin-stat-card"><div class="admin-stat-value" id="admin-stat-active">—</div><div class="admin-stat-label">Active students</div></div>
+            <div class="admin-stat-card"><div class="admin-stat-value" id="admin-stat-tokens">—</div><div class="admin-stat-label">Total tokens used</div></div>
+            <div class="admin-stat-card"><div class="admin-stat-value" id="admin-stat-cost">—</div><div class="admin-stat-label">Approx. cost (€)</div></div>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table" id="admin-table">
+              <thead>
+                <tr>
+                  <th onclick="adminSort('name')">Name ↕</th>
+                  <th>Email</th>
+                  <th onclick="adminSort('last_login')">Last login ↕</th>
+                  <th onclick="adminSort('tokens_used')">Tokens ↕</th>
+                  <th>Cost (€)</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-table-body">
+                <tr><td colspan="7" style="text-align:center;color:var(--grey-400);padding:24px">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
 </div>
 
@@ -1087,6 +1333,208 @@
 
 <div class="toast" id="toast"></div>
 
+<!-- LOGIN OVERLAY -->
+<div class="login-overlay" id="login-overlay">
+  <div class="login-box">
+    <div class="login-gold-bar"></div>
+    <img class="login-logo" src="./logo fustersaura sin fondo.png" alt="FUSTERSAURA" onerror="this.style.display='none'">
+    <div class="login-title">FUSTERSAURA</div>
+    <div class="login-subtitle">Primary Checklist 2025–26 · Inicia sesión para continuar</div>
+    <div class="login-field">
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" placeholder="tu@email.com" autocomplete="email">
+    </div>
+    <div class="login-field">
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" placeholder="••••••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn-login" id="btn-login">Entrar</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   SUPABASE AUTH
+   ═══════════════════════════════════════════════ */
+const SUPABASE_URL = 'https://ylyxjogxtxgeaytyyxyb.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlseXhqb2d4dHhnZWF5dHl5eHliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MzMwODAsImV4cCI6MjA5MjEwOTA4MH0.omxy6E2EpQ5DWJx02ksM-x-7z9uAz2nqE2rOC-Crsrg';
+const ADMIN_EMAIL = 'socialreimurcia@gmail.com';
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentUser = null;
+let currentStudentId = null;
+
+function showLoginOverlay() {
+  document.getElementById('login-overlay').classList.add('visible');
+  document.getElementById('btn-logout').classList.remove('visible');
+  document.getElementById('header-user-name').classList.remove('visible');
+}
+
+function hideLoginOverlay() {
+  document.getElementById('login-overlay').classList.remove('visible');
+}
+
+function showApp(user, studentRow) {
+  currentUser = user;
+  currentStudentId = user.id;
+  hideLoginOverlay();
+  document.getElementById('btn-logout').classList.add('visible');
+  const nameEl = document.getElementById('header-user-name');
+  nameEl.textContent = studentRow ? `${studentRow.name} ${studentRow.surname}` : user.email;
+  nameEl.classList.add('visible');
+  if (user.email === ADMIN_EMAIL) {
+    document.getElementById('tab-btn-3').style.display = '';
+  }
+}
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const btn = document.getElementById('btn-login');
+  const errEl = document.getElementById('login-error');
+
+  errEl.classList.remove('visible');
+  btn.disabled = true;
+  btn.textContent = 'Entrando…';
+
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw new Error('Incorrect email or password.');
+
+    // Check students table
+    const { data: student, error: studentErr } = await supabase
+      .from('students')
+      .select('*')
+      .eq('id', data.user.id)
+      .single();
+
+    if (studentErr || !student) {
+      await supabase.auth.signOut();
+      throw new Error('Access denied. Please contact your teacher.');
+    }
+    if (student.is_blocked) {
+      await supabase.auth.signOut();
+      throw new Error('Access denied. Please contact your teacher.');
+    }
+
+    // Update last_login
+    await supabase.from('students').update({ last_login: new Date().toISOString() }).eq('id', data.user.id);
+
+    showApp(data.user, student);
+  } catch (err) {
+    errEl.textContent = err.message;
+    errEl.classList.add('visible');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Entrar';
+  }
+}
+
+document.getElementById('btn-login').addEventListener('click', doLogin);
+document.getElementById('login-password').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+document.getElementById('login-email').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('login-password').focus(); });
+
+document.getElementById('btn-logout').addEventListener('click', async () => {
+  await supabase.auth.signOut();
+  currentUser = null;
+  currentStudentId = null;
+  document.getElementById('tab-btn-3').style.display = 'none';
+  switchTab(1);
+  showLoginOverlay();
+});
+
+// Check existing session on load
+(async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) {
+    const { data: student } = await supabase.from('students').select('*').eq('id', session.user.id).single();
+    if (student && !student.is_blocked) {
+      showApp(session.user, student);
+    } else {
+      await supabase.auth.signOut();
+      showLoginOverlay();
+    }
+  } else {
+    showLoginOverlay();
+  }
+})();
+
+/* ═══════════════════════════════════════════════
+   ADMIN DASHBOARD
+   ═══════════════════════════════════════════════ */
+let adminStudents = [];
+let adminSortKey = 'name';
+let adminSortAsc = true;
+
+async function loadAdminDashboard() {
+  const { data, error } = await supabase.from('students').select('*').order('surname');
+  if (error) { showToast('Error loading students'); return; }
+  adminStudents = data;
+  renderAdminTable();
+}
+
+function adminSort(key) {
+  if (adminSortKey === key) adminSortAsc = !adminSortAsc;
+  else { adminSortKey = key; adminSortAsc = true; }
+  renderAdminTable();
+}
+
+function renderAdminTable() {
+  const sorted = [...adminStudents].sort((a, b) => {
+    let av = a[adminSortKey] ?? '';
+    let bv = b[adminSortKey] ?? '';
+    if (typeof av === 'string') av = av.toLowerCase();
+    if (typeof bv === 'string') bv = bv.toLowerCase();
+    return adminSortAsc ? (av > bv ? 1 : -1) : (av < bv ? 1 : -1);
+  });
+
+  const totalTokens = adminStudents.reduce((s, r) => s + (r.tokens_used || 0), 0);
+  const totalActive = adminStudents.filter(r => !r.is_blocked).length;
+  const costPerToken = 0.000003;
+  document.getElementById('admin-stat-total').textContent = adminStudents.length;
+  document.getElementById('admin-stat-active').textContent = totalActive;
+  document.getElementById('admin-stat-tokens').textContent = totalTokens.toLocaleString();
+  document.getElementById('admin-stat-cost').textContent = '€' + (totalTokens * costPerToken).toFixed(4);
+
+  const tbody = document.getElementById('admin-table-body');
+  tbody.innerHTML = sorted.map(s => {
+    const lastLogin = s.last_login ? new Date(s.last_login).toLocaleDateString('es-ES') : '—';
+    const cost = '€' + ((s.tokens_used || 0) * costPerToken).toFixed(4);
+    const statusBadge = s.is_blocked
+      ? '<span class="status-badge blocked">Blocked</span>'
+      : '<span class="status-badge active">Active</span>';
+    const blockBtn = s.is_blocked
+      ? `<button class="btn-admin-action unblock" onclick="adminToggleBlock('${s.id}', false)">Unblock</button>`
+      : `<button class="btn-admin-action block" onclick="adminToggleBlock('${s.id}', true)">Block</button>`;
+    return `<tr>
+      <td><strong>${s.surname}, ${s.name}</strong></td>
+      <td>${s.email}</td>
+      <td>${lastLogin}</td>
+      <td>${(s.tokens_used || 0).toLocaleString()}</td>
+      <td>${cost}</td>
+      <td>${statusBadge}</td>
+      <td>${blockBtn}<button class="btn-admin-action reset" onclick="adminResetTokens('${s.id}')">Reset</button></td>
+    </tr>`;
+  }).join('');
+}
+
+async function adminToggleBlock(id, block) {
+  const { error } = await supabase.from('students').update({ is_blocked: block }).eq('id', id);
+  if (error) { showToast('Error updating student'); return; }
+  adminStudents = adminStudents.map(s => s.id === id ? { ...s, is_blocked: block } : s);
+  renderAdminTable();
+}
+
+async function adminResetTokens(id) {
+  if (!confirm('Reset tokens to 0 for this student?')) return;
+  const { error } = await supabase.from('students').update({ tokens_used: 0 }).eq('id', id);
+  if (error) { showToast('Error resetting tokens'); return; }
+  adminStudents = adminStudents.map(s => s.id === id ? { ...s, tokens_used: 0 } : s);
+  renderAdminTable();
+}
+</script>
 <script>
 /* ═══════════════════════════════════════════════
    TOOLTIP DATA
@@ -2061,9 +2509,14 @@ Please provide:
 3. **Specific Suggestions** — concrete wording or content to add
 Keep your response focused and actionable. Maximum 350 words.`;
 
+  const headers = { 'Content-Type': 'application/json' };
+  if (currentStudentId) {
+    headers['x-student-id'] = currentStudentId;
+    headers['x-section'] = sectionId;
+  }
   const response = await fetch('/.netlify/functions/anthropic-proxy', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify({
       model: 'claude-sonnet-4-6',
       max_tokens: 2000,
@@ -2289,11 +2742,14 @@ document.getElementById('btn-download-pdf').addEventListener('click', () => {
    TAB SWITCHING
    ═══════════════════════════════════════════════ */
 function switchTab(n) {
-  document.getElementById('tab-btn-1').classList.toggle('active', n === 1);
-  document.getElementById('tab-btn-2').classList.toggle('active', n === 2);
-  document.getElementById('tab1-main').style.display = n === 1 ? '' : 'none';
-  document.getElementById('tab2-main').style.display = n === 2 ? '' : 'none';
+  [1,2,3].forEach(i => {
+    const btn = document.getElementById(`tab-btn-${i}`);
+    if (btn) btn.classList.toggle('active', i === n);
+    const main = document.getElementById(`tab${i}-main`);
+    if (main) main.style.display = i === n ? '' : 'none';
+  });
   document.getElementById('sidebar-controls').style.display = n === 1 ? '' : 'none';
+  if (n === 3) loadAdminDashboard();
 }
 
 /* ═══════════════════════════════════════════════
