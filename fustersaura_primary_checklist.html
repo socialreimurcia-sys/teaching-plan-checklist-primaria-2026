@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FUSTERSAURA · Primary Checklist 2025–26</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --granate: #8B0000;
+    --granate-light: #a50000;
+    --granate-pale: #fdf0f0;
+    --navy: #1B2A4A;
+    --navy-light: #243660;
+    --gold: #C8A951;
+    --gold-light: #e0c06a;
+    --gold-pale: #fdf8ec;
+    --white: #ffffff;
+    --off-white: #fafaf8;
+    --grey-50: #f8f7f5;
+    --grey-100: #f0eeea;
+    --grey-200: #e2ddd6;
+    --grey-400: #9d978c;
+    --grey-600: #5a5550;
+    --grey-800: #2d2a26;
+    --success: #2d6a4f;
+    --success-bg: #d8f3dc;
+    --warning: #7a4f00;
+    --warning-bg: #fff3cd;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --shadow: 0 2px 12px rgba(27,42,74,0.08);
+    --shadow-md: 0 4px 24px rgba(27,42,74,0.12);
+    --shadow-lg: 0 8px 40px rgba(27,42,74,0.16);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--grey-800);
+    min-height: 100vh;
+  }
+
+  /* ─── HEADER ─── */
+  .site-header {
+    background: var(--navy);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+  }
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+  }
+  .header-logo {
+    height: 42px;
+    width: auto;
+    border-radius: 4px;
+  }
+  .header-title {
+    display: flex;
+    flex-direction: column;
+  }
+  .header-title-main {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: var(--white);
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+  }
+  .header-title-sub {
+    font-size: 0.7rem;
+    color: var(--gold);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .header-stats {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .stat-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(200,169,81,0.3);
+    border-radius: var(--radius-sm);
+    padding: 6px 14px;
+    min-width: 70px;
+  }
+  .stat-number { font-size: 1.3rem; font-weight: 700; color: var(--gold); line-height: 1; }
+  .stat-label { font-size: 0.6rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; }
+
+  /* ─── HERO BAND ─── */
+  .hero-band {
+    background: linear-gradient(135deg, var(--granate) 0%, #6b0000 100%);
+    padding: 28px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    color: var(--white);
+    position: relative;
+    margin-bottom: 6px;
+  }
+  .hero-subtitle {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9rem;
+    position: relative;
+    font-weight: 400;
+  }
+  .hero-subtitle span { color: var(--gold); font-weight: 600; }
+
+  /* ─── LAYOUT ─── */
+  .app-layout {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  /* ─── SIDEBAR ─── */
+  .sidebar {
+    position: sticky;
+    top: 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .progress-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    border-top: 3px solid var(--granate);
+  }
+  .progress-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--navy);
+    margin-bottom: 14px;
+  }
+  .progress-ring-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+  .ring-container { position: relative; width: 120px; height: 120px; }
+  .ring-svg { transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--grey-100); stroke-width: 10; }
+  .ring-progress { fill: none; stroke: var(--granate); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease; }
+  .ring-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .ring-pct { font-size: 1.6rem; font-weight: 700; color: var(--granate); line-height: 1; }
+  .ring-done { font-size: 0.65rem; color: var(--grey-400); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  .section-progress-list { display: flex; flex-direction: column; gap: 8px; }
+  .section-prog-item { display: flex; flex-direction: column; gap: 3px; }
+  .section-prog-label { display: flex; justify-content: space-between; font-size: 0.72rem; }
+  .section-prog-name { color: var(--grey-600); font-weight: 500; }
+  .section-prog-pct { color: var(--navy); font-weight: 600; }
+  .prog-bar { height: 5px; background: var(--grey-100); border-radius: 99px; overflow: hidden; }
+  .prog-fill { height: 100%; background: var(--granate); border-radius: 99px; transition: width 0.4s ease; }
+  .prog-fill.complete { background: var(--success); }
+
+  /* ─── AI FEEDBACK CARD ─── */
+  .ai-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border-top: 3px solid var(--gold);
+    overflow: hidden;
+  }
+  .ai-card-header {
+    background: var(--gold-pale);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(200,169,81,0.2);
+  }
+  .ai-icon { font-size: 1.1rem; }
+  .ai-card-title { font-family: 'DM Serif Display', serif; font-size: 0.95rem; color: var(--navy); }
+  .ai-card-body { padding: 16px 18px; }
+  .ai-section-select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--grey-200);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    color: var(--grey-800);
+    background: var(--white);
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  .ai-textarea {
+    width: 100%;
+    height: 90px;
+    padding: 8px 10px;
+    border: 1px solid var(--grey-200);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    resize: vertical;
+    color: var(--grey-800);
+    background: var(--white);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .ai-textarea:focus, .ai-section-select:focus { outline: none; border-color: var(--gold); }
+  .btn-analyze {
+    width: 100%;
+    padding: 10px;
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-analyze:hover { background: var(--navy-light); }
+  .btn-analyze:disabled { background: var(--grey-400); cursor: not-allowed; }
+  .ai-response {
+    margin-top: 12px;
+    padding: 12px;
+    background: var(--grey-50);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--gold);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--grey-800);
+    display: none;
+    white-space: pre-wrap;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+  .ai-response.visible { display: block; }
+  .ai-response strong { color: var(--navy); }
+
+  /* ─── CONTROLS CARD ─── */
+  .controls-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px 18px;
+  }
+  .controls-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.9rem;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .filter-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 5px 10px;
+    border-radius: 99px;
+    border: 1.5px solid var(--grey-200);
+    background: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--grey-600);
+    transition: all 0.15s;
+  }
+  .filter-btn.active { background: var(--navy); border-color: var(--navy); color: var(--white); }
+  .filter-btn:hover:not(.active) { border-color: var(--navy); color: var(--navy); }
+  .btn-reset {
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px;
+    background: var(--granate-pale);
+    color: var(--granate);
+    border: 1.5px solid rgba(139,0,0,0.2);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-reset:hover { background: var(--granate); color: var(--white); }
+
+  /* ─── MAIN CONTENT ─── */
+  .main-content { display: flex; flex-direction: column; gap: 20px; }
+
+  /* ─── SECTION BLOCK ─── */
+  .section-block {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .section-block:hover { box-shadow: var(--shadow-md); }
+
+  .section-header {
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    background: var(--grey-50);
+    border-bottom: 1px solid var(--grey-100);
+    gap: 12px;
+  }
+  .section-header:hover { background: var(--grey-100); }
+
+  .section-header-left { display: flex; align-items: center; gap: 12px; }
+  .section-num {
+    width: 32px; height: 32px;
+    background: var(--granate);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-num.gold { background: var(--gold); }
+  .section-num.navy { background: var(--navy); }
+
+  .section-name { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--navy); }
+  .section-author {
+    font-size: 0.68rem;
+    color: var(--grey-400);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .section-header-right { display: flex; align-items: center; gap: 10px; }
+  .section-pct-pill {
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: var(--grey-100);
+    color: var(--grey-600);
+  }
+  .section-pct-pill.complete { background: var(--success-bg); color: var(--success); }
+  .section-pct-pill.high { background: rgba(200,169,81,0.2); color: var(--warning); }
+  .chevron { font-size: 0.8rem; color: var(--grey-400); transition: transform 0.3s; }
+  .section-block.open .chevron { transform: rotate(180deg); }
+
+  /* ─── SUBSECTION ─── */
+  .section-body { display: none; }
+  .section-block.open .section-body { display: block; }
+
+  .subsection {
+    border-top: 1px solid var(--grey-100);
+  }
+  .subsection:first-child { border-top: none; }
+  .subsection-header {
+    padding: 10px 22px;
+    background: rgba(27,42,74,0.03);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .subsection-dot {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .subsection-name { font-size: 0.78rem; font-weight: 600; color: var(--navy); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .subsection-note {
+    padding: 6px 22px 2px;
+    font-size: 0.72rem;
+    color: var(--grey-400);
+    font-style: italic;
+  }
+
+  /* ─── CHECKLIST ITEMS ─── */
+  .checklist-items { padding: 6px 0 10px; }
+
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 22px;
+    transition: background 0.15s;
+    border-bottom: 1px solid transparent;
+  }
+  .checklist-item:hover { background: var(--grey-50); }
+  .checklist-item.checked { background: rgba(45,106,79,0.04); }
+  .checklist-item:last-child { border-bottom: none; }
+
+  .item-num {
+    font-size: 0.65rem;
+    color: var(--grey-400);
+    font-weight: 600;
+    width: 26px;
+    flex-shrink: 0;
+    padding-top: 3px;
+    text-align: right;
+  }
+
+  .item-checkbox {
+    width: 18px; height: 18px;
+    border: 2px solid var(--grey-200);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: all 0.15s;
+    position: relative;
+    background: var(--white);
+  }
+  .item-checkbox:checked {
+    background: var(--success);
+    border-color: var(--success);
+  }
+  .item-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .item-checkbox:hover:not(:checked) { border-color: var(--navy); }
+
+  .item-label {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--grey-800);
+    cursor: pointer;
+    flex: 1;
+  }
+  .checklist-item.checked .item-label {
+    color: var(--grey-400);
+    text-decoration: line-through;
+    text-decoration-color: rgba(45,106,79,0.5);
+  }
+
+  /* ─── SPINNER ─── */
+  .spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ─── SEARCH BAR ─── */
+  .search-wrap {
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .search-input {
+    width: 100%;
+    padding: 12px 16px 12px 42px;
+    border: 1.5px solid var(--grey-200);
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--grey-800);
+    background: var(--white);
+    box-shadow: var(--shadow);
+    transition: border-color 0.2s;
+  }
+  .search-input:focus { outline: none; border-color: var(--granate); }
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--grey-400);
+    font-size: 1rem;
+  }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: var(--navy);
+    color: var(--white);
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 999;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 900px) {
+    .app-layout { grid-template-columns: 1fr; padding: 16px; }
+    .sidebar { position: static; }
+    .header-stats { display: none; }
+  }
+
+  /* ─── TOOLTIPS ─── */
+  .item-info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--white);
+    font-size: 0.6rem;
+    font-weight: 700;
+    cursor: help;
+    flex-shrink: 0;
+    margin-top: 3px;
+    position: relative;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .item-info:hover { background: var(--gold); color: var(--navy); }
+  .item-info.active-tip { background: var(--gold); color: var(--navy); }
+
+  .tooltip-box {
+    display: none;
+    position: fixed;
+    width: 360px;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    z-index: 9999;
+    box-shadow: var(--shadow-lg);
+    pointer-events: none;
+    border-left: 3px solid var(--gold);
+  }
+
+  .tooltip-box h4 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.82rem;
+    color: var(--gold);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .tooltip-section {
+    margin-bottom: 8px;
+  }
+  .tooltip-section:last-child { margin-bottom: 0; }
+  .tooltip-label {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .tooltip-label.explain { color: var(--gold); }
+  .tooltip-label.example { color: #7eb8a4; }
+  .tooltip-label.error { color: #f4a4a4; }
+  .tooltip-text {
+    font-size: 0.75rem;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.88);
+  }
+  .tooltip-text em {
+    color: rgba(255,255,255,0.65);
+    font-style: italic;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="header-brand" href="https://www.fustersaura.es" target="_blank">
+      <img class="header-logo" src="./logo fustersaura sin fondo.png" alt="FUSTERSAURA" onerror="this.style.display='none'">
+      <div class="header-title">
+        <span class="header-title-main">FUSTERSAURA</span>
+        <span class="header-title-sub">Primary Checklist 2025–26</span>
+      </div>
+    </a>
+    <div class="header-stats">
+      <div class="stat-badge">
+        <span class="stat-number" id="hdr-done">0</span>
+        <span class="stat-label">Done</span>
+      </div>
+      <div class="stat-badge">
+        <span class="stat-number" id="hdr-total">0</span>
+        <span class="stat-label">Total</span>
+      </div>
+      <div class="stat-badge">
+        <span class="stat-number" id="hdr-pct">0%</span>
+        <span class="stat-label">Complete</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero-band">
+  <h1 class="hero-title">Teaching Plan Checklist · Primaria</h1>
+  <p class="hero-subtitle">Convocatoria <span>2026 · Región de Murcia</span> · Decreto 209/2022 · RD 157/2022 · LOMLOE</p>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- Progress Card -->
+    <div class="progress-card">
+      <h3>Overall Progress</h3>
+      <div class="progress-ring-wrap">
+        <div class="ring-container">
+          <svg class="ring-svg" width="120" height="120" viewBox="0 0 120 120">
+            <circle class="ring-bg" cx="60" cy="60" r="50"/>
+            <circle class="ring-progress" id="ring-circle" cx="60" cy="60" r="50"
+              stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+          </svg>
+          <div class="ring-center">
+            <span class="ring-pct" id="ring-pct">0%</span>
+            <span class="ring-done" id="ring-done">0 / 0</span>
+          </div>
+        </div>
+      </div>
+      <div class="section-progress-list" id="section-progress-list"></div>
+    </div>
+
+    <!-- AI Feedback Card -->
+    <div class="ai-card">
+      <div class="ai-card-header">
+        <span class="ai-icon">🤖</span>
+        <span class="ai-card-title">AI Feedback · Modelo FUSTERSAURA</span>
+      </div>
+      <div class="ai-card-body">
+        <select class="ai-section-select" id="ai-section-select">
+          <option value="">— Select a section —</option>
+          <option value="cover">Cover & Table of Contents</option>
+          <option value="formatting">Formatting</option>
+          <option value="introduction">I. Introduction</option>
+          <option value="justification">2. Justification (Foundations)</option>
+          <option value="setting">3. Setting & Addressees</option>
+          <option value="diversity">4. Attention to Diversity</option>
+          <option value="stage_obj">5.1 Stage Objectives</option>
+          <option value="key_comp">5.2 Key Competences & Exit Profile</option>
+          <option value="spc">5.4 Specific Competences</option>
+          <option value="assessment_criteria">5.5 Assessment Criteria</option>
+          <option value="basic_knowledge">4.6 Basic Knowledge</option>
+          <option value="transversal">4.7 Transversal & Interdisciplinary</option>
+          <option value="sequencing">9. Sequencing of Units</option>
+          <option value="unit_charts">Unit Charts</option>
+          <option value="methodology">10. Methodology</option>
+          <option value="materials">11. Materials & Resources</option>
+          <option value="groupings">12. Groupings & Layout</option>
+          <option value="reading">15. Reading Habits</option>
+          <option value="assessment_learning">15. Assessment of Learning</option>
+          <option value="eval_teaching">16. Evaluation of Teaching</option>
+          <option value="communication">17. Communication</option>
+          <option value="bibliography">18. Bibliography</option>
+        </select>
+        <textarea class="ai-textarea" id="ai-input" placeholder="Paste your draft here, or describe what you've written. I'll compare it against the FUSTERSAURA model and give you specific feedback..."></textarea>
+        <button class="btn-analyze" id="btn-analyze">
+          <span class="btn-label">Analyse with AI</span>
+        </button>
+        <div class="ai-response" id="ai-response"></div>
+      </div>
+    </div>
+
+    <!-- Filters & Controls -->
+    <div class="controls-card">
+      <h3>Filter Items</h3>
+      <div class="filter-row">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="pending">Pending</button>
+        <button class="filter-btn" data-filter="done">Done</button>
+      </div>
+      <button class="btn-reset" id="btn-reset">↺ Reset All Checkboxes</button>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="search-input" placeholder="Search checklist items..." type="text">
+    </div>
+    <div id="sections-container"></div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   TOOLTIP DATA
+   tip: { explain, example, error } — null = no tooltip
+   ═══════════════════════════════════════════════ */
+const TIPS = {
+  14: { explain: "Reading the whole programme as a fresh reader before submission is essential — errors obvious to an outsider are invisible to the writer.", example: "Read it aloud: if a sentence is hard to say, it will be hard to read.", error: "Submitting without a final proofread, assuming it is fine because a spell-checker was used." },
+  15: { explain: "Spell-checkers miss context errors ('their/there', 'criteria/criterion'). Grammar mistakes undermine academic credibility.", example: "Use Grammarly or LanguageTool in addition to Word's spell-checker.", error: "Confusing 'assessment' with 'evaluation', or 'criteria' (plural) with 'criterion' (singular)." },
+  16: { explain: "The convocatoria specifies Arial 11pt for the body. Charts, tables and images must also use Arial — not Calibri or Times New Roman.", example: "Select All → Font → Arial → Size 11. Then check each table cell separately.", error: "Using a different font in tables or copied-and-pasted text from other documents." },
+  17: { explain: "Single spacing (1.0) is required by the convocatoria. Double or 1.5 spacing wastes pages and signals non-compliance.", example: "Format → Paragraph → Line spacing: Single (1.0). Apply to the whole document.", error: "Using 1.15 spacing (Word default), which pushes the programme over 70 pages." },
+  18: { explain: "The convocatoria sets a strict 70-page limit, not counting the cover page. Exceeding this can disqualify the submission.", example: "Check page count before printing. If over 70, reduce margins slightly (min. 2cm) or cut less essential content.", error: "Counting the cover page as page 1, thus miscounting the total." },
+  22: { explain: "Justified text (aligned to both margins) is standard in formal academic documents.", example: "Select All → Home → Justify (Ctrl+J). Check no paragraph is left-aligned.", error: "Mixing justified and left-aligned paragraphs within the same section." },
+  24: { explain: "Consistency means: same spelling convention (British or American — choose one), same capitalisation rules, same abbreviation formats throughout.", example: "If you write 'programme' (British) in section 1, never write 'program' later.", error: "Mixing 'learners' and 'students', or 'programme' and 'program', in the same document." },
+  25: { explain: "AI-generated text has characteristic patterns: overuse of 'navigate', 'utilize', 'foster', 'delve into'. Assessors recognise these immediately.", example: "Instead of 'It is important to utilize digital tools to navigate the learning process', write 'We use digital tools to support learning'.", error: "Submitting text that has not been rewritten from a ChatGPT draft." },
+  26: { explain: "The current framework is LOMLOE (2020) + RD 157/2022 + D.209/2022. Previous legislation (LOMCE, RD 126/2014) is no longer valid.", example: "Never mention 'learning standards' (estándares de aprendizaje) — abolished by LOMLOE. Use 'assessment criteria' instead.", error: "Referring to 'objetivos didácticos' as a curricular element — these are now teacher-set 'learning objectives', not curriculum elements." },
+  27: { explain: "The FUSTERSAURA model documents provide worked examples for every section. Your programme must adapt them to your context, not copy them.", example: "Change the school location, year group, unit titles, and examples. Keep the structure and level of detail.", error: "Submitting a model document with placeholder text still visible, or with another student's context unchanged." },
+  28: { explain: "The introduction sets the scene: what a didactic programme is, the year group, and the key legislation. It is optional but useful as orientation.", example: "'This course programme, devised for Year 5 of Primary Education, constitutes the basic planning document that guides the teaching-learning process in accordance with Decree 209/2022.'", error: "Writing an introduction over half a page that repeats content from the Justification section." },
+  30: { explain: "The introduction should briefly mention the three main legislative pillars: LOMLOE, RD 157/2022, and D.209/2022.", example: "'This programme complies with LOMLOE 3/2020, Royal Decree 157/2022, and Decree 209/2022 of the Region of Murcia.'", error: "Listing all laws in full detail in the introduction — save the detailed legal framework for section 2.1." },
+  32: { explain: "The legal framework must be a clearly labelled subsection (2.1), not scattered mentions. It legitimises every decision in the programme.", example: "Start with: 'Our programme adheres to the following legislative framework:' followed by each law in order from national to regional.", error: "Mentioning legislation only in the introduction with no dedicated legal framework section." },
+  33: { explain: "The full hierarchy: LOMLOE → RD 157/2022 (national) → D.209/2022 (Murcia regional) → D.359/2009 (diversity) → Res. 20 Nov 2023 (PAPs) → CEFR/Council of Europe.", example: "'Our programme integrates the principles of inclusion set out in Decree 359/2009 and the Resolution of 20 November 2023, which establishes guidelines for Personalised Action Plans (PAPs).'", error: "Forgetting D.359/2009 (diversity) or the Resolution of November 2023 (PAPs) — often overlooked but explicitly required." },
+  34: { explain: "On first mention, each law must be cited in full with its complete official name. After that, an abbreviation can be used.", example: "First mention: 'Organic Law 3/2020 of 29 December (LOMLOE from now on)'. Subsequent mentions: simply 'LOMLOE'.", error: "Writing 'RD 157' without the year, or 'Decree 209' without the full date — the reference must be unambiguous." },
+  35: { explain: "Each law needs a one-sentence explanation of what it regulates, so the reader understands why it is relevant.", example: "After citing RD 157/2022: 'This decree establishes the minimum curriculum content, including the specific competences, basic knowledge, and assessment criteria for Primary Education.'", error: "Listing laws as a bare numbered list with no explanation — this shows no understanding." },
+  36: { explain: "After the first full citation, introduce the abbreviation in brackets and use it consistently throughout the document.", example: "'Organic Law 3/2020 of 29 December, which amends LOE 2/2006 (LOMLOE from now on)...'", error: "Abbreviating differently in different sections: 'LOMLOE', 'the Organic Law', 'the current law'." },
+  37: { explain: "Check that every mention of a law uses the same format: always 'RD 157/2022' not 'RD 157' in one place and 'Royal Decree 157' in another.", example: "Run a Find & Replace check for each law abbreviation to ensure consistency.", error: "Using different date formats: 'RD 157/2022' in section 2 but '157/2022 Royal Decree' in section 5." },
+  38: { explain: "The sociological foundation justifies why English is taught — the social demand for it. It connects the programme to the real world.", example: "'English has become the dominant language of science, technology, commerce, and digital communication, creating a strong societal demand for its mastery from an early age.'", error: "Writing a generic globalisation paragraph with no specific reference to Murcia or Spain's context." },
+  39: { explain: "Mention bodies like the Council of Europe, the EU, and the national government as drivers of English language learning policy.", example: "'The Council of Europe actively promotes plurilingualism as a key tool for European citizenship, a priority reflected in our national curriculum.'", error: "Only mentioning economic reasons for learning English — the sociological foundation should also cover cultural and intercultural dimensions." },
+  40: { explain: "Murcia's specific context: tourism industry, agricultural export sector, international business, and a growing multilingual community.", example: "'For the Region of Murcia, the sociological need is particularly pressing. As a major tourist destination and hub for international agricultural trade, English is a key requirement in the regional labour market.'", error: "Using a generic paragraph that could apply to any Spanish region, with no mention of Murcia's specific profile." },
+  41: { explain: "The psychopedagogical foundation explains the learning theories underpinning your teaching decisions: why your approach works for this age group.", example: "Structure it as: Piaget (cognitive stage) → Vygotsky (social interaction) → Ausubel (meaningful learning) → implications for the programme.", error: "Simply listing theorists' names without explaining how their theories are applied." },
+  42: { explain: "Year 3–6 pupils are in Piaget's Concrete Operational Stage. They think logically about concrete events but struggle with abstract thought. This justifies hands-on, contextualised tasks.", example: "'Year 5 learners are in Piaget's Concrete Operational Stage (c. 7–11), developing logical reasoning. This justifies our use of tangible, real-world tasks rather than abstract grammar drills.'", error: "Mentioning only Piaget and ignoring Vygotsky's ZPD, which justifies collaborative learning and scaffolding." },
+  43: { explain: "Each theory must be connected to a concrete decision in your programme. 'Because of X theory, we do Y in our programme.'", example: "'Ausubel's meaningful learning theory (1960) informs our practice of activating prior knowledge at the start of each session through connect activities and brainstorming tasks.'", error: "Describing theories in isolation without linking them to specific teaching practices or activities in the units." },
+  44: { explain: "Argue the case for teaching English specifically — cognitive benefits, intercultural awareness, economic opportunity.", example: "'Research shows that early bilingual exposure enhances metalinguistic awareness, cognitive flexibility, and problem-solving skills, benefits that extend across all subject areas.'", error: "Confusing this with the sociological foundation — here the focus is on cognitive and educational benefits, not social demand." },
+  45: { explain: "The epistemological foundation explains what knowledge you intend to teach and how — the scientific basis of your methodology.", example: "'Our programme adopts a competence-based, eclectic approach rooted in the communicative paradigm, prioritising meaning over form and authentic language use over isolated grammar practice.'", error: "Confusing epistemological with psychopedagogical — epistemology is about the nature of the knowledge being taught, not the learner's development." },
+  46: { explain: "Briefly describe your theoretical approach: competence-based learning, CLT, TBL, Focus on Form. This previews the Methodology section.", example: "'English teaching is grounded in Communicative Language Teaching (CLT), supplemented by Task-Based Learning (TBL) and a Focus on Form approach for grammar awareness.'", error: "Writing the full methodology here instead of a brief overview — save the detail for Section 10." },
+  47: { explain: "The setting contextualises everything that follows. Without it, decisions about groupings, materials, and adaptations seem arbitrary.", example: "Start with: 'This programme has been designed for a Year [X] class in a state school located in [area] of Murcia.'", error: "Writing a generic setting that could apply to any school in Spain — it must be specific and influence programme decisions." },
+  48: { explain: "Describe the neighbourhood's socioeconomic profile, cultural diversity, proximity to services, and how these shape your teaching.", example: "'The school is centrally located in a neighbourhood with notable income inequality and a significant immigrant community from Morocco, Ecuador, and Romania.'", error: "Describing location only geographically (city name, region) without explaining the socioeconomic and cultural implications." },
+  49: { explain: "Cover: number of pupils, number of classes, facilities (STEM room, sports hall, English corner, IT corner), staff (2 English teachers + language assistant).", example: "'The school houses approximately 400 pupils in 18 classes. It features a STEM classroom, a music suite, and an English corner with authentic materials including magazines, DVDs, and graded readers.'", error: "Describing facilities without connecting them to the programme — e.g. mentioning the IT corner but not how it is used in English lessons." },
+  50: { explain: "The programme must align with four statutory documents: PGA (General Annual Programme), PE (Education Project), Curricular Proposal, and Annual Report.", example: "'This programme aligns with all statutory documents governing our school, including the PGA, the Education Project, the Curricular Proposal, and the Annual Report.'", error: "Mentioning only the PGA and PE and forgetting the Curricular Proposal and Annual Report." },
+  51: { explain: "The Education Project contains plans and projects that English must contribute to. Name each one and explain your specific contribution.", example: "'The Digital Strategy: we integrate digital tools pedagogically and ethically. The Reading Plan: we hold Mini-Reading Moments and maintain a class library.'", error: "Only listing plan names without explaining how English specifically contributes to each one." },
+  52: { explain: "The PGA reflects the previous year's Annual Report areas for improvement. Your programme must support the PGA's priority action points.", example: "'The PGA prioritises the systematic use of Google Classroom. Our programme supports this by using Google Classroom to share materials and collect written assignments.'", error: "Confusing the PGA with the PE — the PGA changes annually; the PE is longer-term and values-based." },
+  53: { explain: "Give specific numbers: total pupils, gender breakdown if relevant, nationalities present. This grounds every decision.", example: "'Our class comprises 24 pupils (13 girls, 11 boys) aged 10–11, including students from Morocco, Ecuador, and Romania.'", error: "Using vague language like 'a diverse group of students' without specific numbers or nationalities." },
+  54: { explain: "Identify which Piagetian stage your pupils are in and explain what this means for your teaching. Year 5–6 pupils are in the Concrete Operational Stage (7–11 years).", example: "'Our Year 5 pupils are in Piaget's Concrete Operational Stage, meaning they can reason logically about concrete situations but still require scaffolded support for abstract concepts.'", error: "Stating the Piagetian stage without linking it to a specific teaching implication." },
+  55: { explain: "Describe the overall English level (Pre-A1, A1), identify higher and lower achievers, and mention what adaptations this requires.", example: "'The group's average level corresponds to A1 on the CEFR. Three pupils demonstrate above-average proficiency, while two require additional scaffolding.'", error: "Describing the level without mentioning differentiation strategies to address the range." },
+  56: { explain: "Reference Howard Gardner's Multiple Intelligences or VAK (Visual, Auditory, Kinaesthetic) learning styles to justify your variety of activity types.", example: "'The group includes visual learners who benefit from graphic organisers, auditory learners who engage with songs, and kinaesthetic learners who thrive in drama and hands-on tasks.'", error: "Mentioning learning styles without connecting them to specific activity types used in the units." },
+  57: { explain: "Pupils' interests drive motivation. Mention specific topics your class finds engaging and show how these are built into the learning situations.", example: "'Pupils show strong interest in animals, sport, and technology. These themes are integrated into units such as Unit 7 (Staying Healthy) and Unit 9 (Future Jobs).'", error: "Writing generic interests ('they like games') instead of specific topics visibly integrated into unit titles." },
+  58: { explain: "The key legislation for diversity: D.359/2009 (Murcia, attention to diversity) and the Resolution of 20 November 2023 (Personalised Action Plans / PAPs).", example: "'Our programme adheres to Decree 359/2009 of 30 October and integrates the Resolution of 20 November 2023, which establishes guidelines for Personalised Action Plans (PAPs).'", error: "Citing only LOMLOE for diversity and forgetting D.359/2009 and the 2023 Resolution." },
+  59: { explain: "UDL has 3 principles: Multiple Means of Engagement (motivation), Representation (how content is presented), and Action & Expression (how pupils demonstrate learning).", example: "'Engagement: varied, interest-driven topics. Representation: content via audio, visual, and kinaesthetic modalities. Action & Expression: pupils choose between written, spoken, or visual outputs.'", error: "Mentioning UDL by name without explaining its three principles or connecting them to specific activities." },
+  60: { explain: "General diversity measures apply to all pupils: extension tasks for fast-finishers, reinforcement tasks for those needing support, activities graded in difficulty, flexible groupings.", example: "'General measures include: activities graded from controlled gap-fills to open role plays, extension research projects for fast-finishers, and reinforcement worksheets for additional practice.'", error: "Only mentioning SEN pupils under diversity and ignoring general measures for the whole class." },
+  61: { explain: "SEN pupils (NEAE) include those with learning difficulties, gifted learners, late arrivals, and pupils with disabilities. Each requires specific adaptations.", example: "'For pupils with reading difficulties: audio versions of texts. For gifted learners: extension tasks requiring higher-order thinking. For late arrivals: simplified input with visual support.'", error: "Using 'SEN' to refer only to pupils with disabilities, ignoring other NEAE categories such as gifted pupils or late arrivals." },
+  62: { explain: "The PAP (Plan de Actuación Personalizado) replaces the old ACIs. Required by the Resolution of 20 November 2023 — must be mentioned explicitly.", example: "'For pupils with significant learning needs, a Personalised Action Plan (PAP) is drawn up in accordance with the Resolution of 20 November 2023.'", error: "Referring to 'ACIs' (Adaptaciones Curriculares Individuales) — this term is no longer used under LOMLOE. The correct term is PAP." },
+  64: { explain: "Stage objectives are the 14 general objectives (a–n) established in Art. 7 of RD 157/2022 and Art. 7 of D.209/2022.", example: "'The stage objectives establish the capacities pupils are expected to achieve at the end of Primary Education through all curricular areas (Art. 7 RD 157/2022 and Art. 7 D.209/2022).'", error: "Confusing stage objectives with specific competences — stage objectives are broad capacities; SPCs are subject-level." },
+  65: { explain: "Explain why you include them (legal requirement) and how you use them (reference for planning, not a direct assessment tool).", example: "'Although stage objectives are not directly assessed, each area must specify its contribution to them. Our programme does so through the learning situations and activities in each unit.'", error: "Including the stage objectives table with no introductory explanation of its purpose." },
+  66: { explain: "Table format: Objective letter + text | English contribution | Key competences (acronyms). Relate each objective to at least one unit example.", example: "Objective (f): Acquire communicative competence in at least one foreign language. → Central to our programme. In Unit 1 (Food and Healthy Eating), pupils communicate in everyday situations. → (LCC, PLC)", error: "A table with only the objective text and a one-line generic contribution — each entry needs a specific unit example." },
+  67: { explain: "Each stage objective relates to one or more key competences. Show these in brackets using the official acronyms.", example: "Objective (a) → (PSLLC, CC); Objective (f) → (LCC, PLC); Objective (h) → (STEM, CAEC, CC)", error: "Omitting the key competence acronyms from the table." },
+  68: { explain: "All 14 objectives (a through n) must appear in the table. Missing any will be noticed and penalised.", example: "Check: a, b, c, d, e, f, g, h, i, j, k, l, m, n — fourteen objectives, all present.", error: "Including only 10–12 objectives that seem obviously related to English and skipping the others." },
+  69: { explain: "As well as the general contribution, mention which specific units address each objective most directly.", example: "Objective (l) on animals: 'In Unit 11 (Forests and Animals), pupils develop empathy and responsibility towards living beings through stories and mini-projects about endangered species (SDG 15).'", error: "Writing generic contributions with no unit references — the assessor cannot verify the claim." },
+  70: { explain: "Each objective's contribution must include a concrete example: a unit name, an activity type, or a specific learning situation.", example: "Objective (k) on hygiene and health: 'In Unit 7 (Staying Healthy), pupils discuss nutrition and hygiene while promoting respect for body diversity (SDG 3).'", error: "Vague examples like 'we contribute to this objective through our communicative activities'." },
+  71: { explain: "Key competences are the 8 competences in RD 157/2022. Define what a key competence is before listing the 8.", example: "'Key competences represent the set of abilities, capacities, attitudes, and skills that students should acquire throughout education to develop lifelong learning strategies (RD 157/2022).'", error: "Jumping to listing the 8 competences without first defining what a key competence is." },
+  72: { explain: "The legislation defining the 8 key competences for Primary is RD 157/2022 (not RD 217/2022, which is for Secondary).", example: "'Royal Decree 157/2022 of 1 March establishes the following eight key competences for Primary Education.'", error: "Citing RD 217/2022 (Secondary) for Primary — a common mistake when adapting documents from Secundaria models." },
+  73: { explain: "List all 8 competences with official acronyms: LCC, PLC, STEM, DC, PSL (or PSLLC), CIT (or CC), ENT (or EC), CAEC.", example: "LCC (Language Communication), PLC (Plurilingual), STEM, DC (Digital), PSL (Personal, Social & Learning-to-Learn), CIT (Citizenship), ENT (Entrepreneurship), CAEC (Cultural Awareness & Expression).", error: "Using inconsistent acronyms — 'PSLC' in one place and 'PSL' in another, or omitting ENT." },
+  75: { explain: "Exit profile descriptors specify what pupils are expected to achieve at the end of each stage for each key competence — the bridge between key competences and specific competences.", example: "'Exit profile descriptors are further specifications of the key competences and reflect what is expected from pupils at different stages with respect to each competence (RD 157/2022).'", error: "Confusing exit profile descriptors with assessment criteria — descriptors are stage-level; ACs are subject and year-level." },
+  76: { explain: "A summarised version with acronyms suffices (LCC1–LCC5, PLC1–PLC3, etc.) — you don't need to list all descriptors in full.", example: "LCC1: Expression in everyday contexts. LCC2: Understanding simple texts. LCC3: Guided information search. LCC4: Reading age-appropriate works. LCC5: Democratic communication.", error: "Listing descriptors without their acronyms (LCC1, PLC2, etc.) — these codes must be used consistently across the document." },
+  77: { explain: "Each exit profile descriptor must be linked to the specific competences (SPC1–SPC6) it supports.", example: "LCC1 → SPC2, SPC3 | LCC2 → SPC1 | PLC1 → SPC1, SPC2, SPC3, SPC4 | DC1 → SPC1 | PSL5 → SPC1, SPC2, SPC5", error: "Listing descriptors without linking them to SPCs — the table loses its purpose." },
+  78: { explain: "The specific competences for English (SPC1–SPC6) are defined in Annex III of Decree 209/2022.", example: "'As established in Annex III of Decree 209/2022, the following specific competences guide teaching and assessment in English at Primary level.'", error: "Citing only RD 157/2022 for specific competences — they are defined at regional level in Annex III of D.209/2022." },
+  79: { explain: "Before listing SPCs, explain what they are: they translate key competences into subject-specific, teachable objectives.", example: "'Specific competences define what pupils are expected to be able to do in English at the end of each cycle, ensuring coherence and systematic progression across all units.'", error: "Going straight into SPC definitions without any introductory rationale." },
+  80: { explain: "List SPC1–SPC6 in order, each linked to its exit profile descriptors. A chart is the clearest format.", example: "SPC1 (Receptive Skills) → LCC2, LCC3, PLC1–2, STEM1, DC1, PSL5, CAEC2. SPC2 (Productive) → LCC1, PLC1–2, DC2, PSL5, ENT1, CAEC4.", error: "Describing SPCs without linking them to exit profile descriptors." },
+  81: { explain: "Each SPC needs a description of what it means and how it appears in the teaching plan — which sessions target it.", example: "'SPC1 focuses on receptive skills and is particularly emphasised in Session 1 (written comprehension) and Session 2 (oral comprehension) across all units.'", error: "Copying the legal definition of each SPC verbatim without explaining how it is implemented." },
+  82: { explain: "Assessment criteria are in Annex III of D.209/2022, organised by SPC and cycle. For Third Cycle (Years 5–6), use the Third Cycle criteria.", example: "'The assessment criteria, established in Annex III of Decree 209/2022, guide evaluation of each specific competence and serve as the main reference for assigning grades.'", error: "Using First or Second Cycle criteria for a Year 5 or 6 programme — always check which cycle your year group belongs to." },
+  84: { explain: "For each SPC, list the AC codes: SPC1: AC1.1, AC1.2 | SPC2: AC2.1–2.3 | SPC3: AC3.1, AC3.2 | SPC4: AC4.1, AC4.2 | SPC5: AC5.1–5.3 | SPC6: AC6.1–6.3.", example: "'AC 1.1: Recognise and interpret the overall meaning and specific information in short, simple oral, written, and multimodal texts on everyday topics.'", error: "Listing assessment criteria without their codes (AC1.1, AC2.3, etc.) — codes are essential for unit charts and marking criteria." },
+  85: { explain: "For each AC, specify which instruments assess it — formative and summative — using the official FUSTERSAURA acronyms.", example: "AC1.1 → Formative: OBS, PLK, EDPZ, EXT. Summative: EXAM. | AC2.1 → Formative: OBS (PERF). Summative: ORAS (EXAM).", error: "Listing instruments generically ('observation, exams') without using the specific acronyms that link this section to the unit charts." },
+  86: { explain: "Basic knowledge is defined and distributed by D.209/2022 (Annex III) and RD 157/2022. Mention both.", example: "'Royal Decree 157/2022 and Decree 209/2022 establish the basic knowledge for each cycle together with the specific competences and evaluation criteria.'", error: "Omitting the legislative reference and jumping straight to defining basic knowledge." },
+  87: { explain: "Basic knowledge is defined in Art. 6 of D.209/2022 as 'the set of knowledge, skills, and attitudes that constitute the contents of each area'.", example: "'As stated in Decree 209/2022, Article 6, basic knowledge is defined as the set of knowledge, skills, and attitudes that constitute the contents of each area and whose learning is necessary for the acquisition of the specific competences.'", error: "Confusing basic knowledge with specific competences — BK is the content (what); SPCs are what pupils do with it (how)." },
+  88: { explain: "3 interrelated blocks: Block A (Communication — functions, structures, lexicon, phonetics, spelling), Block B (Plurilingualism — metalinguistic reflection, cross-linguistic strategies), Block C (Interculturality — cultural knowledge, SDGs).", example: "'Block A covers communicative activities including comprehension, production, interaction and mediation. Block B includes metalinguistic reflection and language comparison strategies. Block C covers cultural knowledge and appreciation of diversity.'", error: "Describing basic knowledge as a single block or mixing the three blocks together." },
+  89: { explain: "In the general section, introduce the concept and three blocks. Specific BK for each unit is detailed in the unit charts.", example: "'Only the basic knowledge worked on in each unit will be specified in detail in the unit charts (Section 9).'", error: "Trying to list all basic knowledge for all 12 units in this section — it belongs in the charts." },
+  90: { explain: "Legislative basis for transversal elements: LOMLOE Art. 19, RD 157/2022 Art. 6, and D.209/2022 Art. 5. All three must be cited.", example: "'The LOMLOE, Article 19, highlights the importance of embedding crosscurricular elements, further reinforced by RD 157/2022, Article 6, and Decree 209/2022, Article 5.'", error: "Mentioning only LOMLOE and forgetting the regional decree, which operationalises transversal elements in Murcia." },
+  91: { explain: "Required transversal elements: reading comprehension, oral and written expression, audiovisual communication, digital competence, creativity/scientific thinking/entrepreneurship, gender equality, education for peace, responsible consumption, health education.", example: "'Reading Comprehension (SDG 4): Mini-Reading Moments and class library. Digital Competence (SDG 4, 9): Plickers, EdPuzzle, Kahoot, and Google Classroom used across all units.'", error: "Only mentioning 2–3 transversal elements and omitting the others — all required elements from Art. 5 D.209/2022 must be addressed." },
+  93: { explain: "Interdisciplinary connections link English to other subjects: Natural Science, Social Science, Maths, PE, Music, Art. Give a specific unit example for each.", example: "'Natural Science: in Unit 7 (Water for Everyone), pupils create an environmental campaign about the Mar Menor, integrating scientific vocabulary in English. PE: in Unit 8 (Staying Healthy), pupils describe fitness routines.'", error: "Listing subjects without giving specific unit examples — 'English connects to Science and Maths' is too vague." },
+  95: { explain: "Introduce the rationale for how you distributed units across the year — what criteria guided the order: thematic progression, SDG connections, skill development.", example: "'Taking into account our pupils' characteristics, exit profile descriptors, and evaluation criteria, we have grouped curricular elements around topics of interest and learning situations, creating 12 units.'", error: "Jumping straight to the sequencing table without any explanation of the criteria used." },
+  96: { explain: "Primary English: 4 sessions/week × ~35 teaching weeks = 140 sessions. Deduct diagnostic (3) + summative assessments (3) + complementary activities (3) = ~131 sessions for units.", example: "'Our programme foresees approximately 140 sessions per academic year. Deducting diagnostic evaluation, summative assessments, and complementary activities, we have 131 sessions for 12 units.'", error: "Stating 105 sessions (Secondary model) instead of 140 for Primary — different cuerpos have different timetables." },
+  99: { explain: "Table must show: Term | Unit number | Unit title (with SDG) | Sessions | Dates (optional). Also show diagnostic evaluation, summative assessments, and complementary activities.", example: "Term 1 | Unit 0: Diagnostic Evaluation (3 sessions) | Unit 1: Schools Around the World – SDG 4 (8–11 sessions)...", error: "Table with only unit numbers and titles and no session counts — the assessor cannot verify the total adds up." },
+  100: { explain: "Before the 12 charts, write a brief paragraph explaining what the charts contain and their purpose — this guides the reader.", example: "'The following twelve charts render explicit the distribution of basic knowledge, specific competences, and evaluation criteria across our units. Each chart specifies instruments, learning objectives, and session activities.'", error: "Going directly from the sequencing table to the first chart with no transitional explanation." },
+  101: { explain: "All 12 charts must follow the same structure. Inconsistency between charts signals lack of planning.", example: "Each chart must include: Title | Year | Term | Learning Situation | KC (EPDs) | SPC | Learning Objectives | EC% | Instruments (F + S) | GSO | Basic Knowledge | Session activities | UDL | Transversal | Materials.", error: "Having charts with different structures — some with session activities, some without; some with UDL, some without." },
+  102: { explain: "The learning situation is the real-world meaningful task driving the unit. It must be stated explicitly in the chart header.", example: "'Learning Situation: Pupils create a multilingual welcome guide for new international students, requiring them to research, write, and present information in English.'", error: "Writing 'activities' or 'tasks' where the learning situation should go — a learning situation is a broader, motivating context." },
+  103: { explain: "The chart must cross-reference all curricular levels: EPDs → SPCs → Learning Objectives → Evaluation Criteria → Stage Objectives → Basic Knowledge.", example: "LCC2, DC1, PSL5 | SPC1 (20%) | LO1: Understand a written text about... | AC1.1, AC1.3 | GSO: a, b, f | BK: Block A — vocabulary, present simple...", error: "Including SPC and EC but omitting exit profile descriptors and stage objectives." },
+  105: { explain: "Session descriptions should be brief but specific — one line per session showing the main activity type and its fit in the unit's progression.", example: "S1: Written comprehension — reading a text about schools (pre-while-post). S2: Oral comprehension — listening to a school radio programme; EdPuzzle task.", error: "Session descriptions so vague they could apply to any unit: 'S1: Introduction to the topic. S2: Listening activity.'" },
+  106: { explain: "UDL in the chart means specifying which of the three principles applies to which activity: Engagement, Representation, or Action & Expression.", example: "'Engagement — Act.1 uses video to spark motivation. Representation — Act.3 presents vocabulary through visuals and audio. Action & Expression — pupils choose between written or oral output in Act.7.'", error: "Writing 'UDL: visual aids, audio recordings, extra time' without linking these to specific activities." },
+  107: { explain: "The methodology introduction explains why the choice of method is determined by context and learners — not arbitrary.", example: "'Methodology is a core element of any course programme as it gives us an insight into how to teach the contents. The choice of methodology is determined primarily by our target of teaching communication.'", error: "Starting directly with the legal framework without framing what methodology is and why it matters." },
+  108: { explain: "Main legislation for methodology in Murcia Primary: D.209/2022 Articles 5 and 10, and Annex III. These establish general and specific pedagogical orientations.", example: "'Articles 5 and 10 of Decree 209/2022 establish the pedagogical orientations for all subjects, incorporating student-centred learning, constructivism, and competence-based learning.'", error: "Citing D.235/2022 (Secondary) for Primary methodology — always check which decree applies to your stage." },
+  109: { explain: "Basic principles: Piaget (constructivism), Ausubel (meaningful learning), Vygotsky (ZPD, social constructivism), Bruner (scaffolding), Rosenshine (Principles of Instruction, 2010), Smith's Accelerated Learning Cycle (Connect → Activate → Demonstrate → Consolidate) + UDL.", example: "'Smith's Accelerated Learning Cycle (1996) structures every session: Connect (warm-up, big picture) → Activate (controlled practice) → Demonstrate (guided production) → Consolidate (metacognitive reflection).'", error: "Omitting Rosenshine and Smith's ALC — these are essential FUSTERSAURA references that differentiate the methodology section." },
+  110: { explain: "Specific EFL principles: CLT (Hymes 1972, Canale & Swain 1980), TBL (Prabhu 1987), Littlewood (1981), Schmidt's Noticing Hypothesis (1990), Ellis's Consciousness-Raising (1991), Long's Focus on Form (1991), Krashen (1982), Corder (1967), Selinker (1972).", example: "'The Noticing Hypothesis (Schmidt, 1990) informs our grammar sessions: pupils notice form within meaningful input before any explicit rule is presented, supported by Ellis's Consciousness-Raising techniques (1991).'", error: "Confusing CLT with TBL — CLT is a broad communicative approach; TBL is a specific methodology structuring learning around real-world tasks." },
+  111: { explain: "Macro-structure: 8-session arc from comprehensible input (Sessions 1–4: receptive + lexical/grammar) to comprehensible output (Sessions 5–8: mediation, production, project, self-evaluation).", example: "'Our units comprise 8 sessions moving from comprehensible input to output. Sessions 1–4 develop receptive skills and language awareness. Sessions 5–8 focus on mediation, production, and the final project.'", error: "Describing the macro-structure without mentioning the input → output progression, which is its theoretical backbone." },
+  113: { explain: "'Learning situation' (situación de aprendizaje) is a LOMLOE concept that must appear explicitly — a meaningful, real-world context framing each unit.", example: "'Each unit is built around a learning situation: a meaningful, real-world task motivating pupils to use English purposefully and develop key competences in an integrated way.'", error: "Describing the unit structure without using the term 'learning situation' — assessors expect to see this LOMLOE term explicitly." },
+  114: { explain: "Micro-structure: what happens within each session. Follows the Accelerated Learning Cycle: Connect → Activate → Demonstrate → Consolidate.", example: "'Each session opens with CONNECT (warm-up, link to prior knowledge), moves through ACTIVATE and DEMONSTRATE (pre-while-post for skills; PPP for language), and closes with CONSOLIDATE (exit ticket, learning journal).'", error: "Describing only the macro-structure and omitting the micro-structure — both are required." },
+  116: { explain: "For skills: Pre (activate schemata) → While (comprehension tasks) → Post (linked production task). For language: Presentation → Practice → Production.", example: "'In reading sessions, the pre-stage activates prior knowledge; the while-stage involves global and specific comprehension; the post-stage moves from reading to a linked speaking or writing task.'", error: "Confusing pre-while-post (skills framework) with PPP (language framework) — they are different structures for different session types." },
+  117: { explain: "Activity categories: introductory (activate prior knowledge), developmental (controlled/semi-guided practice), consolidation (free production), and evaluation (formative assessment).", example: "'Introductory: warm-up questions, brainstorming, video. Developmental: gap-fills, matching, guided dialogues. Consolidation: role plays, simulations, information-gap tasks.'", error: "Only listing consolidation activities and omitting the introductory and developmental stages." },
+  121: { explain: "Reinforcement: extra support for pupils who need it. Extension: further challenge for fast-finishers. Both must be planned explicitly in line with UDL.", example: "'Reinforcement activities offer simplified input and additional scaffolding. Extension activities require higher-order thinking: research, creative writing, or presenting to the class.'", error: "Mentioning reinforcement and extension only in the Diversity section and not in Methodology." },
+  122: { explain: "Complementary activities are school-based (visits, theatre, events) and count towards assessment. Extracurricular are optional and outside school hours.", example: "'Complementary activities include: a visit to the science museum (Unit 3), a theatre performance in English (Term 2), and participation in English Week (Term 3).'", error: "Confusing complementary (school-organised, during school time) with extracurricular (voluntary, outside school hours)." },
+  126: { explain: "Materials must be chosen on three criteria: variety (different types for different learning styles), motivation (engaging), and appropriateness (matched to age and level).", example: "'The selected materials are diverse to accommodate varying abilities and learning styles, engaging and motivating, and appropriate to pupils' age and proficiency level.'", error: "Listing materials without explaining the criteria for their selection." },
+  127: { explain: "Classify materials: print (worksheets, graded readers, flashcards, magazines, dictionaries), audio-visual (videos, audio clips), and realia (authentic texts, real objects).", example: "'Print: worksheets, graded readers, dictionaries, magazines. Audiovisual: video clips, EdPuzzle interactive videos, audio recordings. Realia: leaflets, menus, product labels.'", error: "Listing only digital tools and ignoring the importance of physical, analogue materials." },
+  129: { explain: "Digital tools should cover: presentation (PPT, Genially), assessment (Plickers, EdPuzzle, Kahoot, Socrative), and production (Canva). Also mention SEN-specific software.", example: "'PPT and Genially for presentations; Plickers and EdPuzzle for real-time formative assessment; Kahoot for vocabulary games; Canva for creative digital projects.'", error: "Mentioning only Kahoot — assessors expect a range covering presentation, assessment, and production." },
+  131: { explain: "Murcia-specific platforms: Plumier XXI (absences, behaviour), Mirador (parent grade access), Anota (teacher evaluation tool), EdVoice (official family communication). Google Classroom is optional.", example: "'Institutional platforms: Plumier XXI for attendance, Mirador for families to access report cards, Anota for assessment management, and EdVoice for official family communications.'", error: "Only mentioning Google Classroom and ignoring Murcian institutional platforms, which are legally required communication channels." },
+  137: { explain: "The U-shape is recommended as default because it facilitates whole-class discussion, teacher-student interaction, and peer communication.", example: "'The primary classroom organisation for most sessions is the U-shape, as it facilitates materials presentation, learner-to-learner interaction, and whole-class discussions.'", error: "Describing only rows facing the board without acknowledging that layout adapts for different activity types." },
+  139: { explain: "Connect each grouping type to specific activities: individual (exams, exit tickets), pairs (dialogues, role plays), small groups (projects, jigsaws), whole class (games, debates).", example: "'Individual: listening tasks, exams, self-evaluation. Pairs: role plays, jigsaw reading. Small groups: project preparation, collaborative writing. Whole class: brainstorming, debates, games.'", error: "Listing grouping types without connecting them to specific activities — the list is meaningless without examples." },
+  143: { explain: "Two key articles: RD 157/2022 Art. 6.8 (oral and written expression as transversal elements) and D.209/2022 Art. 14 (reading habits, daily reading time).", example: "'Following RD 157/2022, Article 6.8, and Decree 209/2022, Article 14, all schools must set aside daily time for reading and devise plans to promote literacy across subjects.'", error: "Only citing LOMLOE for reading habits — the specific operative article is Art. 14 of D.209/2022." },
+  145: { explain: "Concrete reading measures: Mini-Reading Moments (daily short reads), Class Library with graded readers, Reading Record, Bookcrossing, Storytelling, Drama techniques, World Book Day.", example: "'We implement: Mini-Reading Moments (pupils read a few lines daily and complete a brief task), a Class Library with graded readers, a Reading Record for each pupil, and Bookcrossing at term end.'", error: "Only stating 'we promote reading in lessons' without specifying the concrete measures and strategies used." },
+  147: { explain: "The introduction must reference Art. 19 of D.209/2022: assessment in Primary is global (all areas), continuous (throughout the year), and formative (guides teaching).", example: "'Article 19 of Decree 209/2022 establishes that assessment in Primary Education is global, continuous, and formative. Teachers must consider pupils' competence development and progress across all areas.'", error: "Defining evaluation generically without citing the specific article that establishes its characteristics in Murcia Primary." },
+  150: { explain: "Official grades in Murcia Primary: IN (0–4), SU (5), BI (6–7), NT (8–9), SB (10). Required by Art. 37.2 of D.209/2022.", example: "'Results are expressed using the official scale in Art. 37.2 D.209/2022: IN (Insuficiente, 0–4), SU (Suficiente, 5), BI (Bien, 6–7), NT (Notable, 8–9), SB (Sobresaliente, 10).'", error: "Using numerical grades as the primary reporting format — in Murcia Primary the official scale uses these letter codes." },
+  151: { explain: "Types must include: diagnostic (start of year + each unit), formative (ongoing), summative (end of unit/term), self-evaluation, peer evaluation, and co-evaluation.", example: "'Diagnostic: KWL charts, entry tickets at start of year and each unit. Formative: exit tickets, observation checklists. Summative: end-of-unit EXAM, PROJ.'", error: "Only mentioning formative and summative and omitting diagnostic, self, peer, and co-evaluation." },
+  153: { explain: "FUSTERSAURA acronyms: OBS, PLK, EDPZ, ENT, EXT, QUIZ, ROLP, ORAS, WRAS, RLC, LIC, JSWR, PROJ, PORT, LDIA, EXAM. Must match unit charts.", example: "'OBS (Systematic Observation), PLK (Plickers), EDPZ (EdPuzzle), EXT (Exit Tickets), ROLP (Role Plays), ORAS (Oral Assignments), WRAS (Written Assignments), PORT (Portfolio), LDIA (Learning Diary), EXAM.'", error: "Using instrument names without acronyms — or using different acronyms here and in the unit charts." },
+  159: { explain: "The main reference for grading is the evaluation criteria (ACs), not instruments. The weight of each AC determines the weight of the instrument used to assess it.", example: "'Grades are determined by the evaluation criteria in Annex III D.209/2022. The weight assigned to each AC in the unit chart determines the corresponding instrument's weight in the final grade.'", error: "Suggesting grades are based on a simple average of all instruments equally — AC weights must drive the grading system." },
+  160: { explain: "Marking chart must show: SPC | AC codes | Weight (%) | Instruments (formative and summative). All AC weights must add up to 100%.", example: "SPC1 (20%): AC1.1 (10%) — OBS/PLK [F], EXAM [S]. AC1.2 (10%) — EDPZ [F], EXAM [S]. SPC2 (15%): AC2.1 (5%)... [Total: 100%]", error: "A marking chart where weights do not add up to 100%, or where SPCs have weights but ACs do not." },
+  176: { explain: "Evaluation of teaching means assessing how well the teaching plan itself worked — its realism, coherence, and effectiveness as a quality-assurance tool.", example: "'Evaluation of teaching is the process by which teachers assess the effectiveness of their own planning and practice, using evidence from pupil outcomes, self-reflection, and stakeholder feedback.'", error: "Confusing evaluation of teaching with assessment of learning — they are distinct processes with different purposes." },
+  177: { explain: "Legal basis: Art. 19.5 (teachers must evaluate teaching processes and own practice), Art. 33.h (teaching plan must include strategies for evaluating teaching), Art. 34 (Annual Report must include results).", example: "'Decree 209/2022 makes teacher self-evaluation a legal requirement: teachers must evaluate not only pupil learning but also the teaching process (Art. 19.5), with findings in the Annual Report (Art. 34).'", error: "Only citing Art. 19.5 and omitting Art. 33.h and Art. 34." },
+  179: { explain: "Use a table showing planned vs delivered units and sessions per term, with columns for reasons and improvement proposals.", example: "Term 1: Units planned 4, delivered 4 (100%). Sessions planned 32, delivered 30 (94%). Reason: session lost to school event. Improvement: build in a buffer session per term.", error: "Only stating whether targets were met without providing reasons or improvement proposals — required by Art. 34." },
+  183: { explain: "Analyse pupil results by the IN/SU/BI/NT/SB scale per term and per assessment criterion. Identify patterns showing teaching effectiveness.", example: "'In Term 1, 80% achieved BI+ in SPC1 but only 55% in SPC4 (mediation). This suggests mediation tasks need more scaffolding and practice time in Term 2.'", error: "Only reporting overall pass rates without identifying which specific competences showed weaker results." },
+  185: { explain: "Student perception data: exit slips, traffic-light self-assessments, or brief end-of-unit questionnaire rating clarity, usefulness, pace, feedback, and climate.", example: "'At the end of each unit, pupils complete a brief digital questionnaire (Google Forms) rating: clarity of goals, usefulness of tasks, pace, quality of feedback, and classroom climate.'", error: "Only collecting family feedback and not student feedback — both are required." },
+  188: { explain: "Key articles: Art. 19.7 (minimum 3 assessment sessions/year), Art. 32.2.m (family collaboration actions in curricular proposal), Art. 35 (families' rights to participate and be informed).", example: "'In compliance with Article 19.7 of Decree 209/2022, a minimum of three assessment sessions per academic year will be conducted. Article 35 guarantees families' right to access official evaluation documents.'", error: "Only citing Art. 19.7 and omitting Art. 35, which establishes families' specific rights." },
+  189: { explain: "Official channels in Murcia: EdVoice (priority app, read receipts), corporate email @murciaeduca.es, Mirador (grade portal), Plumier XXI (absences, behaviour). Face-to-face: general meeting + termly tutorials.", example: "'EdVoice for official notices and authorisations (read receipts confirm delivery), Mirador for families to access report cards, corporate email for scheduling meetings.'", error: "Mentioning WhatsApp or personal email for family communication — these are not approved official channels in Murcia." },
+  192: { explain: "A 3-column table (Parents | Teachers | Students) × 2 rows (Digital | Face-to-face) makes the communication plan clear and easy to assess.", example: "Parents: EdVoice, Mirador, Plumier XXI | meetings. Teachers: Anota, email | coordination meetings. Students: Google Classroom | daily classroom interaction.", error: "Describing communication channels in prose only, without a summary table — the table is expected in the FUSTERSAURA model." },
+  195: { explain: "Three categories: (1) Legislation (LOMLOE, RD 157/2022, D.209/2022...), (2) Academic references in APA 7th edition, (3) Websites consulted. List alphabetically within each.", example: "Krashen, S. D. (1982). Principles and practice in second language acquisition. Pergamon Press. | Schmidt, R. (1990). The role of consciousness in second language learning. Applied Linguistics, 11(2), 129–158.", error: "Using APA 6th edition format, or mixing APA with MLA — the FUSTERSAURA model uses APA 7th edition throughout." },
+};
+
+/* ═══════════════════════════════════════════════
+   CHECKLIST DATA — extracted from FUSTERSAURA XLSX
+   ═══════════════════════════════════════════════ */
+const CHECKLIST = [
+  {
+    id: 'cover', num: '0', label: 'Cover & Table of Contents', author: 'EM',
+    color: 'navy',
+    subsections: [
+      {
+        name: 'Cover Page',
+        note: 'Ver Anexo VI de la convocatoria',
+        items: [
+          { id: 1, text: 'Name and surname' },
+          { id: 2, text: 'ID' },
+          { id: 3, text: 'Level' },
+          { id: 4, text: 'Stage' },
+          { id: 5, text: 'Teaching Plan (or didactic programme) in English' },
+          { id: 6, text: 'Year' },
+          { id: 7, text: 'Examining Board Number' },
+          { id: 8, text: 'Cuerpo al que te presentas: "Primary Education Teachers"' },
+        ]
+      },
+      {
+        name: 'Table of Contents',
+        items: [
+          { id: 9, text: 'Main sections outlined in the checklist are shown' },
+          { id: 10, text: 'Subsections are also shown' },
+          { id: 11, text: 'Pages are numbered' },
+          { id: 12, text: 'Didactic units are numbered and displayed in a table with their titles' },
+          { id: 13, text: 'I have looked into the model table of contents given by my teachers' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'formatting', num: '✦', label: 'Formatting', author: 'ALL',
+    color: 'gold',
+    subsections: [
+      {
+        name: 'General Formatting',
+        items: [
+          { id: 14, text: 'I have proofread my programme' },
+          { id: 15, text: 'I have checked spelling and grammar mistakes' },
+          { id: 16, text: 'I have used the correct font (Arial 11) including charts and images' },
+          { id: 17, text: 'I have used single spacing (as per convocatoria)' },
+          { id: 18, text: "I have checked that my programme doesn't exceed 70 pages, not including the cover page" },
+          { id: 19, text: 'I have checked that I have printed my programme single-sided' },
+          { id: 20, text: 'I have numbered the pages' },
+          { id: 21, text: 'I have indented paragraphs (optional)' },
+          { id: 22, text: 'I have justified paragraphs' },
+          { id: 23, text: 'I have checked that I always use the same term to refer to my course programme' },
+          { id: 24, text: 'I have checked consistency: use of capital and case letters, bold letters, concepts, Br/Am English...' },
+          { id: 25, text: 'I have checked that I do not sound like ChatGPT (navigate, utilize...) and I avoid hyphens in the middle of a sentence and gerunds after a colon (:)' },
+          { id: 26, text: 'I have checked I do not use old legislation or concepts' },
+          { id: 27, text: 'I have adapted the sample models provided for each of the sections' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'introduction', num: 'I', label: 'Introduction', author: 'CS',
+    color: '',
+    subsections: [
+      {
+        name: 'Introduction',
+        note: 'You can start straightaway with the Justification',
+        items: [
+          { id: 28, text: 'Definition of didactic programme (optional)' },
+          { id: 29, text: 'Level' },
+          { id: 30, text: 'Basic legal references' },
+          { id: 31, text: 'Subdivision of sections' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'justification', num: '2', label: 'Justification (Foundations)', author: 'CS',
+    color: '',
+    subsections: [
+      {
+        name: '2.1 Legal Framework',
+        items: [
+          { id: 32, text: 'Legal framework is explicitly included' },
+          { id: 33, text: 'Mentions LOE amended by LOMLOE, RD 157/2022, D.209/2022, D. 359/2009, Res. 24 July 2025 (instrucciones de inicio de curso), CEFR, Council of Europe...' },
+          { id: 34, text: 'Mentions laws in full (e.g. Royal Decree 157/2022 of 1 March, which establishes the organisation of the curriculum for Primary Education)' },
+          { id: 35, text: 'Provides a brief explanation of each law or regulation' },
+          { id: 36, text: 'Simplified references used properly (e.g., LOMLOE from now on)' },
+          { id: 37, text: 'Consistency in how the legislation is cited' },
+        ]
+      },
+      {
+        name: '2.2 Sociological Framework',
+        items: [
+          { id: 38, text: 'Sociological framework is explicitly included' },
+          { id: 39, text: 'Importance of English as a global language' },
+          { id: 40, text: 'Importance of English at regional level (Murcia)' },
+        ]
+      },
+      {
+        name: '2.3 Psychopedagogical Framework',
+        items: [
+          { id: 41, text: 'Psychopedagogical framework is explicitly included' },
+          { id: 42, text: 'Very briefly describes psychological features (Piaget, Vygotsky, Ausubel)' },
+          { id: 43, text: 'Mentions implications of these theories on the programme' },
+          { id: 44, text: 'Advantages of learning a foreign language' },
+        ]
+      },
+      {
+        name: '2.4 Epistemological Framework',
+        items: [
+          { id: 45, text: 'Epistemological framework is explicitly included' },
+          { id: 46, text: 'What and how you intend to teach (scientific basis)' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'setting', num: '3', label: 'Setting & Addressees', author: 'CS',
+    color: '',
+    subsections: [
+      {
+        name: '3.1 Setting',
+        items: [
+          { id: 47, text: 'Provides context about the school and the year level to which the programme refers' },
+          { id: 48, text: "Description of the school's location (region, neighbourhood, services, etc.) + impact on the programme" },
+          { id: 49, text: 'Description of the school (school provision, size, facilities, staff...) + impact on the programme' },
+          { id: 50, text: 'Refers to the statutory documents: PGA, PE, Curricular Proposal, Annual Report' },
+          { id: 51, text: 'Mentions contribution to all the plans and projects in the PE (Reading Plan, Digital Strategy, Coexistence Plan...) + programme contribution' },
+          { id: 52, text: 'Mentions contribution to the plans and projects in the PGA + programme contribution' },
+        ]
+      },
+      {
+        name: '3.2 Addressees',
+        items: [
+          { id: 53, text: 'Number of students (girls/boys/nationalities)' },
+          { id: 54, text: 'Cognitive level (Piaget)' },
+          { id: 55, text: 'English level (average, above, below, adaptations needed)' },
+          { id: 56, text: 'Learning styles or types of intelligences' },
+          { id: 57, text: 'Needs and interests' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'diversity', num: '4', label: 'Attention to Diversity', author: 'ML',
+    color: '',
+    subsections: [
+      {
+        name: 'Addressees & Attention to Diversity',
+        note: 'See sections 7.1–7.8 on the platform under Teaching Plan',
+        items: [
+          { id: 58, text: 'Legislation (can be mentioned in the legislation section and recalled when talking about adaptations)' },
+          { id: 59, text: 'Universal Design For Learning: Engagement, Representation, Expression' },
+          { id: 60, text: 'General Diversity: extension, reinforcement, activities graded in difficulty, groupings, ICTs, flipped classroom, topics, variety of materials...' },
+          { id: 61, text: 'SEN students' },
+          { id: 62, text: 'Personalised Action Plan (Resolution 20th November 2023)' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'curricular', num: '5', label: 'Curricular Elements', author: 'EM',
+    color: '',
+    subsections: [
+      {
+        name: '5.1 Stage Objectives',
+        items: [
+          { id: 64, text: 'Defines stage objectives' },
+          { id: 65, text: 'Explains what you intend to do with them and why' },
+          { id: 66, text: 'Includes table with contribution of the teaching programme to stage objectives' },
+          { id: 67, text: 'Relates them to key competences' },
+          { id: 68, text: 'Includes them all (a–n)' },
+          { id: 69, text: 'Establishes contribution of units' },
+          { id: 70, text: 'Gives specific examples of contribution' },
+        ]
+      },
+      {
+        name: '5.2 Key Competences',
+        items: [
+          { id: 71, text: 'Defines Key Competences' },
+          { id: 72, text: 'Mentions legislation that contains them: RD 157/2022' },
+          { id: 73, text: 'Briefly mentions each competence and the acronym (LCC, PLC, STEM, DC, PSLC, CC, EC, CAEC)' },
+          { id: 74, text: 'Briefly describes each competence (optional)' },
+        ]
+      },
+      {
+        name: '5.3 Exit Profile Descriptors',
+        items: [
+          { id: 75, text: 'Defines exit profile descriptors' },
+          { id: 76, text: 'Enumerates exit profile descriptors (in summarised form)' },
+          { id: 77, text: 'Relates exit profile descriptors to specific competences with acronyms' },
+        ]
+      },
+      {
+        name: '5.4 Specific Competences',
+        items: [
+          { id: 78, text: 'Legal framework: Decree 209 Annex III at least' },
+          { id: 79, text: 'Introduces section explaining the rationale behind specific competences' },
+          { id: 80, text: 'Enumerates one by one and links them to the exit profile descriptors (chart possible)' },
+          { id: 81, text: 'Briefly explains each competence and its role in the teaching plan' },
+        ]
+      },
+      {
+        name: '5.5 Assessment Criteria',
+        items: [
+          { id: 82, text: 'Legislation: mentions they are in Annex III Decree 209' },
+          { id: 83, text: 'Defines Specific Competences' },
+          { id: 84, text: 'Enumerates the evaluation criteria for each Specific Competence' },
+          { id: 85, text: 'Specifies the evaluation instruments recurrently used to assess them in the teaching plan' },
+        ]
+      },
+      {
+        name: '4.6 Basic Knowledge',
+        items: [
+          { id: 86, text: 'Mentions legislation' },
+          { id: 87, text: 'Definition of basic knowledge' },
+          { id: 88, text: 'Division of basic knowledge (Communication, Plurilingualism, Interculturality)' },
+          { id: 89, text: 'Mentions 12 units (charts)' },
+        ]
+      },
+      {
+        name: '4.7 Transversal & Interdisciplinary Connections',
+        items: [
+          { id: 90, text: 'T.E. Mentions legislation: LOMLOE, RD, D. to justify transversality' },
+          { id: 91, text: 'T.E. Mentions contribution to all transversal elements included in the legislation with examples (reading comprehension, oral and written expression...)' },
+          { id: 92, text: 'T.E. Mentions that these contributions are explicitly shown in the unit charts' },
+          { id: 93, text: 'I.C. Mentions interdisciplinary connections addressed with examples' },
+          { id: 94, text: 'I.C. Mentions that all of these contributions are explicitly shown in the unit charts' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'sequencing', num: '9', label: 'Sequencing of Units', author: 'EM',
+    color: '',
+    subsections: [
+      {
+        name: 'Sequencing',
+        items: [
+          { id: 95, text: 'Introduces section explaining the sequencing rationale' },
+          { id: 96, text: 'Mentions total number of sessions (140 approx.)' },
+          { id: 97, text: 'Mentions sessions per week' },
+          { id: 98, text: 'Mentions number of units (12)' },
+          { id: 99, text: 'Introduces table with this sequencing and distribution of units, sessions and complementary activities' },
+        ]
+      },
+      {
+        name: '12 Charts for Units',
+        note: 'MODEL TABLE UNIT',
+        items: [
+          { id: 100, text: 'Provides a brief description of the 12 charts (mention Learning Objectives)' },
+          { id: 101, text: 'Includes 12 charts with consistent structure and required elements' },
+          { id: 102, text: 'Includes Learning situation in the chart' },
+          { id: 103, text: 'Chart includes essential curricular elements: Exit profile, SPC, Learning Objectives, Evaluation criteria, stage objectives, basic knowledge' },
+          { id: 104, text: 'Chart includes instruments' },
+          { id: 105, text: 'Chart includes brief description of activities' },
+          { id: 106, text: 'Chart includes attention to diversity (UDL)' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'methodology', num: '10', label: 'Methodology', author: 'EM',
+    color: '',
+    subsections: [
+      {
+        name: 'Methodology',
+        note: 'See Methodology Primary Prose model',
+        items: [
+          { id: 107, text: 'Introduction to section' },
+          { id: 108, text: 'Legal framework: main legislation related to methodology (Decree 209 articles 5 and 10, Annex III)' },
+        ]
+      },
+      {
+        name: '10.1 Basic Principles',
+        items: [
+          { id: 109, text: 'Mentions: open and flexible curriculum, constructivism, meaningful learning, Universal Design for Learning, Rosenshine, Piaget, Ausubel, Vygotsky, Accelerated Learning Cycle (Smith)' },
+        ]
+      },
+      {
+        name: '10.2 Specific Principles',
+        items: [
+          { id: 110, text: 'Mentions: communicative competence, communicative approach, error treatment, task-based learning, Noticing (Schmidt), Focus on Form (Long), Consciousness-Raising (Ellis), Interlanguage (Selinker), Krashen, Corder' },
+        ]
+      },
+      {
+        name: '10.3 Macro-Structure – Learning Situations',
+        items: [
+          { id: 111, text: 'Includes macro-structure (structure of units)' },
+          { id: 112, text: 'Describes number of sessions and justifies their order' },
+          { id: 113, text: 'Mentions "learning situation" literally' },
+        ]
+      },
+      {
+        name: '10.4 Micro-Structure',
+        items: [
+          { id: 114, text: 'Includes micro-structure (structure of sessions)' },
+          { id: 115, text: 'Mentions Connect, Activate, Demonstrate, Consolidate (Accelerated Learning Cycle)' },
+          { id: 116, text: 'Mentions pre-, while-, post- stages and PPP (Presentation-Practice-Production)' },
+        ]
+      },
+      {
+        name: '10.5 Typology of Activities',
+        items: [
+          { id: 117, text: 'Includes section on typology of activities' },
+          { id: 118, text: 'Includes introductory activities' },
+          { id: 119, text: 'Includes developmental activities' },
+          { id: 120, text: 'Includes consolidation activities' },
+          { id: 121, text: 'Includes evaluation activities and mentions reinforcement and extension' },
+        ]
+      },
+      {
+        name: '10.6 Complementary & Extracurricular Activities',
+        items: [
+          { id: 122, text: 'Explains the importance of complementary and extracurricular activities' },
+          { id: 123, text: 'Mentions legislation' },
+          { id: 124, text: 'Mentions complementary and extracurricular activities for this year group' },
+          { id: 125, text: 'Justifies (curricular elements) the contribution of complementary activities to the planned learning outcomes, as well as their assessment' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'materials', num: '11', label: 'Materials & Resources', author: 'ML',
+    color: '',
+    subsections: [
+      {
+        name: 'Materials & Resources',
+        note: 'PODÉIS PONER EN EL TÍTULO: ICTs, ya que gran parte de lo mencionado tiene que ver con ellos',
+        items: [
+          { id: 126, text: 'Main criteria for selecting materials: variety, motivation, appropriateness' },
+          { id: 127, text: 'Mentions materials (can be classified as visual, auditory, kinaesthetic)' },
+          { id: 128, text: 'Mentions use of ICT (possibly in separate section)' },
+          { id: 129, text: 'Mentions in-class tools: PPTs, Genially, webquests, internet, SEN software, apps' },
+          { id: 130, text: 'Mentions IT corner, computers, tablets' },
+          { id: 131, text: 'Mentions platforms: Plumier XXI, Google Classroom, Mirador, Anota, EdVoice...' },
+          { id: 132, text: 'OPTIONAL: Mentions graded readers, reading corner, classroom library (or in the Promotion of Reading section)' },
+        ]
+      },
+      {
+        name: '11.1 ICT Resources',
+        items: [
+          { id: 134, text: 'ICT resources can be mentioned in the general section or here (Plickers, EdPuzzle, Kahoot, Socrative, Canva...)' },
+        ]
+      },
+      {
+        name: '11.2 Language Assistant (Human Resources)',
+        note: 'SOLO PARA QUIENES ESTÉN EN EL PROGRAMA DE PROFUNDIZACIÓN',
+        items: [
+          { id: 135, text: 'Brief introduction (nationality)' },
+          { id: 136, text: 'How often the Language Assistant is with the group, sessions of the units, functions: promote communication, introduce cultural aspects, linguistic model...' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'groupings', num: '12', label: 'Groupings & Layout', author: 'ML',
+    color: '',
+    subsections: [
+      {
+        name: 'Groupings',
+        items: [
+          { id: 137, text: 'Mentions main classroom layout (U-shape recommended)' },
+          { id: 138, text: 'Mentions that groupings will be flexible' },
+          { id: 139, text: 'Connects types of groupings and examples of activities: individual, pairs, groups, whole class...' },
+          { id: 140, text: 'Optional: corners in the classroom (computer, reading, cultural...)' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'reading', num: '15a', label: 'Promotion of Reading Habits', author: 'CS',
+    color: '',
+    subsections: [
+      {
+        name: 'Reading Habits & Oral / Written Expression',
+        items: [
+          { id: 143, text: 'Mentions the legislation: RD 157/2022 art. 6.8 (oral and written expression) and D.209/2022 art. 14' },
+          { id: 144, text: 'Mentions the Education Plan (Reading Plan)' },
+          { id: 145, text: 'Mentions contribution to the Reading Plan (clear examples from the units: Mini-Reading Moments, Class Library, Bookcrossing, Storytelling...)' },
+          { id: 146, text: 'Mentions contribution to the Reading Plan (World Book Day)' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'assessment_learning', num: '15b', label: 'Assessment of Learning', author: 'EM',
+    color: '',
+    subsections: [
+      {
+        name: 'Assessment of Learning',
+        items: [
+          { id: 147, text: 'Introduces section' },
+          { id: 148, text: 'Defines evaluation (global, continuous, formative — Art. 19 Decree 209)' },
+        ]
+      },
+      {
+        name: '15.1 Legal Framework',
+        items: [
+          { id: 149, text: 'Specifies the relevant legislation (Decree 209 art. 19, 21, 22, 36, 37)' },
+          { id: 150, text: 'Mentions nomenclature for grades: IN / SU / BI / NT / SB (Art. 37.2)' },
+        ]
+      },
+      {
+        name: '15.2 Types of Evaluation',
+        items: [
+          { id: 151, text: 'Establishes different typologies of evaluation' },
+          { id: 152, text: 'Mentions: formative, diagnostic, summative, peer, self-evaluation and co-evaluation' },
+        ]
+      },
+      {
+        name: '15.3 Instruments & Resources',
+        items: [
+          { id: 153, text: 'Specifies different instruments used with acronyms: Entry Ticket (ENT), Exit Ticket (EXT), Exams (EXAM), Plickers (PLK), EdPuzzle (EDPZ), Observation (OBS), Portfolio (PORT), etc.' },
+          { id: 154, text: 'Specifies resources for evaluation: Rubrics (RBK), Teacher\'s Diary (TDIA), Summative Evaluation Sheets (SES)' },
+        ]
+      },
+      {
+        name: '15.4 Marking Criteria',
+        items: [
+          { id: 155, text: 'Defines Marking' },
+          { id: 156, text: 'Mentions relevant legislation: Art. 19 Decree 209/2022' },
+          { id: 157, text: 'Mentions nomenclature for grades: 0–4 (IN) Insuficiente, 5 Suficiente (SU), 6–7 Bien (BI), 8–9 Notable (NT), 10 Sobresaliente (SB)' },
+          { id: 158, text: 'Explains the procedure for assigning grades to students' },
+          { id: 159, text: 'Explains the procedure for assigning grades at end of year' },
+          { id: 160, text: 'Clearly states that the main reference are competences and evaluation criteria: the weight of each EC defines the weight of the instrument used' },
+          { id: 161, text: 'Presents a chart with the weight of each specific competence and evaluation criteria' },
+          { id: 162, text: 'The chart can also include the instruments used to evaluate the different evaluation criteria' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'eval_teaching', num: '16', label: 'Evaluation of Teaching', author: 'EM',
+    color: '',
+    subsections: [
+      {
+        name: 'Evaluation of Teaching',
+        items: [
+          { id: 176, text: 'Defines evaluation of teaching' },
+          { id: 177, text: 'Establishes relevant legislation (Art. 19.5, Art. 33, Art. 34 Decree 209)' },
+          { id: 178, text: 'Establishes indicators for evaluation of teaching' },
+        ]
+      },
+      {
+        name: '16.1 Adjustment of Teaching Plan',
+        items: [
+          { id: 179, text: 'Number of units and classes planned vs delivered (chart per term)' },
+          { id: 180, text: 'Number of evaluation criteria programmed vs delivered' },
+          { id: 181, text: 'Other aspects of teaching plan: Spaces, timing, instruments, attention to diversity' },
+          { id: 182, text: 'Includes table with reasons and improvement proposals (optional)' },
+        ]
+      },
+      {
+        name: '16.2 Analysis of Students\' Results',
+        items: [
+          { id: 183, text: 'Achievement of competences and evaluation criteria by students based on: marks and Summative Evaluation Sheet' },
+          { id: 184, text: 'Sample charts that make this clear (IN/SU/BI/NT/SB distribution per term)' },
+        ]
+      },
+      {
+        name: '16.3 Satisfaction of Students & Parents',
+        items: [
+          { id: 185, text: 'Explains how we know about students\' satisfaction (exit slips, mini questionnaire, traffic lights)' },
+          { id: 186, text: 'Explains how we know about families\' satisfaction (survey, tutoring meetings)' },
+          { id: 187, text: 'Chart to exemplify (optional)' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'communication', num: '17', label: 'Communication', author: 'EM',
+    color: '',
+    subsections: [
+      {
+        name: 'Communication',
+        items: [
+          { id: 188, text: 'Establishes legislation relevant to communication (Art. 19.7, Art. 32.2, Art. 35 Decree 209/2022)' },
+          { id: 189, text: 'Mentions instruments for communication with parents (EdVoice, corporate email @murciaeduca.es, Mirador, Plumier XXI, face-to-face meetings)' },
+          { id: 190, text: 'Mentions instruments for communication with students (Google Classroom, daily interaction)' },
+          { id: 191, text: 'Mentions instruments for communication with teachers (Anota, email, coordination meetings)' },
+          { id: 192, text: 'Includes summary table of communication tools by audience' },
+          { id: 193, text: 'Mentions Plumier XXI (absences, behaviour)' },
+          { id: 194, text: 'Mentions email as communication means amongst others' },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'bibliography', num: '18', label: 'Bibliography', author: 'ALL',
+    color: '',
+    subsections: [
+      {
+        name: 'Bibliography',
+        items: [
+          { id: 195, text: 'Legislation, general bibliographical references (APA 7th), websites' },
+        ]
+      }
+    ]
+  }
+];
+
+/* ═══════════════════════════════════════════════
+   AI SYSTEM PROMPT — embedded FUSTERSAURA knowledge
+   ═══════════════════════════════════════════════ */
+const SYSTEM_PROMPT = `You are an expert evaluator for FUSTERSAURA English Life SL, a specialist oposiciones academy in Murcia, Spain, preparing candidates for the 2026 Primary English teaching examination (Maestros de Inglés, Primaria).
+
+You have deep knowledge of the FUSTERSAURA model Teaching Plans for Primary Education, based on the following legislative framework:
+- LOMLOE (Organic Law 3/2020, amending LOE 2/2006)
+- Royal Decree 157/2022 of 1 March (primary curriculum, minimum content)
+- Decree 209/2022 of 17 November (Región de Murcia, primary curriculum)
+- Decree 359/2009 (attention to diversity)
+- Resolution 20 November 2023 (Personalised Action Plans)
+- CEFR levels and Council of Europe guidelines
+
+KEY FUSTERSAURA STANDARDS for Primary Teaching Plans:
+
+INTRODUCTION: Must define the programme, mention the year level, basic legal references, and subdivisions. Can start directly with Justification.
+
+JUSTIFICATION: Must include 4 foundations:
+1. Legal Framework: LOE→LOMLOE, RD 157/2022, D.209/2022, D.359/2009, Res. 20 Nov 2023, CEFR, Council of Europe. Laws cited in full on first mention, then abbreviated.
+2. Sociological: English as global language + Murcia's specific context (tourism, business, multilingual society).
+3. Psychopedagogical: Piaget (Concrete Operational Stage for Year 3-6), Vygotsky (ZPD, social constructivism), Ausubel (meaningful learning). Link each to programme decisions.
+4. Epistemological: Competence-based + eclectic methodology with communicative approach emphasis.
+
+SETTING: School location → neighbourhood description → socioeconomic context. School characteristics: size (~400 pupils), facilities (ICT corner, STEM room, sports hall, English corner), staff (2 English teachers + language assistant). Statutory documents: PGA, EP, Curricular Proposal, Annual Report. Contribution to: Reading Plan, Digital Strategy, Coexistence Plan, Diversity Plan, Tutorial Action Plan, Health Plan, Linguistic Plan, Erasmus+, Gender Equality Plan.
+
+ADDRESSEES: Number of students (girls/boys/nationalities), cognitive level (Piaget stage), English level (Pre-A1 to A1 for Primary), learning styles/intelligences, needs and interests.
+
+ATTENTION TO DIVERSITY: UDL (Engagement, Representation, Action & Expression). General measures: extension/reinforcement activities, graded difficulty, flexible groupings, ICT, flipped classroom. SEN students: Personalised Action Plans (PAP, Resolution 20 Nov 2023). Mention D.359/2009.
+
+STAGE OBJECTIVES: All 14 objectives (a–n) from Art. 7 RD 157/2022 and Art. 7 D.209/2022. Table format showing: objective letter + text → contribution of English teaching + key competences (in brackets as acronyms). Can be reformulated using school context (pedagogical autonomy). Relate to SDGs.
+
+KEY COMPETENCES: LCC, PLC, STEM, DC, PSL, CIT, ENT, CAEC. Brief definition of each. Link to exit profile descriptors and specific competences.
+
+EXIT PROFILE DESCRIPTORS: LCC1-5, PLC1-3, STEM1-5, DC1-5, PSL1-5, CIT1-4, ENT1-3, CAEC1-4. Each linked to Specific Competences (SPC1-6).
+
+SPECIFIC COMPETENCES (Annex III Decree 209/2022):
+- SPC1: Receptive Skills (comprehension) — linked to LCC2, LCC3, PLC1-3, STEM1, DC1, PSL5, CAEC2
+- SPC2: Productive Skills (production) — linked to LCC1, PLC1-3, DC2, PSL5, ENT1, CAEC4
+- SPC3: Interaction — linked to LCC5, PLC1-3, PSL3, CIT3, ENT1, ENT3
+- SPC4: Mediation — linked to LCC5, PLC1-3, PSL1, PSL3, CAEC1
+- SPC5: Language Awareness / Plurilingualism — linked to PLC2, PSL1, PSL4, PSL5, DC2
+- SPC6: Intercultural Awareness — linked to LCC5, PLC3, PSL1, PSL3, CIT2, CIT3, CAEC1
+
+ASSESSMENT CRITERIA (Annex III, Third Cycle — Year 5/6):
+- AC 1.1, 1.2: Receptive skills (SPC1)
+- AC 2.1, 2.2, 2.3: Productive skills (SPC2)
+- AC 3.1, 3.2: Interaction (SPC3)
+- AC 4.1, 4.2: Mediation (SPC4)
+- AC 5.1, 5.2, 5.3: Language Awareness (SPC5)
+- AC 6.1, 6.2, 6.3: Intercultural Awareness (SPC6)
+Grades: IN (0-4) / SU (5) / BI (6-7) / NT (8-9) / SB (10). Art. 37.2 D.209/2022.
+
+BASIC KNOWLEDGE (3 blocks): Block A: Communication (functions, structures, lexicon, phonetics, spelling). Block B: Plurilingualism (metalinguistic reflection, comparison strategies, ELP). Block C: Interculturality (cultural knowledge, SDGs, respect for diversity).
+
+METHODOLOGY: Legal basis (D.209/2022 art. 5 and 10, Annex III).
+Basic Principles: Piaget, Ausubel, Vygotsky (ZPD), Bruner (scaffolding), Rosenshine (Principles of Instruction, 2010), Smith's Accelerated Learning Cycle (1996) — Connect→Activate→Demonstrate→Consolidate — + UDL (Meyer, Rose & Gordon, 2014).
+Specific Principles: CLT (Hymes 1972, Canale & Swain 1980), TBL (Prabhu 1987), Littlewood (1981), Schmidt's Noticing Hypothesis (1990), Ellis's Consciousness-Raising (1991), Long's Focus on Form (1991), Krashen's Input Hypothesis (1982), Corder's Error Analysis (1967), Selinker's Interlanguage (1972).
+Macro-structure: 8 sessions per unit. Input → output progression. Opening sessions: receptive + lexical/grammar work. Closing sessions: production, mediation, project, self-evaluation.
+Micro-structure: Connect (warm-up, big picture) → Activate + Demonstrate (Pre-While-Post for skills; PPP for language) → Consolidate (metacognitive reflection, exit tickets, learning journals).
+
+MATERIALS: Varied, motivating, appropriate. Physical: worksheets, flashcards, realia, graded readers, comics, magazines, dictionaries. ICT: smartboard, projector, laptops, tablets. Apps: Plickers, EdPuzzle, Kahoot, Socrative, Canva, Genially. Platforms: Google Classroom, Plumier XXI, Mirador, Anota, EdVoice. Corners: English corner, reading corner, IT corner.
+
+GROUPINGS: U-shape as default (communicative activities). Flexible. Individual (reflection, exams), pairs (dialogues, role plays), small groups (projects, jigsaws), whole class (discussions, games, Brainstorming).
+
+READING HABITS: RD 157/2022 art. 6.8 + D.209/2022 art. 14. Daily reading time. Measures: Mini-Reading Moments, Class Library, Reading Record, cooperative work, reward chart, storytelling, drama techniques, Bookcrossing, World Book Day, Reading Club, Graded Readers (one per term).
+
+ASSESSMENT OF LEARNING: Art. 19 D.209/2022 (global, continuous, formative). Types: diagnostic (start of year + each unit), formative (ongoing), summative (end of unit/term). Self, peer, co-evaluation. Instruments with acronyms: OBS, PLK, EDPZ, ENT, EXT, QUIZ, ROLP, ORAS, WRAS, RLC, LIC, JSWR, PROJ, PORT, LDIA, EXAM. Resources: RBK, CHK, TDIA, SES.
+
+EVALUATION OF TEACHING: Art. 19.5, Art. 33.h, Art. 34 D.209/2022. Three families of indicators: (A) Adjustment of teaching plan (units/sessions planned vs delivered, EC coverage, quality indicators for spaces/timing/resources/diversity). (B) Students' results (IN/SU/BI/NT/SB distribution per term, criterion-by-criterion tracking). (C) Students' and families' perception (exit slips, mini questionnaire, family survey).
+
+COMMUNICATION: Art. 19.7, Art. 32.2.m, Art. 35 D.209/2022. Three audiences: parents (EdVoice official, corporate email @murciaeduca.es, Mirador, Plumier XXI, face-to-face meetings), teachers (Anota, email, coordination meetings), students (Google Classroom optional, daily classroom interaction). Minimum 3 assessment sessions per year.
+
+SEQUENCING: ~140 sessions/year (4 sessions/week for Primary). 12 units of 8 sessions each + diagnostic evaluation (3 sessions) + 3 summative assessments (1 per term) + 3 complementary activities (1 per term). 3 terms of 4 units each.
+
+UNIT CHARTS include: Title, Year, Term, Learning Situation, Key Competences (Exit Profile Descriptors), SPC, Learning Objectives, Evaluation Criteria %, Instruments (Formative + Summative), Stage Objectives (GSO a-n), Basic Knowledge (Blocks I-III), Activities by session, UDL/Diversity measures, Transversal/Interdisciplinary elements, Materials.
+
+TONE AND FORMAT REQUIREMENTS:
+- Connected prose (NOT bullet-point-heavy)
+- Avoid ChatGPT-like language: "navigate", "utilize", "delve into", "foster" overuse, hyphens mid-sentence
+- Consistent British English
+- Arial 11pt, single spacing, justified, max 70 pages
+- Same term used throughout: "course programme" OR "teaching plan" (not mixed)
+
+When giving feedback:
+1. Assess what is PRESENT and done well (strengths)
+2. Identify what is MISSING or weak (gaps)
+3. Suggest SPECIFIC improvements with concrete examples
+4. Reference the FUSTERSAURA model documents when applicable
+5. Be constructive, specific, and practical
+6. Keep feedback in English (unless the student writes in Spanish)
+7. Structure feedback clearly but concisely — focus on the most impactful improvements
+
+Respond in the same language the student uses (Spanish or English).`;
+
+/* ═══════════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════════ */
+const state = {
+  checked: new Set(),
+  filter: 'all',
+  search: ''
+};
+
+// Load from localStorage
+try {
+  const saved = JSON.parse(localStorage.getItem('fuster_primary_v1') || '[]');
+  saved.forEach(id => state.checked.add(id));
+} catch(e) {}
+
+function save() {
+  localStorage.setItem('fuster_primary_v1', JSON.stringify([...state.checked]));
+}
+
+/* ═══════════════════════════════════════════════
+   RENDER
+   ═══════════════════════════════════════════════ */
+function getAllItems() {
+  return CHECKLIST.flatMap(s => s.subsections.flatMap(sub => sub.items));
+}
+
+function renderChecklist() {
+  const container = document.getElementById('sections-container');
+  container.innerHTML = '';
+  const search = state.search.toLowerCase();
+
+  CHECKLIST.forEach(section => {
+    // Filter items in this section
+    const filteredSubs = section.subsections.map(sub => {
+      const items = sub.items.filter(item => {
+        const matchSearch = !search || item.text.toLowerCase().includes(search);
+        const isDone = state.checked.has(item.id);
+        const matchFilter = state.filter === 'all' || (state.filter === 'done' && isDone) || (state.filter === 'pending' && !isDone);
+        return matchSearch && matchFilter;
+      });
+      return { ...sub, items };
+    }).filter(sub => sub.items.length > 0);
+
+    if (filteredSubs.length === 0) return;
+
+    const sectionItems = section.subsections.flatMap(s => s.items);
+    const sectionDone = sectionItems.filter(i => state.checked.has(i.id)).length;
+    const sectionTotal = sectionItems.length;
+    const pct = sectionTotal ? Math.round(sectionDone / sectionTotal * 100) : 0;
+
+    const block = document.createElement('div');
+    block.className = 'section-block' + (search || state.filter !== 'all' ? ' open' : '');
+    block.dataset.sectionId = section.id;
+
+    const pillClass = pct === 100 ? 'complete' : pct >= 75 ? 'high' : '';
+
+    block.innerHTML = `
+      <div class="section-header">
+        <div class="section-header-left">
+          <div class="section-num ${section.color}">${section.num}</div>
+          <div>
+            <div class="section-name">${section.label}</div>
+            <div class="section-author"><span>👤</span>${section.author}</div>
+          </div>
+        </div>
+        <div class="section-header-right">
+          <span class="section-pct-pill ${pillClass}">${pct}% · ${sectionDone}/${sectionTotal}</span>
+          <span class="chevron">▾</span>
+        </div>
+      </div>
+      <div class="section-body">
+        ${filteredSubs.map(sub => `
+          <div class="subsection">
+            <div class="subsection-header">
+              <div class="subsection-dot"></div>
+              <div class="subsection-name">${sub.name}</div>
+            </div>
+            ${sub.note ? `<div class="subsection-note">⚠️ ${sub.note}</div>` : ''}
+            <div class="checklist-items">
+              ${sub.items.map(item => {
+                const checked = state.checked.has(item.id);
+                const tip = TIPS[item.id];
+                const tipHTML = tip ? `
+                  <span class="item-info">ⓘ
+                    <div class="tooltip-box">
+                      <h4>${item.text}</h4>
+                      <div class="tooltip-section">
+                        <div class="tooltip-label explain">📖 What it means</div>
+                        <div class="tooltip-text">${tip.explain}</div>
+                      </div>
+                      <div class="tooltip-section">
+                        <div class="tooltip-label example">✅ Model example</div>
+                        <div class="tooltip-text"><em>${tip.example}</em></div>
+                      </div>
+                      <div class="tooltip-section">
+                        <div class="tooltip-label error">⚠️ Common error</div>
+                        <div class="tooltip-text">${tip.error}</div>
+                      </div>
+                    </div>
+                  </span>` : '';
+                return `
+                  <div class="checklist-item ${checked ? 'checked' : ''}" data-id="${item.id}">
+                    <span class="item-num">${item.id}</span>
+                    <input type="checkbox" class="item-checkbox" data-id="${item.id}" ${checked ? 'checked' : ''}>
+                    <label class="item-label">${item.text}</label>
+                    ${tipHTML}
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // Toggle open/close
+    block.querySelector('.section-header').addEventListener('click', () => {
+      block.classList.toggle('open');
+    });
+
+    // Checkbox events
+    block.querySelectorAll('.item-checkbox').forEach(cb => {
+      cb.addEventListener('change', e => {
+        e.stopPropagation();
+        const id = parseInt(cb.dataset.id);
+        if (cb.checked) state.checked.add(id);
+        else state.checked.delete(id);
+        save();
+        updateStats();
+        // Update item style without full rerender
+        const row = block.querySelector(`.checklist-item[data-id="${id}"]`);
+        if (row) row.classList.toggle('checked', cb.checked);
+        // Update section pill
+        updateSectionPill(block, section);
+      });
+    });
+
+    // Label clicks
+    block.querySelectorAll('.item-label').forEach(lbl => {
+      lbl.addEventListener('click', e => {
+        const row = lbl.closest('.checklist-item');
+        const id = parseInt(row.dataset.id);
+        const cb = row.querySelector('.item-checkbox');
+        cb.checked = !cb.checked;
+        if (cb.checked) state.checked.add(id);
+        else state.checked.delete(id);
+        save();
+        row.classList.toggle('checked', cb.checked);
+        updateStats();
+        updateSectionPill(block, section);
+      });
+    });
+
+    container.appendChild(block);
+  });
+}
+
+function updateSectionPill(block, section) {
+  const sectionItems = section.subsections.flatMap(s => s.items);
+  const done = sectionItems.filter(i => state.checked.has(i.id)).length;
+  const total = sectionItems.length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const pill = block.querySelector('.section-pct-pill');
+  if (pill) {
+    pill.textContent = `${pct}% · ${done}/${total}`;
+    pill.className = 'section-pct-pill' + (pct === 100 ? ' complete' : pct >= 75 ? ' high' : '');
+  }
+}
+
+function updateStats() {
+  const all = getAllItems();
+  const total = all.length;
+  const done = all.filter(i => state.checked.has(i.id)).length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+
+  // Header
+  document.getElementById('hdr-done').textContent = done;
+  document.getElementById('hdr-total').textContent = total;
+  document.getElementById('hdr-pct').textContent = pct + '%';
+
+  // Ring
+  const circumference = 314.16;
+  const offset = circumference - (circumference * pct / 100);
+  document.getElementById('ring-circle').style.strokeDashoffset = offset;
+  document.getElementById('ring-pct').textContent = pct + '%';
+  document.getElementById('ring-done').textContent = `${done} / ${total}`;
+
+  // Section progress
+  const list = document.getElementById('section-progress-list');
+  list.innerHTML = CHECKLIST.map(section => {
+    const items = section.subsections.flatMap(s => s.items);
+    const sDone = items.filter(i => state.checked.has(i.id)).length;
+    const sTotal = items.length;
+    const sPct = sTotal ? Math.round(sDone / sTotal * 100) : 0;
+    return `
+      <div class="section-prog-item">
+        <div class="section-prog-label">
+          <span class="section-prog-name">${section.label.length > 22 ? section.label.slice(0,22)+'…' : section.label}</span>
+          <span class="section-prog-pct">${sPct}%</span>
+        </div>
+        <div class="prog-bar"><div class="prog-fill ${sPct===100?'complete':''}" style="width:${sPct}%"></div></div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════
+   ANTHROPIC API
+   ═══════════════════════════════════════════════ */
+// API key handled server-side via Netlify Function proxy
+
+async function callAnthropicAPI(sectionId, userText) {
+  const sectionNames = {
+    cover: 'Cover Page & Table of Contents',
+    formatting: 'Formatting',
+    introduction: 'Introduction',
+    justification: 'Justification (Legal, Sociological, Psychopedagogical, Epistemological Foundations)',
+    setting: 'Setting & Addressees',
+    diversity: 'Attention to Diversity',
+    stage_obj: 'Stage Objectives (5.1)',
+    key_comp: 'Key Competences & Exit Profile Descriptors (5.2–5.3)',
+    spc: 'Specific Competences (5.4)',
+    assessment_criteria: 'Assessment Criteria (5.5)',
+    basic_knowledge: 'Basic Knowledge (4.6)',
+    transversal: 'Transversal & Interdisciplinary Connections (4.7)',
+    sequencing: 'Sequencing of Units (9)',
+    unit_charts: 'Unit Charts',
+    methodology: 'Methodology (10)',
+    materials: 'Materials & Resources (11)',
+    groupings: 'Groupings & Classroom Layout (12)',
+    reading: 'Promotion of Reading Habits (15)',
+    assessment_learning: 'Assessment of Learning (15)',
+    eval_teaching: 'Evaluation of Teaching (16)',
+    communication: 'Communication (17)',
+    bibliography: 'Bibliography (18)'
+  };
+
+  const sectionName = sectionNames[sectionId] || sectionId;
+
+  const userMessage = `Please evaluate the following draft for the section: **${sectionName}**
+
+The student has written:
+
+---
+${userText || '(No text provided — please give me an overview of what this section should include according to the FUSTERSAURA model)'}
+---
+
+Please provide:
+1. **Strengths** — what is present and correct
+2. **Gaps & Issues** — what is missing or needs improvement
+3. **Specific Suggestions** — concrete wording or content to add
+Keep your response focused and actionable. Maximum 350 words.`;
+
+  const response = await fetch('/.netlify/functions/anthropic-proxy', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5-20251022',
+      max_tokens: 1000,
+      system: SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: userMessage }]
+    })
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error?.message || `API error ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.content[0]?.text || 'No response received.';
+}
+
+/* ═══════════════════════════════════════════════
+   EVENT LISTENERS
+   ═══════════════════════════════════════════════ */
+document.getElementById('btn-analyze').addEventListener('click', async () => {
+  const sectionId = document.getElementById('ai-section-select').value;
+  const userText = document.getElementById('ai-input').value.trim();
+  const btn = document.getElementById('btn-analyze');
+  const responseEl = document.getElementById('ai-response');
+
+  if (!sectionId) {
+    showToast('Please select a section first');
+    return;
+  }
+
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Analysing...';
+  responseEl.classList.remove('visible');
+
+  try {
+    const result = await callAnthropicAPI(sectionId, userText);
+    // Format bold markdown
+    const formatted = result.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+    responseEl.innerHTML = formatted;
+    responseEl.classList.add('visible');
+  } catch (err) {
+    responseEl.innerHTML = `<strong style="color:var(--granate)">Error:</strong> ${err.message}`;
+    responseEl.classList.add('visible');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span class="btn-label">Analyse with AI</span>';
+  }
+});
+
+// Filters
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.filter = btn.dataset.filter;
+    renderChecklist();
+    updateStats();
+  });
+});
+
+// Search
+document.getElementById('search-input').addEventListener('input', e => {
+  state.search = e.target.value;
+  renderChecklist();
+});
+
+// Reset
+document.getElementById('btn-reset').addEventListener('click', () => {
+  if (confirm('¿Resetear todos los checkboxes? This cannot be undone.')) {
+    state.checked.clear();
+    save();
+    renderChecklist();
+    updateStats();
+    showToast('All checkboxes reset');
+  }
+});
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ═══════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════ */
+renderChecklist();
+updateStats();
+
+/* ─── TOOLTIP POSITIONING via JS (fixed coords) ─── */
+(function() {
+  const box = document.createElement('div');
+  box.className = 'tooltip-box';
+  box.id = 'global-tooltip';
+  document.body.appendChild(box);
+
+  let currentIcon = null;
+
+  document.addEventListener('mouseover', e => {
+    const icon = e.target.closest('.item-info');
+    if (!icon) return;
+    const inner = icon.querySelector('.tooltip-box');
+    if (!inner) return;
+
+    currentIcon = icon;
+    icon.classList.add('active-tip');
+
+    // Clone content into global tooltip
+    box.innerHTML = inner.innerHTML;
+    box.style.display = 'block';
+
+    positionTooltip(e);
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!currentIcon) return;
+    positionTooltip(e);
+  });
+
+  document.addEventListener('mouseout', e => {
+    const icon = e.target.closest('.item-info');
+    if (!icon) return;
+    const related = e.relatedTarget;
+    if (related && icon.contains(related)) return;
+    icon.classList.remove('active-tip');
+    box.style.display = 'none';
+    currentIcon = null;
+  });
+
+  function positionTooltip(e) {
+    const margin = 12;
+    const bw = box.offsetWidth || 360;
+    const bh = box.offsetHeight || 200;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    let x = e.clientX + margin;
+    let y = e.clientY + margin;
+
+    // Flip left if off screen right
+    if (x + bw > vw - 10) x = e.clientX - bw - margin;
+    // Flip up if off screen bottom
+    if (y + bh > vh - 10) y = e.clientY - bh - margin;
+
+    box.style.left = x + 'px';
+    box.style.top = y + 'px';
+  }
+})();
+</script>
+</body>
+</html>
