@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FUSTERSAURA · Primary Checklist 2025–26</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -1361,6 +1361,7 @@ const SUPABASE_URL = 'https://ylyxjogxtxgeaytyyxyb.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlseXhqb2d4dHhnZWF5dHl5eHliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MzMwODAsImV4cCI6MjA5MjEwOTA4MH0.omxy6E2EpQ5DWJx02ksM-x-7z9uAz2nqE2rOC-Crsrg';
 const ADMIN_EMAIL = 'socialreimurcia@gmail.com';
 
+if (!window.supabase) { document.getElementById('login-error').textContent = 'Error: no se pudo cargar el sistema de autenticación. Recarga la página.'; document.getElementById('login-error').classList.add('visible'); }
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
