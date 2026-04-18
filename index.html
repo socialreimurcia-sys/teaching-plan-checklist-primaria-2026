@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FUSTERSAURA · Primary Checklist 2025–26</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <style>
   :root {
     --granate: #8B0000;
@@ -618,6 +620,63 @@
     font-style: italic;
   }
 
+  /* ─── DOCUMENT UPLOAD ─── */
+  .doc-upload-area {
+    margin-bottom: 10px;
+  }
+  .doc-upload-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1.5px dashed var(--grey-200);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.78rem;
+    color: var(--grey-600);
+    transition: border-color 0.2s, background 0.2s;
+    background: var(--grey-50);
+  }
+  .doc-upload-label:hover { border-color: var(--gold); background: var(--gold-pale); color: var(--navy); }
+  .doc-upload-label input { display: none; }
+  .doc-upload-icon { font-size: 1rem; flex-shrink: 0; }
+  .doc-uploaded-info {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    background: var(--gold-pale);
+    border: 1px solid rgba(200,169,81,0.35);
+    border-radius: var(--radius-sm);
+    font-size: 0.76rem;
+    color: var(--navy);
+  }
+  .doc-uploaded-info.visible { display: flex; }
+  .doc-filename { flex: 1; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .doc-clear-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--grey-400);
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0 2px;
+    transition: color 0.15s;
+    flex-shrink: 0;
+  }
+  .doc-clear-btn:hover { color: var(--granate); }
+  .doc-note {
+    margin-top: 5px;
+    font-size: 0.72rem;
+    color: var(--success);
+    font-style: italic;
+  }
+  .doc-processing {
+    font-size: 0.75rem;
+    color: var(--grey-600);
+    font-style: italic;
+    padding: 4px 0;
+  }
 </style>
 </head>
 <body>
@@ -712,6 +771,20 @@
           <option value="communication">17. Communication</option>
           <option value="bibliography">18. Bibliography</option>
         </select>
+        <div class="doc-upload-area">
+          <label class="doc-upload-label" id="doc-upload-label">
+            <span class="doc-upload-icon">📄</span>
+            <span>Upload PDF or DOCX (optional)</span>
+            <input type="file" id="doc-file-input" accept=".pdf,.docx">
+          </label>
+          <div class="doc-uploaded-info" id="doc-uploaded-info">
+            <span class="doc-upload-icon">📄</span>
+            <span class="doc-filename" id="doc-filename"></span>
+            <button class="doc-clear-btn" id="doc-clear-btn" title="Remove file">✕</button>
+          </div>
+          <div class="doc-processing" id="doc-processing" style="display:none">Extracting text…</div>
+          <div class="doc-note" id="doc-note" style="display:none">Document uploaded — AI will read your full teaching plan</div>
+        </div>
         <textarea class="ai-textarea" id="ai-input" placeholder="Paste your draft here, or describe what you've written. I'll compare it against the FUSTERSAURA model and give you specific feedback..."></textarea>
         <button class="btn-analyze" id="btn-analyze">
           <span class="btn-label">Analyse with AI</span>
@@ -1673,7 +1746,7 @@ function updateStats() {
    ═══════════════════════════════════════════════ */
 // API key handled server-side via Netlify Function proxy
 
-async function callAnthropicAPI(sectionId, userText) {
+async function callAnthropicAPI(sectionId, userText, docText) {
   const sectionNames = {
     cover: 'Cover Page & Table of Contents',
     formatting: 'Formatting',
@@ -1701,6 +1774,10 @@ async function callAnthropicAPI(sectionId, userText) {
 
   const sectionName = sectionNames[sectionId] || sectionId;
 
+  const docSection = docText
+    ? `\n\nFULL TEACHING PLAN DOCUMENT (extracted text):\n\n---\n${docText.slice(0, 60000)}\n---`
+    : '';
+
   const userMessage = `Please evaluate the following draft for the section: **${sectionName}**
 
 The student has written:
@@ -1708,7 +1785,7 @@ The student has written:
 ---
 ${userText || '(No text provided — please give me an overview of what this section should include according to the FUSTERSAURA model)'}
 ---
-
+${docSection}
 Please provide:
 1. **Strengths** — what is present and correct
 2. **Gaps & Issues** — what is missing or needs improvement
@@ -1720,7 +1797,7 @@ Keep your response focused and actionable. Maximum 350 words.`;
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: 'claude-sonnet-4-5-20251022',
-      max_tokens: 1000,
+      max_tokens: 2000,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: userMessage }]
     })
@@ -1736,6 +1813,76 @@ Keep your response focused and actionable. Maximum 350 words.`;
 }
 
 /* ═══════════════════════════════════════════════
+   DOCUMENT UPLOAD & EXTRACTION
+   ═══════════════════════════════════════════════ */
+let extractedDocText = null;
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+async function extractPDF(file) {
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  const pages = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    pages.push(content.items.map(item => item.str).join(' '));
+  }
+  return pages.join('\n');
+}
+
+async function extractDOCX(file) {
+  const arrayBuffer = await file.arrayBuffer();
+  const result = await mammoth.extractRawText({ arrayBuffer });
+  return result.value;
+}
+
+document.getElementById('doc-file-input').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const processingEl = document.getElementById('doc-processing');
+  const infoEl = document.getElementById('doc-uploaded-info');
+  const noteEl = document.getElementById('doc-note');
+  const labelEl = document.getElementById('doc-upload-label');
+  const filenameEl = document.getElementById('doc-filename');
+
+  processingEl.style.display = 'block';
+  labelEl.style.display = 'none';
+
+  try {
+    if (file.name.endsWith('.pdf')) {
+      extractedDocText = await extractPDF(file);
+    } else if (file.name.endsWith('.docx')) {
+      extractedDocText = await extractDOCX(file);
+    } else {
+      showToast('Please upload a PDF or DOCX file');
+      processingEl.style.display = 'none';
+      labelEl.style.display = '';
+      return;
+    }
+    filenameEl.textContent = file.name;
+    infoEl.classList.add('visible');
+    noteEl.style.display = 'block';
+  } catch (err) {
+    showToast('Could not extract file: ' + err.message);
+    extractedDocText = null;
+    labelEl.style.display = '';
+  } finally {
+    processingEl.style.display = 'none';
+    e.target.value = '';
+  }
+});
+
+document.getElementById('doc-clear-btn').addEventListener('click', () => {
+  extractedDocText = null;
+  document.getElementById('doc-uploaded-info').classList.remove('visible');
+  document.getElementById('doc-note').style.display = 'none';
+  document.getElementById('doc-upload-label').style.display = '';
+});
+
+/* ═══════════════════════════════════════════════
    EVENT LISTENERS
    ═══════════════════════════════════════════════ */
 document.getElementById('btn-analyze').addEventListener('click', async () => {
@@ -1749,14 +1896,12 @@ document.getElementById('btn-analyze').addEventListener('click', async () => {
     return;
   }
 
-
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Analysing...';
   responseEl.classList.remove('visible');
 
   try {
-    const result = await callAnthropicAPI(sectionId, userText);
-    // Format bold markdown
+    const result = await callAnthropicAPI(sectionId, userText, extractedDocText);
     const formatted = result.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
     responseEl.innerHTML = formatted;
     responseEl.classList.add('visible');
