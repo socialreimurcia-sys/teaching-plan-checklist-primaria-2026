@@ -2,7 +2,7 @@
   functions = "netlify/functions"
   command = "npm install"
 
-[functions]
+[functions."*"]
   timeout = 26
 
 [[headers]]
