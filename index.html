@@ -934,6 +934,39 @@
   }
   .btn-dl-html:hover { background: var(--gold); color: var(--white); }
 
+  /* ─── STEP 2 ENHANCED ─── */
+  .dc-context-banner { padding: 10px 16px; border-radius: var(--radius-sm); font-size: 0.82rem; margin-bottom: 20px; border: 1.5px solid var(--grey-200); background: var(--grey-50); color: var(--grey-600); line-height: 1.4; transition: all .3s; }
+  .dc-context-banner.populated { background: var(--gold-pale); border-color: var(--gold); color: var(--navy); }
+  .dc-context-banner strong { color: var(--granate); }
+  .dc-saved-indicator { position: fixed; bottom: 24px; right: 24px; background: var(--success); color: #fff; padding: 7px 16px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; opacity: 0; transform: translateY(8px); transition: all .25s; pointer-events: none; z-index: 300; }
+  .dc-saved-indicator.show { opacity: 1; transform: translateY(0); }
+  /* Universal question card */
+  .dc-q-card { border-left: 3px solid var(--granate); background: var(--white); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow); }
+  .dc-q-label-row { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 8px; }
+  .dc-q-label { font-size: 0.84rem; font-weight: 600; color: var(--navy); flex: 1; line-height: 1.4; }
+  .dc-req { color: var(--granate); }
+  .dc-q-tip { position: relative; cursor: help; color: var(--gold); font-size: 0.88rem; flex-shrink: 0; margin-top: 1px; user-select: none; }
+  .dc-q-tip .dc-tip-content { display: none; position: absolute; right: 0; top: 100%; margin-top: 4px; width: 280px; background: var(--navy); color: var(--white); font-size: 0.77rem; font-weight: 400; line-height: 1.5; padding: 10px 12px; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); z-index: 60; white-space: normal; }
+  .dc-q-tip:hover .dc-tip-content { display: block; }
+  .dc-q-structured { margin-bottom: 8px; }
+  .dc-q-freetext-wrap { position: relative; }
+  .dc-q-textarea { width: 100%; min-height: 64px; resize: vertical; padding: 8px 10px; border: 1.5px solid var(--grey-200); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.84rem; color: var(--grey-800); background: var(--grey-50); line-height: 1.55; transition: border-color .15s; }
+  .dc-q-textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200,169,81,.14); background: var(--white); }
+  .dc-q-textarea::placeholder { color: var(--grey-400); font-style: italic; font-size: 0.8rem; }
+  .btn-autofill { margin-top: 5px; padding: 3px 10px; background: var(--gold-pale); color: var(--navy); border: 1px solid var(--gold); border-radius: 20px; font-size: 0.73rem; font-weight: 600; cursor: pointer; transition: all .15s; float: right; }
+  .btn-autofill:hover { background: var(--gold); color: var(--white); }
+  /* Laws checklist */
+  .dc-laws-list { margin: 8px 0; }
+  .dc-law-item { display: flex; align-items: flex-start; gap: 9px; padding: 7px 10px; border-radius: 4px; margin-bottom: 5px; background: var(--grey-50); border: 1px solid var(--grey-100); }
+  .dc-law-item.essential { border-left: 3px solid var(--navy); background: rgba(27,42,74,.03); }
+  .dc-law-item input[type=checkbox] { margin-top: 3px; accent-color: var(--navy); flex-shrink: 0; cursor: pointer; }
+  .dc-law-label { flex: 1; }
+  .dc-law-name { font-size: 0.82rem; font-weight: 700; color: var(--navy); }
+  .dc-law-desc { font-size: 0.74rem; color: var(--grey-600); margin-top: 1px; line-height: 1.3; }
+  .dc-law-tip { position: relative; cursor: help; color: var(--gold); font-size: 0.82rem; flex-shrink: 0; }
+  .dc-law-tip .dc-tip-content { display: none; position: absolute; right: 0; top: 100%; margin-top: 4px; width: 260px; background: var(--navy); color: var(--white); font-size: 0.75rem; line-height: 1.5; padding: 10px 12px; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); z-index: 60; white-space: normal; }
+  .dc-law-tip:hover .dc-tip-content { display: block; }
+
   /* ─── DRAFT GENERATOR TAB ─── */
   .draft-wrap { max-width: 900px; margin: 0 auto; padding: 24px 16px 60px; }
   .draft-disclaimer { background: #fff8e6; border: 1.5px solid var(--gold); border-radius: var(--radius); padding: 14px 18px; font-size: 0.85rem; color: #7a4f00; margin-bottom: 28px; line-height: 1.5; }
@@ -1515,8 +1548,9 @@
         <div class="draft-panel" id="draft-panel-2" style="display:none">
           <div class="draft-panel-header">
             <h2>Tell us about your context</h2>
-            <p class="draft-panel-sub">Fill in the questions for each selected section. Fields marked * are required.</p>
+            <p class="draft-panel-sub">Fill in the questions for each selected section. Structured inputs feed the context banner; free text areas are sent to the AI. Use ✨ Autofill to insert model text you can then edit.</p>
           </div>
+          <div class="dc-context-banner" id="dc-context-banner">Fill in the questions below — key values will be captured and reused automatically.</div>
           <div id="draft-context-form">
             <!-- Section cards injected by JS -->
           </div>
@@ -1525,6 +1559,7 @@
             <button class="btn-draft-nav next" id="dc-next" onclick="draftGenerate()">Generate Draft ✨</button>
           </div>
         </div>
+        <div class="dc-saved-indicator" id="dc-saved-indicator">✓ Answers saved</div>
 
         <!-- Step 3: Draft output -->
         <div class="draft-panel" id="draft-panel-3" style="display:none">
@@ -3271,27 +3306,209 @@ function updateDsCounter() {
   if (nextBtn) nextBtn.disabled = n === 0;
 }
 
+/* ═══════════════════════════════════════════════
+   STEP 2 — SHARED CONTEXT & HELPERS
+   ═══════════════════════════════════════════════ */
+const userContext = {
+  yearGroup: '', studentName: '', schoolLocation: '', classSize: '',
+  girlsCount: '', boysCount: '', sessionCount: '', engLevel: '',
+  interests: '', hasAssistant: false, assistantNationality: '', assistantSessions: '',
+};
+
+function ucv(key, fallback = '[not specified]') {
+  const v = userContext[key];
+  return (v && String(v).trim()) ? String(v) : fallback;
+}
+
+function syncUserContext() {
+  userContext.yearGroup    = document.getElementById('dc-cover-year')?.value || document.getElementById('dc-intro-year')?.value || '';
+  userContext.studentName  = document.getElementById('dc-cover-name')?.value || '';
+  userContext.classSize    = document.getElementById('dc-setting-pupils')?.value || '';
+  userContext.sessionCount = document.getElementById('dc-seq-sessions')?.value || '';
+  userContext.engLevel     = document.getElementById('dc-addr-level')?.value || '';
+  userContext.interests    = document.getElementById('dc-addr-interests-input')?.value || '';
+  userContext.hasAssistant = document.getElementById('dc-meth-assistant')?.value === 'yes';
+  const det = document.getElementById('dc-meth-assistant-detail')?.value || '';
+  const dp = det.split(',');
+  userContext.assistantNationality = dp[0]?.trim() || '';
+  userContext.assistantSessions    = dp[1]?.trim() || '';
+  const gen = document.getElementById('dc-setting-gender')?.value || '';
+  userContext.girlsCount = (gen.match(/(\d+)\s*girl/i) || [])[1] || '';
+  userContext.boysCount  = (gen.match(/(\d+)\s*boy/i)  || [])[1] || '';
+  const locLine = document.getElementById('dc-ft-setting-location')?.value || '';
+  userContext.schoolLocation = locLine.split('\n')[0].slice(0, 35);
+  updateContextBanner();
+}
+
+function updateContextBanner() {
+  const el = document.getElementById('dc-context-banner');
+  if (!el) return;
+  const parts = [];
+  if (userContext.yearGroup)    parts.push(userContext.yearGroup);
+  if (userContext.classSize)    parts.push(`${userContext.classSize} pupils`);
+  if (userContext.sessionCount) parts.push(`${userContext.sessionCount} sessions/week`);
+  if (userContext.schoolLocation) parts.push(userContext.schoolLocation + (userContext.schoolLocation.length === 35 ? '…' : ''));
+  el.innerHTML = parts.length
+    ? `<strong>Context captured:</strong> ${parts.join(' · ')}`
+    : 'Fill in the questions below — year group, class size and other key values will be captured and reused automatically.';
+  el.classList.toggle('populated', parts.length > 0);
+}
+
+/* ─── localStorage ─── */
+function getDraftSaveKey() { return `fuster_draft_step2_${currentUser?.email || 'guest'}`; }
+
+let _saveTimer = null;
+function scheduleSave() {
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => {
+    const data = {};
+    document.querySelectorAll('#draft-context-form [id]').forEach(el => {
+      if (el.type === 'checkbox') data[el.id] = el.checked;
+      else if (el.value !== undefined) data[el.id] = el.value;
+    });
+    const groups = { laws: {}, divMeasures: {}, objChecks: {}, commPlatforms: {} };
+    document.querySelectorAll('[data-lawid]').forEach(cb => { groups.laws[cb.dataset.lawid] = cb.checked; });
+    document.querySelectorAll('.dc-div-measure').forEach(cb => { groups.divMeasures[cb.value] = cb.checked; });
+    document.querySelectorAll('.dc-obj-check').forEach(cb => { groups.objChecks[cb.value] = cb.checked; });
+    document.querySelectorAll('.dc-comm-platform').forEach(cb => { groups.commPlatforms[cb.value] = cb.checked; });
+    data.__groups = groups;
+    // Save unit titles / SDGs by data attrs
+    const units = {}, sdgs = {};
+    document.querySelectorAll('.dc-unit-title[data-unit]').forEach(el => { units[el.dataset.unit] = el.value; });
+    document.querySelectorAll('[data-sdg]').forEach(el => { sdgs[el.dataset.sdg] = el.value; });
+    data.__units = units; data.__sdgs = sdgs;
+    localStorage.setItem(getDraftSaveKey(), JSON.stringify(data));
+    flashSaved();
+  }, 600);
+}
+
+let _flashTimer = null;
+function flashSaved() {
+  const el = document.getElementById('dc-saved-indicator');
+  if (!el) return;
+  el.classList.add('show');
+  clearTimeout(_flashTimer);
+  _flashTimer = setTimeout(() => el.classList.remove('show'), 2000);
+}
+
+function restoreStep2Answers() {
+  const raw = localStorage.getItem(getDraftSaveKey());
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+    Object.entries(data).forEach(([k, v]) => {
+      if (k.startsWith('__')) return;
+      const el = document.getElementById(k);
+      if (!el) return;
+      if (el.type === 'checkbox') el.checked = v;
+      else el.value = v;
+    });
+    if (data.__groups) {
+      const g = data.__groups;
+      Object.entries(g.laws || {}).forEach(([id, v]) => { const c = document.querySelector(`[data-lawid="${id}"]`); if (c) c.checked = v; });
+      document.querySelectorAll('.dc-div-measure').forEach(cb => { if (g.divMeasures?.[cb.value] !== undefined) cb.checked = g.divMeasures[cb.value]; });
+      document.querySelectorAll('.dc-obj-check').forEach(cb => { if (g.objChecks?.[cb.value] !== undefined) cb.checked = g.objChecks[cb.value]; });
+      document.querySelectorAll('.dc-comm-platform').forEach(cb => { if (g.commPlatforms?.[cb.value] !== undefined) cb.checked = g.commPlatforms[cb.value]; });
+    }
+    if (data.__units) { Object.entries(data.__units).forEach(([u, v]) => { const el = document.querySelector(`.dc-unit-title[data-unit="${u}"]`); if (el) el.value = v; }); }
+    if (data.__sdgs) { Object.entries(data.__sdgs).forEach(([u, v]) => { const el = document.querySelector(`[data-sdg="${u}"]`); if (el) el.value = v; }); }
+    document.getElementById('dc-meth-assistant')?.dispatchEvent(new Event('change'));
+    updateObjExamples();
+    updateSpcTotal();
+    updateTermTotal();
+    syncUserContext();
+  } catch(e) { console.warn('Step 2 restore failed', e); }
+}
+
+/* ─── Laws data ─── */
+const LAWS_DATA = [
+  { id:'lomloe',  essential:true,  name:'LOMLOE',               full:'Ley Orgánica 3/2020, de 29 de diciembre, de modificación de la LOMCE', regulates:'Main national organic law governing the Spanish education system.', checked:true },
+  { id:'rd157',   essential:true,  name:'RD 157/2022',          full:'Real Decreto 157/2022, de 1 de marzo (enseñanzas mínimas Educación Primaria)', regulates:'Sets national minimum teaching requirements and curricular structure for Primary.', checked:true },
+  { id:'d209',    essential:true,  name:'Decree 209/2022',      full:'Decreto 209/2022, de 17 de noviembre (currículo Educación Primaria, Región de Murcia)', regulates:'Adapts national Primary curriculum to the Region of Murcia.', checked:true },
+  { id:'d359',    essential:true,  name:'Decree 359/2009',      full:'Decreto 359/2009, de 30 de octubre (respuesta educativa a la diversidad, Murcia)', regulates:'Regulates attention to diversity and SEN provision in Murcia schools.', checked:true },
+  { id:'res2023', essential:true,  name:'Res. 20 Nov 2023',     full:'Resolución de 20 de noviembre de 2023 (Dirección General de Atención a la Diversidad)', regulates:'Specific guidance on inclusive education and diversity measures for Murcia.', checked:true },
+  { id:'cefr',    essential:true,  name:'CEFR',                 full:'Common European Framework of Reference for Languages — Council of Europe (2001, updated 2018)', regulates:'International framework defining A1–C2 language levels used to benchmark programmes.', checked:true },
+  { id:'rd243',   essential:false, name:'RD 243/2022',          full:'Real Decreto 243/2022, de 5 de abril (enseñanzas mínimas Bachillerato)', regulates:'Optional reference for continuity with secondary/Baccalaureate level.', checked:false },
+  { id:'res2025', essential:false, name:'Res. 24 Jul 2025',     full:'Resolución de 24 de julio de 2025 (instrucciones inicio de curso, Primaria Murcia)', regulates:'Annual start-of-year instructions from Murcia authority — cite if starting Sept 2025.', checked:false },
+];
+
+function renderLawsList() {
+  return LAWS_DATA.map(law => `
+    <div class="dc-law-item${law.essential ? ' essential' : ''}">
+      <input type="checkbox" data-lawid="${law.id}" ${law.checked ? 'checked' : ''} onchange="scheduleSave()">
+      <div class="dc-law-label">
+        <div class="dc-law-name">${law.name}${law.essential ? ' <span style="font-size:.7rem;color:var(--granate)">essential</span>' : ''}</div>
+        <div class="dc-law-desc">${law.regulates}</div>
+      </div>
+      <span class="dc-law-tip">ⓘ<span class="dc-tip-content"><strong>${law.name}</strong><br>${law.full}<br><br>${law.regulates}${!law.essential ? '<br><em>Optional — include if relevant to your programme.</em>' : ''}</span></span>
+    </div>`).join('');
+}
+
+/* ─── Autofill texts ─── */
+const AUTOFILL_TEXTS = {
+  'setting-location': () => `Our school is situated in ${ucv('schoolLocation')}, a neighbourhood that benefits from stable employment and an active professional community. The area has a rich cultural diversity, with families from a range of national backgrounds contributing to a dynamic learning environment.`,
+  'setting-school': () => { const cs = parseInt(userContext.classSize)||25; return `This is an average-sized state school catering to children in Primary Education with approximately ${cs*6} pupils on roll, organised into six classes of approximately ${cs} pupils each. The school features modern, well-maintained facilities including a STEM classroom, a music suite, a sports hall, and a dedicated English corner equipped with authentic materials including magazines, graded readers, and DVDs.`; },
+  'addr-level': () => `The group's average level of English corresponds to ${ucv('engLevel')} on the CEFR scale, appropriate for ${ucv('yearGroup')} learners at this stage of Primary Education. The group shows a range of proficiency levels: some pupils demonstrate above-average fluency and confidence, while others require additional scaffolding and adapted materials to access the content effectively.`,
+  'addr-interests': () => `Our ${ucv('classSize','group of')} pupils show strong interest in ${ucv('interests')}. These themes have been carefully integrated into our learning situations to ensure maximum engagement and intrinsic motivation throughout the programme.`,
+  'div-general': () => `General diversity measures implemented across all units include: activities graded in difficulty from highly controlled tasks (binary options, matching) to less controlled ones (role plays, open writing tasks); extension tasks for fast-finishers requiring higher-order thinking; reinforcement worksheets providing additional scaffolding for pupils who need extra support; flexible groupings adapted to the nature of each task; and the use of ICT tools to present content through multiple modalities in line with the Universal Design for Learning framework (Meyer, Rose & Gordon, 2014).`,
+  'meth-assistant': () => { const nat = ucv('assistantNationality','native-speaking'); const ses = ucv('assistantSessions','several'); return `Our group benefits from the support of a language assistant of ${nat} origin, who attends ${ses} sessions per week. The language assistant plays a key role in enhancing pupils' fluency through authentic speaking practice, cultural insights, and real-life language interactions, providing students with greater exposure to the target language and serving as a genuine linguistic and cultural model.`; },
+  'seq-intro': () => { const spp = ucv('sessionCount','[N]'); const tot = parseInt(spp) ? parseInt(spp)*35 : '[total]'; return `Our teaching programme foresees a total of approximately ${tot} sessions per academic year, based on ${spp} sessions per week across approximately 35 teaching weeks. Taking into account the time devoted to diagnostic evaluation, summative assessment sessions, and complementary activities, we have planned a total of 12 didactic units distributed across the three terms as shown in the table below.`; },
+  'comm-edvoice': () => `EdVoice is our priority official communication application, featuring a corporate licence provided by the regional educational authorities. It includes read receipts, giving communications an official status, and allows the management team and teachers to send general, group, or individual notifications to families. It is also the official channel for collecting digital signatures for excursion authorisations.`,
+  'biblio-standard': () => `Ausubel, D.P. (1960). The use of advance organizers in the learning and retention of meaningful verbal material. Journal of Educational Psychology, 51(5), 267–272.\nBruner, J.S. (1960). The process of education. Harvard University Press.\nCanale, M. & Swain, M. (1980). Theoretical bases of communicative approaches to second language teaching and testing. Applied Linguistics, 1(1), 1–47.\nCorder, S.P. (1967). The significance of learner's errors. International Review of Applied Linguistics, 5(4), 161–170.\nEllis, R. (1991). The study of second language acquisition. Oxford University Press.\nHymes, D.H. (1972). On communicative competence. In J.B. Pride & J. Holmes (Eds.), Sociolinguistics (pp. 269–293). Penguin.\nKrashen, S. (1982). Principles and practice in second language acquisition. Pergamon Press.\nLittlewood, W. (1981). Communicative language teaching. Cambridge University Press.\nLong, M.H. (1991). Focus on form: A design feature in language teaching methodology. In K. De Bot et al. (Eds.), Foreign language research in cross-cultural perspective (pp. 39–52). John Benjamins.\nMeyer, A., Rose, D.H. & Gordon, D. (2014). Universal Design for Learning: Theory and practice. CAST Professional Publishing.\nPiaget, J. (1954). The construction of reality in the child. Basic Books.\nPrabhu, N.S. (1987). Second language pedagogy. Oxford University Press.\nRosenshine, B. (2010). Principles of instruction. International Bureau of Education, UNESCO.\nSchmidt, R. (1990). The role of consciousness in second language learning. Applied Linguistics, 11(2), 129–158.\nSelinker, L. (1972). Interlanguage. International Review of Applied Linguistics, 10(3), 209–231.\nSmith, F. (1996). Reading without nonsense (4th ed.). Teachers College Press.\nVygotsky, L.S. (1978). Mind in society. Harvard University Press.\nWood, D., Bruner, J.S. & Ross, G. (1976). The role of tutoring in problem solving. Journal of Child Psychology and Psychiatry, 17(2), 89–100.`,
+  'laws-paragraph': () => { const yr = ucv('yearGroup','this year group'); return `The present programme has been designed in accordance with the main legislative framework governing Primary Education. At the national level, Ley Orgánica 3/2020, de 29 de diciembre, de modificación de la LOMCE (LOMLOE) constitutes the overarching legal framework, complemented by Real Decreto 157/2022, de 1 de marzo (RD 157/2022), which establishes the minimum teaching requirements and curricular structure for Primary Education across Spain. At the regional level, Decreto 209/2022, de 17 de noviembre (D.209/2022) adapts this national framework to the specific educational context of the Región de Murcia. In matters of attention to diversity and inclusion, reference is made to Decreto 359/2009, de 30 de octubre (D.359/2009) and the Resolución de 20 de noviembre de 2023. The design of language learning experiences is further informed by the Common European Framework of Reference for Languages (CEFR) published by the Council of Europe (2001, updated 2018), which provides the reference framework for the progressive development of communicative competence throughout the ${yr} stage.`; },
+};
+
+function doAutofill(inputId, key) {
+  const el = document.getElementById(inputId);
+  if (!el) return;
+  const textFn = AUTOFILL_TEXTS[key];
+  if (!textFn) return;
+  const text = textFn();
+  if (el.value.trim()) {
+    if (!confirm('Replace your text with the model suggestion?\n\nClick OK to replace, Cancel to keep your text.')) return;
+  }
+  el.value = text;
+  el.dispatchEvent(new Event('input'));
+  scheduleSave();
+}
+
+/* ─── Universal question card builder ─── */
+function qCard({ id, label, tip, structured, placeholder, autofillKey, optional = false, rows = 3, required = false }) {
+  const req = required || (!optional);
+  return `<div class="dc-q-card">
+    <div class="dc-q-label-row">
+      <label class="dc-q-label">${label}${req ? ' <span class="dc-req">*</span>' : ''}</label>
+      ${tip ? `<span class="dc-q-tip">ⓘ<span class="dc-tip-content">${tip}</span></span>` : ''}
+    </div>
+    ${structured ? `<div class="dc-q-structured">${structured}</div>` : ''}
+    <div class="dc-q-freetext-wrap">
+      <textarea class="dc-q-textarea" id="${id}" rows="${rows}" placeholder="${placeholder}" oninput="scheduleSave();syncUserContext()"></textarea>
+      ${autofillKey ? `<button class="btn-autofill" type="button" onclick="doAutofill('${id}','${autofillKey}')">✨ Autofill with model text</button>` : ''}
+    </div>
+  </div>`;
+}
+
 /* ─── Step 2: Context Form ─── */
 function buildContextForm() {
   const form = document.getElementById('draft-context-form');
   if (!form) return;
   const selected = DRAFT_SECTIONS.filter(s => draftSelectedSections.has(s.id));
   form.innerHTML = selected.map(s => buildSectionCard(s)).join('');
-  // wire SPC sum live counter
-  wireSpcCounter();
+  wireStep2Events();
+  restoreStep2Answers();
 }
 
 function buildSectionCard(s) {
-  const questions = getSectionQuestions(s.id);
-  if (!questions) {
-    return `<div class="dc-section-card">
+  const content = getSectionQuestions(s.id);
+  if (!content) {
+    return `<div class="dc-section-card" id="dc-card-${s.id}">
       <div class="dc-section-title">${s.num ? s.num + '. ' : ''}${s.label}</div>
       <div class="dc-auto-notice">This section follows the standard FUSTERSAURA model closely. The AI will generate it using best practice content with no additional questions needed.</div>
     </div>`;
   }
   return `<div class="dc-section-card" id="dc-card-${s.id}">
     <div class="dc-section-title">${s.num ? s.num + '. ' : ''}${s.label}</div>
-    ${questions}
+    ${content}
   </div>`;
 }
 
@@ -3300,103 +3517,175 @@ function getSectionQuestions(id) {
   switch(id) {
     case 'cover': return `
       <div class="dc-row-2">
-        <div class="dc-field"><label class="dc-label">Full name *</label><input class="dc-input" id="dc-cover-name" required placeholder="e.g. María García Pérez"></div>
-        <div class="dc-field"><label class="dc-label">ID number (DNI/NIE) *</label><input class="dc-input" id="dc-cover-id" required placeholder="12345678A"></div>
+        <div class="dc-field">
+          <label class="dc-label">Full name <span class="dc-req">*</span> <span class="dc-q-tip">ⓘ<span class="dc-tip-content">Write your name as it appears on your ID document. Assessors check this matches your exam registration. Common error: using a nickname or shortened name.</span></span></label>
+          <input class="dc-input" id="dc-cover-name" required placeholder="e.g. María García Pérez" oninput="scheduleSave();syncUserContext()">
+        </div>
+        <div class="dc-field">
+          <label class="dc-label">ID number (DNI/NIE) <span class="dc-req">*</span></label>
+          <input class="dc-input" id="dc-cover-id" required placeholder="12345678A" oninput="scheduleSave()">
+        </div>
       </div>
       <div class="dc-row-2">
-        <div class="dc-field"><label class="dc-label">Year group *</label>
-          <select class="dc-select" id="dc-cover-year" required>
+        <div class="dc-field">
+          <label class="dc-label">Year group <span class="dc-req">*</span> <span class="dc-q-tip">ⓘ<span class="dc-tip-content">Select the year group your teaching plan is designed for. This will be used throughout the questionnaire and draft. Common error: selecting the wrong year and mismatching the objectives.</span></span></label>
+          <select class="dc-select" id="dc-cover-year" required onchange="scheduleSave();syncUserContext()">
             <option value="">Select…</option>
             ${[1,2,3,4,5,6].map(n=>`<option>Year ${n}</option>`).join('')}
           </select>
         </div>
-        <div class="dc-field"><label class="dc-label">Examining board number *</label><input class="dc-input" id="dc-cover-board" required placeholder="e.g. 30012345"></div>
+        <div class="dc-field">
+          <label class="dc-label">Examining board number <span class="dc-req">*</span></label>
+          <input class="dc-input" id="dc-cover-board" required placeholder="e.g. 30012345" oninput="scheduleSave()">
+        </div>
       </div>`;
+
     case 'introduction':
-    case 'justification': return `
+    case 'justification': {
+      const yearPreFilled = userContext.yearGroup ? `<option selected>${userContext.yearGroup}</option>` : '';
+      return `
       <div class="dc-row-2">
-        <div class="dc-field"><label class="dc-label">Year group *</label>
-          <select class="dc-select" id="dc-intro-year" required>
+        <div class="dc-field">
+          <label class="dc-label">Year group <span class="dc-req">*</span> <span class="dc-q-tip">ⓘ<span class="dc-tip-content">If you filled this in the Cover section it is already captured. Select here if Cover is not included.</span></span></label>
+          <select class="dc-select" id="dc-intro-year" onchange="scheduleSave();syncUserContext()">
             <option value="">Select…</option>
-            ${[1,2,3,4,5,6].map(n=>`<option>Year ${n}</option>`).join('')}
+            ${userContext.yearGroup ? `<option selected>${userContext.yearGroup}</option>` : [1,2,3,4,5,6].map(n=>`<option>Year ${n}</option>`).join('')}
           </select>
         </div>
-        <div class="dc-field"><label class="dc-label">Programme start term *</label>
-          <select class="dc-select" id="dc-intro-term" required>
+        <div class="dc-field">
+          <label class="dc-label">Programme start term <span class="dc-req">*</span> <span class="dc-q-tip">ⓘ<span class="dc-tip-content">Most programmes start in September. If yours starts mid-year (e.g. January intake) specify that here. Common error: leaving this blank and having an inconsistent programme start in the text.</span></span></label>
+          <select class="dc-select" id="dc-intro-term" required onchange="scheduleSave()">
             <option value="">Select…</option>
             <option>September</option><option>January</option><option>April</option>
           </select>
         </div>
       </div>
-      <div class="dc-field"><label class="dc-label">Any specific legislative resolution to mention? (optional)</label><input class="dc-input" id="dc-intro-law" placeholder="e.g. Resolución de 17 de junio de 2024…"></div>`;
+      ${qCard({ id:'dc-ft-laws', label:'Legal framework', optional:true, rows:5,
+        tip:'List the laws that govern your programme in the correct order: national → regional → specific → international. Assessors check that LOMLOE and D.209/2022 are cited correctly in full on first mention.',
+        structured: `<div class="dc-laws-list">${renderLawsList()}</div>`,
+        placeholder:'e.g. The present programme is governed by Ley Orgánica 3/2020, de 29 de diciembre (LOMLOE)…',
+        autofillKey:'laws-paragraph' })}`;
+    }
+
     case 'setting': return `
-      <div class="dc-field"><label class="dc-label">School neighbourhood description *</label><textarea class="dc-textarea" id="dc-setting-area" required placeholder="e.g. The school is located in a semi-urban area in the outskirts of Murcia city…"></textarea></div>
-      <div class="dc-row-2">
-        <div class="dc-field"><label class="dc-label">Approximate number of pupils *</label><input class="dc-input" id="dc-setting-pupils" required type="number" min="1" max="50" placeholder="e.g. 25"></div>
-        <div class="dc-field"><label class="dc-label">Girls / Boys *</label><input class="dc-input" id="dc-setting-gender" required placeholder="e.g. 13 girls, 12 boys"></div>
-      </div>
-      <div class="dc-field"><label class="dc-label">Nationalities present *</label><input class="dc-input" id="dc-setting-nationalities" required placeholder="e.g. Spanish, Moroccan, Romanian"></div>
-      <div class="dc-field"><label class="dc-label">Notable school projects? (optional)</label><input class="dc-input" id="dc-setting-projects" placeholder="e.g. Erasmus+, bilingual programme, STEM…"></div>
-      <div class="dc-field"><label class="dc-label">Specific facilities? (optional)</label><input class="dc-input" id="dc-setting-facilities" placeholder="e.g. interactive whiteboard, computer lab…"></div>`;
+      ${qCard({ id:'dc-ft-setting-location', label:'School neighbourhood description', rows:3,
+        tip:'Describe the social and economic context of the school neighbourhood in 1–2 sentences. Assessors look for: stability of the community, cultural diversity, and any socioeconomic factors relevant to the teaching approach. Common error: copying generic text that does not match the actual school location.',
+        structured:`<input class="dc-input" id="dc-setting-location-input" placeholder="City/neighbourhood name (e.g. Murcia city centre)" oninput="scheduleSave();syncUserContext()">`,
+        placeholder:'e.g. Our school is situated in a semi-urban area on the outskirts of Murcia, a neighbourhood with a diverse professional community…',
+        autofillKey:'setting-location' })}
+      ${qCard({ id:'dc-ft-setting-school', label:'School description', rows:3,
+        tip:'Describe the school type, size, and key facilities. Assessors expect: state/concerted status, approximate number of pupils, and mention of any relevant specialist facilities. Common error: omitting the English corner or language-specific resources.',
+        structured:`<div class="dc-row-2">
+          <div class="dc-field"><label class="dc-label">Number of pupils *</label><input class="dc-input" id="dc-setting-pupils" required type="number" min="1" max="50" placeholder="e.g. 25" oninput="scheduleSave();syncUserContext()"></div>
+          <div class="dc-field"><label class="dc-label">Girls / Boys *</label><input class="dc-input" id="dc-setting-gender" required placeholder="e.g. 13 girls, 12 boys" oninput="scheduleSave();syncUserContext()"></div>
+        </div>`,
+        placeholder:'e.g. This is an average-sized state school with approximately 150 pupils. Facilities include a STEM lab, music suite, and English corner…',
+        autofillKey:'setting-school' })}
+      ${qCard({ id:'dc-ft-setting-nationalities', label:'Nationalities present', rows:2,
+        tip:'List the nationalities represented in your class. Assessors check this is consistent with the diversity measures section. Common error: writing "mainly Spanish" without specifying actual nationalities.',
+        structured:`<input class="dc-input" id="dc-setting-nationalities" required placeholder="e.g. Spanish, Moroccan, Romanian" oninput="scheduleSave()">`,
+        placeholder:'e.g. The class includes pupils of Spanish, Moroccan, and Romanian nationality, reflecting the multicultural character of the neighbourhood…' })}
+      ${qCard({ id:'dc-ft-setting-projects', label:'Notable school projects', optional:true, rows:2,
+        tip:'Mention any relevant whole-school projects (Erasmus+, bilingual programme, STEM certification, etc.). Assessors appreciate projects that are directly integrated into the English programme.',
+        structured:`<input class="dc-input" id="dc-setting-projects" placeholder="e.g. Erasmus+, bilingual programme, STEM…" oninput="scheduleSave()">`,
+        placeholder:'e.g. The school participates in the Erasmus+ programme and holds a STEM certification from the regional authority…' })}`;
+
     case 'addressees': return `
-      <div class="dc-field"><label class="dc-label">Average English level of the group *</label>
-        <select class="dc-select" id="dc-addr-level" required>
-          <option value="">Select…</option>
+      ${qCard({ id:'dc-ft-addr-level', label:'Average English level of the group', rows:3,
+        tip:'State the CEFR level and explain the range within the group. Assessors expect: CEFR reference, mention of range (strongest to weakest pupils), and any implications for methodology. Common error: stating only the average level without acknowledging the range.',
+        structured:`<select class="dc-select" id="dc-addr-level" required onchange="scheduleSave();syncUserContext()">
+          <option value="">Select CEFR level…</option>
           <option>Pre-A1</option><option>A1</option><option>A1-A2</option>
-        </select>
-      </div>
-      <div class="dc-field"><label class="dc-label">Any SEN students? If yes, briefly describe (optional)</label><textarea class="dc-textarea" id="dc-addr-sen" placeholder="e.g. One student with dyslexia, one with ADHD…"></textarea></div>
-      <div class="dc-field"><label class="dc-label">Main interests and motivations of the group *</label><input class="dc-input" id="dc-addr-interests" required placeholder="e.g. games, music, sports, technology…"></div>`;
+        </select>`,
+        placeholder:'e.g. The group's average level corresponds to A1 on the CEFR scale. Some pupils demonstrate above-average fluency while others require additional scaffolding…',
+        autofillKey:'addr-level' })}
+      ${qCard({ id:'dc-ft-addr-sen', label:'SEN students', optional:true, rows:2,
+        tip:'Briefly describe any students with special educational needs and their specific diagnoses or accommodations. Assessors check consistency between this section and the Attention to Diversity section.',
+        placeholder:'e.g. One student has been diagnosed with dyslexia and benefits from larger fonts and oral alternatives to written tests; one student has ADHD and requires frequent movement breaks…' })}
+      ${qCard({ id:'dc-ft-addr-interests', label:'Main interests and motivations', rows:2,
+        tip:'Describe the group\'s main interests as they inform the learning situations. Assessors look for clear links between stated interests and the unit themes in Section 9. Common error: listing interests that do not appear anywhere in the unit titles.',
+        structured:`<input class="dc-input" id="dc-addr-interests-input" required placeholder="e.g. games, music, sports, technology…" oninput="scheduleSave();syncUserContext()">`,
+        placeholder:'e.g. Our 25 pupils show strong interest in music, sport, and digital technology. These themes have been integrated into our learning situations to maximise engagement…',
+        autofillKey:'addr-interests' })}`;
+
     case 'diversity': return `
-      <div class="dc-field"><label class="dc-label">Specific SEN students and their needs (optional)</label><textarea class="dc-textarea" id="dc-div-sen" placeholder="e.g. 1 student with ASD, 2 with reading difficulties…"></textarea></div>
-      <div class="dc-field"><label class="dc-label">General diversity measures used</label>
-        <div class="dc-checkgroup">
+      ${qCard({ id:'dc-ft-div-sen', label:'Specific SEN students and their needs', optional:true, rows:2,
+        tip:'If there are SEN students, describe their specific diagnoses, adaptations used, and any ACNEAE/ACE support plans. Assessors check this is consistent with the Addressees section. Common error: repeating the same generic sentence without specifying the student\'s actual needs.',
+        placeholder:'e.g. One student presents dyslexia (ACNEAE): materials are adapted with larger fonts and dyslexia-friendly fonts; oral assessment alternatives are provided for written tests…' })}
+      ${qCard({ id:'dc-ft-div-general', label:'General diversity measures', rows:4,
+        tip:'Describe the differentiation strategies applied across all units. Assessors look for: graded tasks (controlled → less controlled), extension activities, reinforcement tasks, flexible groupings, and UDL references. Common error: listing strategies without explaining how they are implemented.',
+        structured:`<div class="dc-checkgroup">
           ${['Extension tasks','Reinforcement worksheets','Flipped classroom','Flexible groupings','ICT adaptations','Adapted materials'].map(m=>`
-          <label class="dc-check-item"><input type="checkbox" class="dc-div-measure" value="${m}"> ${m}</label>`).join('')}
-        </div>
-      </div>`;
+          <label class="dc-check-item"><input type="checkbox" class="dc-div-measure" value="${m}" onchange="scheduleSave()"> ${m}</label>`).join('')}
+        </div>`,
+        placeholder:'e.g. General measures include activities graded from controlled (matching, gap-fill) to less controlled (role play, open writing); extension tasks for fast-finishers requiring higher-order thinking…',
+        autofillKey:'div-general' })}`;
+
     case 'stage_obj': return `
-      <div class="dc-field"><label class="dc-label">Which three stage objectives does English contribute to most directly? *</label>
-        <div class="dc-checkgroup" id="dc-obj-checkgroup">
-          ${['a','b','c','d','e','f','g','h','i','j','k','l','m','n'].map(l=>`
-          <label class="dc-check-item"><input type="checkbox" class="dc-obj-check" value="${l}"> ${l}</label>`).join('')}
-        </div>
-      </div>
-      <div id="dc-obj-examples"></div>`;
+      ${qCard({ id:'dc-ft-stage-obj', label:'Stage objectives and unit examples', rows:4,
+        tip:'Select 3 objectives from LOMLOE that English contributes to most directly, and for each provide a brief unit example. Assessors check that the objectives are directly evidenced in your units. Common error: selecting objectives that do not appear in any learning situation.',
+        structured:`<div>
+          <div class="dc-checkgroup" id="dc-obj-checkgroup" style="margin-bottom:8px">
+            ${['a','b','c','d','e','f','g','h','i','j','k','l','m','n'].map(l=>`
+            <label class="dc-check-item"><input type="checkbox" class="dc-obj-check" value="${l}" onchange="updateObjExamples();scheduleSave()"> ${l}</label>`).join('')}
+          </div>
+          <div id="dc-obj-examples"></div>
+        </div>`,
+        placeholder:'e.g. Objectives b, f and h are those English contributes to most directly. Objective b (communication) is addressed in Unit 3 through the "My City" project where pupils give spoken presentations…' })}`;
+
     case 'methodology': return `
-      <div class="dc-field"><label class="dc-label">Additional apps or tools beyond standard ones (optional)</label><input class="dc-input" id="dc-meth-tools" placeholder="e.g. Kahoot, Genially, Canva for Education…"></div>
-      <div class="dc-row-2">
-        <div class="dc-field"><label class="dc-label">Language assistant? *</label>
-          <select class="dc-select" id="dc-meth-assistant" required>
-            <option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option>
-          </select>
-        </div>
-        <div class="dc-field" id="dc-meth-assistant-detail-wrap" style="display:none">
-          <label class="dc-label">Nationality &amp; sessions/week</label>
-          <input class="dc-input" id="dc-meth-assistant-detail" placeholder="e.g. American, 2 sessions/week">
-        </div>
-      </div>`;
+      ${qCard({ id:'dc-ft-meth-tools', label:'Digital tools and apps used', optional:true, rows:2,
+        tip:'List any apps or digital tools used beyond the standard textbook platform. Assessors appreciate specific tool names with brief explanations of their pedagogical purpose. Common error: listing tools without linking them to specific activities or learning outcomes.',
+        structured:`<input class="dc-input" id="dc-meth-tools" placeholder="e.g. Kahoot, Genially, Canva for Education…" oninput="scheduleSave()">`,
+        placeholder:'e.g. Beyond the standard platform, we use Kahoot for vocabulary review, Genially for interactive reading tasks, and Canva to develop digital literacy…' })}
+      ${qCard({ id:'dc-ft-meth-assistant', label:'Language assistant', rows:3,
+        tip:'If you have a language assistant, describe their role clearly. Assessors look for: nationality, sessions per week, specific activities they lead, and their cultural contribution. Common error: writing "we have an assistant" without specifying their role.',
+        structured:`<div class="dc-row-2">
+          <div class="dc-field"><label class="dc-label">Language assistant? *</label>
+            <select class="dc-select" id="dc-meth-assistant" required onchange="scheduleSave();syncUserContext();toggleAssistantDetail()">
+              <option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option>
+            </select>
+          </div>
+          <div class="dc-field" id="dc-meth-assistant-detail-wrap" style="display:none">
+            <label class="dc-label">Nationality &amp; sessions/week</label>
+            <input class="dc-input" id="dc-meth-assistant-detail" placeholder="e.g. American, 2 sessions/week" oninput="scheduleSave();syncUserContext()">
+          </div>
+        </div>`,
+        placeholder:'e.g. Our group benefits from a language assistant of American origin, attending 2 sessions per week. They lead authentic conversation activities and provide cultural insights…',
+        autofillKey:'meth-assistant' })}`;
+
     case 'sequencing': return `
-      <div class="dc-field"><label class="dc-label">Sessions per week *</label>
-        <select class="dc-select" id="dc-seq-sessions" required>
-          <option value="">Select…</option><option>3</option><option>4</option><option>5</option>
-        </select>
-      </div>
-      <div class="dc-field"><label class="dc-label">Unit titles and SDG connections *</label>
+      ${qCard({ id:'dc-ft-seq-intro', label:'Programme overview and sequencing', rows:3,
+        tip:'Introduce the sequencing section with total annual sessions, distribution across terms, and the rationale for unit distribution. Assessors look for: correct session count, consistency between sessions/week and yearly total, and a clear 3-term distribution.',
+        structured:`<select class="dc-select" id="dc-seq-sessions" required onchange="scheduleSave();syncUserContext()">
+          <option value="">Sessions per week…</option><option>3</option><option>4</option><option>5</option>
+        </select>`,
+        placeholder:'e.g. Our programme foresees approximately 140 sessions per year (4 per week × 35 weeks). We have planned 12 units distributed 4-4-4 across the three terms…',
+        autofillKey:'seq-intro' })}
+      <div class="dc-q-card">
+        <div class="dc-q-label-row">
+          <label class="dc-q-label">Unit titles and SDG connections <span class="dc-req">*</span></label>
+          <span class="dc-q-tip">ⓘ<span class="dc-tip-content">Provide a title for each of your 12 units and the Sustainable Development Goal (SDG) it connects to. Assessors check that SDG numbers are valid (1–17) and that the connection is plausible. Common error: assigning SDG 4 (Education) to every unit instead of showing genuine thematic variety.</span></span>
+        </div>
         <div id="dc-seq-units">
           ${Array.from({length:12},(_,i)=>`
           <div class="dc-unit-row">
-            <input class="dc-input dc-unit-title" required placeholder="Unit ${i+1} title" data-unit="${i+1}">
-            <input class="dc-input" style="width:80px" placeholder="SDG#" data-sdg="${i+1}">
+            <input class="dc-input dc-unit-title" required placeholder="Unit ${i+1} title" data-unit="${i+1}" oninput="scheduleSave()">
+            <input class="dc-input" style="width:80px" placeholder="SDG#" data-sdg="${i+1}" oninput="scheduleSave()">
           </div>`).join('')}
         </div>
       </div>`;
+
     case 'assessment_learning': return `
-      <div class="dc-field"><label class="dc-label">Percentage weight per specific competence (must total 100%) *</label>
+      <div class="dc-q-card">
+        <div class="dc-q-label-row">
+          <label class="dc-q-label">Percentage weight per specific competence (must total 100%) <span class="dc-req">*</span></label>
+          <span class="dc-q-tip">ⓘ<span class="dc-tip-content">Assign a percentage to each of the 6 specific competences (SPC1–SPC6). The total must be exactly 100. Assessors check that weightings are reasonable (no single competence over 35%). Common error: giving equal weighting to all six without justifying it.</span></span>
+        </div>
         ${[1,2,3,4,5,6].map(n=>`
         <div class="dc-spc-row">
           <label>SPC${n}</label>
-          <input type="number" class="dc-input dc-spc-input" id="dc-spc-${n}" min="0" max="100" value="0" oninput="updateSpcTotal()">
+          <input type="number" class="dc-input dc-spc-input" id="dc-spc-${n}" min="0" max="100" value="0" oninput="updateSpcTotal();scheduleSave()">
           <span style="font-size:.8rem;color:var(--grey-400)">%</span>
         </div>`).join('')}
         <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
@@ -3404,52 +3693,73 @@ function getSectionQuestions(id) {
           <span class="dc-spc-total" id="dc-spc-total">0 / 100</span>
         </div>
       </div>`;
+
     case 'eval_teaching': return `
-      <div class="dc-field"><label class="dc-label">Units planned per term (must total 12) *</label>
+      <div class="dc-q-card">
+        <div class="dc-q-label-row">
+          <label class="dc-q-label">Units planned per term (must total 12) <span class="dc-req">*</span></label>
+          <span class="dc-q-tip">ⓘ<span class="dc-tip-content">Distribute your 12 units across 3 terms. A typical distribution is 4-4-4 or 4-4-4, though 3-4-5 or similar is acceptable if justified. Common error: planning more than 12 total units or leaving terms unbalanced without explanation.</span></span>
+        </div>
         <div class="dc-row-2">
-          <div class="dc-field"><label class="dc-label">Term 1</label><input type="number" class="dc-input dc-term-input" id="dc-term-1" min="0" max="12" value="4" oninput="updateTermTotal()"></div>
-          <div class="dc-field"><label class="dc-label">Term 2</label><input type="number" class="dc-input dc-term-input" id="dc-term-2" min="0" max="12" value="4" oninput="updateTermTotal()"></div>
-          <div class="dc-field"><label class="dc-label">Term 3</label><input type="number" class="dc-input dc-term-input" id="dc-term-3" min="0" max="12" value="4" oninput="updateTermTotal()"></div>
+          <div class="dc-field"><label class="dc-label">Term 1</label><input type="number" class="dc-input dc-term-input" id="dc-term-1" min="0" max="12" value="4" oninput="updateTermTotal();scheduleSave()"></div>
+          <div class="dc-field"><label class="dc-label">Term 2</label><input type="number" class="dc-input dc-term-input" id="dc-term-2" min="0" max="12" value="4" oninput="updateTermTotal();scheduleSave()"></div>
+          <div class="dc-field"><label class="dc-label">Term 3</label><input type="number" class="dc-input dc-term-input" id="dc-term-3" min="0" max="12" value="4" oninput="updateTermTotal();scheduleSave()"></div>
         </div>
         <div style="margin-top:4px"><span class="dc-spc-total" id="dc-term-total">12 / 12</span></div>
       </div>`;
+
     case 'communication': return `
-      <div class="dc-row-2">
-        <div class="dc-field"><label class="dc-label">Language assistant? *</label>
-          <select class="dc-select" id="dc-comm-assistant" required>
-            <option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option>
-          </select>
+      ${qCard({ id:'dc-ft-comm-edvoice', label:'Communication with families — EdVoice', rows:3,
+        tip:'Describe the official communication app. Assessors expect specific mention of EdVoice as the priority platform, its official status (read receipts), and its role in collecting consent. Common error: describing generic email communication without naming EdVoice.',
+        structured:`<div class="dc-row-2">
+          <div class="dc-field"><label class="dc-label">Language assistant? *</label>
+            <select class="dc-select" id="dc-comm-assistant" required onchange="scheduleSave()">
+              <option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="dc-field"><label class="dc-label">Optional platforms used</label>
-        <div class="dc-checkgroup">
-          ${['Google Classroom','Additio','Other'].map(p=>`
-          <label class="dc-check-item"><input type="checkbox" class="dc-comm-platform" value="${p}"> ${p}</label>`).join('')}
-        </div>
-      </div>`;
+        <div class="dc-field" style="margin-top:8px"><label class="dc-label">Optional additional platforms</label>
+          <div class="dc-checkgroup">
+            ${['Google Classroom','Additio','Other'].map(p=>`
+            <label class="dc-check-item"><input type="checkbox" class="dc-comm-platform" value="${p}" onchange="scheduleSave()"> ${p}</label>`).join('')}
+          </div>
+        </div>`,
+        placeholder:'e.g. EdVoice is our priority official communication platform with corporate licence from the regional authority. It includes read receipts and is used for authorisation signatures…',
+        autofillKey:'comm-edvoice' })}`;
+
     case 'bibliography': return `
-      <div class="dc-field"><label class="dc-label">Additional references beyond standard FUSTERSAURA bibliography (optional)</label>
-        <textarea class="dc-textarea" id="dc-biblio-extra" placeholder="e.g. Harmer, J. (2015). The Practice of English Language Teaching…"></textarea>
-      </div>`;
+      ${qCard({ id:'dc-ft-biblio-standard', label:'Standard FUSTERSAURA bibliography', rows:8,
+        tip:'Include the full APA 7th edition bibliography. Assessors check that all key theorists are cited correctly and that legislation appears in the correct official format. Common error: mixing APA 6th and 7th edition formats, or omitting key theorists (Krashen, Vygotsky, Meyer).',
+        placeholder:'e.g. Ausubel, D.P. (1960). The use of advance organizers… Click Autofill to insert the full standard bibliography.',
+        autofillKey:'biblio-standard' })}
+      ${qCard({ id:'dc-biblio-extra', label:'Additional references (optional)', optional:true, rows:3,
+        tip:'Add any references beyond the standard list — e.g. your textbook series, additional methodology books, or school-specific documents.',
+        placeholder:'e.g. Harmer, J. (2015). The practice of English language teaching (5th ed.). Pearson Longman…' })}`;
+
     default: return null;
   }
 }
 
-function wireSpcCounter() {
-  // language assistant toggle
+function wireStep2Events() {
+  // Language assistant visibility toggle
   const methAssist = document.getElementById('dc-meth-assistant');
   if (methAssist) {
-    methAssist.addEventListener('change', () => {
-      const wrap = document.getElementById('dc-meth-assistant-detail-wrap');
-      if (wrap) wrap.style.display = methAssist.value === 'yes' ? '' : 'none';
-    });
+    methAssist.addEventListener('change', toggleAssistantDetail);
+    toggleAssistantDetail();
   }
-  // stage objectives -> dynamic unit example inputs
-  document.querySelectorAll('.dc-obj-check').forEach(cb => {
-    cb.addEventListener('change', updateObjExamples);
+  document.querySelectorAll('.dc-obj-check').forEach(cb => cb.addEventListener('change', updateObjExamples));
+  document.querySelectorAll('#draft-context-form input, #draft-context-form select, #draft-context-form textarea').forEach(el => {
+    el.addEventListener('input', scheduleSave);
+    el.addEventListener('change', scheduleSave);
   });
   updateSpcTotal();
   updateTermTotal();
+}
+
+function toggleAssistantDetail() {
+  const methAssist = document.getElementById('dc-meth-assistant');
+  const wrap = document.getElementById('dc-meth-assistant-detail-wrap');
+  if (wrap && methAssist) wrap.style.display = methAssist.value === 'yes' ? '' : 'none';
 }
 
 function updateObjExamples() {
@@ -3457,31 +3767,24 @@ function updateObjExamples() {
   const wrap = document.getElementById('dc-obj-examples');
   if (!wrap) return;
   wrap.innerHTML = checked.map(l => `
-    <div class="dc-field">
-      <label class="dc-label">Example unit for objective (${l})</label>
-      <input class="dc-input" id="dc-obj-ex-${l}" placeholder="Describe a unit activity that addresses this objective">
+    <div class="dc-field" style="margin-top:6px">
+      <label class="dc-label">Unit example for objective (${l})</label>
+      <input class="dc-input" id="dc-obj-ex-${l}" placeholder="Describe a unit activity addressing this objective" oninput="scheduleSave()">
     </div>`).join('');
 }
 
 function updateSpcTotal() {
-  const inputs = document.querySelectorAll('.dc-spc-input');
   let total = 0;
-  inputs.forEach(i => total += parseInt(i.value || 0, 10));
+  document.querySelectorAll('.dc-spc-input').forEach(i => total += parseInt(i.value || 0, 10));
   const el = document.getElementById('dc-spc-total');
-  if (el) {
-    el.textContent = `${total} / 100`;
-    el.classList.toggle('valid', total === 100);
-  }
+  if (el) { el.textContent = `${total} / 100`; el.classList.toggle('valid', total === 100); }
 }
 
 function updateTermTotal() {
   const vals = [1,2,3].map(n => parseInt(document.getElementById(`dc-term-${n}`)?.value || 0, 10));
   const total = vals.reduce((a,b)=>a+b,0);
   const el = document.getElementById('dc-term-total');
-  if (el) {
-    el.textContent = `${total} / 12`;
-    el.classList.toggle('valid', total === 12);
-  }
+  if (el) { el.textContent = `${total} / 12`; el.classList.toggle('valid', total === 12); }
 }
 
 /* ─── Step navigation ─── */
@@ -3496,11 +3799,13 @@ function draftGoStep(n) {
       else if (i === n) step.classList.add('active');
     }
   });
-  if (n === 2) buildContextForm();
+  if (n === 2) buildContextForm(); // buildContextForm calls restoreStep2Answers internally
   if (n === 1) buildDraftSectionGrid();
 }
 
 /* ─── Step 3: Generate ─── */
+function ft(id) { return document.getElementById(id)?.value?.trim() || ''; }
+
 function collectContextData() {
   const data = {};
   const selected = DRAFT_SECTIONS.filter(s => draftSelectedSections.has(s.id));
@@ -3508,64 +3813,76 @@ function collectContextData() {
     const d = {};
     switch(s.id) {
       case 'cover':
-        d.name = document.getElementById('dc-cover-name')?.value || '';
-        d.id = document.getElementById('dc-cover-id')?.value || '';
-        d.year = document.getElementById('dc-cover-year')?.value || '';
-        d.board = document.getElementById('dc-cover-board')?.value || '';
+        d.name   = ft('dc-cover-name');
+        d.id     = ft('dc-cover-id');
+        d.year   = ft('dc-cover-year');
+        d.board  = ft('dc-cover-board');
         break;
       case 'introduction':
       case 'justification':
-        d.year = document.getElementById('dc-intro-year')?.value || '';
-        d.term = document.getElementById('dc-intro-term')?.value || '';
-        d.law = document.getElementById('dc-intro-law')?.value || '';
+        d.year   = ft('dc-cover-year') || ft('dc-intro-year');
+        d.term   = ft('dc-intro-term');
+        d.laws   = ft('dc-ft-laws');
+        d.checkedLaws = Array.from(document.querySelectorAll('[data-lawid]:checked')).map(cb => {
+          const l = LAWS_DATA.find(x => x.id === cb.dataset.lawid);
+          return l ? l.name : cb.dataset.lawid;
+        });
         break;
       case 'setting':
-        d.area = document.getElementById('dc-setting-area')?.value || '';
-        d.pupils = document.getElementById('dc-setting-pupils')?.value || '';
-        d.gender = document.getElementById('dc-setting-gender')?.value || '';
-        d.nationalities = document.getElementById('dc-setting-nationalities')?.value || '';
-        d.projects = document.getElementById('dc-setting-projects')?.value || '';
-        d.facilities = document.getElementById('dc-setting-facilities')?.value || '';
+        d.location    = ft('dc-ft-setting-location');
+        d.school      = ft('dc-ft-setting-school');
+        d.pupils      = ft('dc-setting-pupils');
+        d.gender      = ft('dc-setting-gender');
+        d.nationalities = ft('dc-ft-setting-nationalities');
+        d.projects    = ft('dc-ft-setting-projects');
         break;
       case 'addressees':
-        d.level = document.getElementById('dc-addr-level')?.value || '';
-        d.sen = document.getElementById('dc-addr-sen')?.value || '';
-        d.interests = document.getElementById('dc-addr-interests')?.value || '';
+        d.level     = ft('dc-addr-level');
+        d.levelText = ft('dc-ft-addr-level');
+        d.sen       = ft('dc-ft-addr-sen');
+        d.interests = ft('dc-addr-interests-input');
+        d.interestsText = ft('dc-ft-addr-interests');
         break;
       case 'diversity':
-        d.sen = document.getElementById('dc-div-sen')?.value || '';
+        d.sen      = ft('dc-ft-div-sen');
+        d.general  = ft('dc-ft-div-general');
         d.measures = Array.from(document.querySelectorAll('.dc-div-measure:checked')).map(cb => cb.value);
         break;
       case 'stage_obj':
         d.objectives = Array.from(document.querySelectorAll('.dc-obj-check:checked')).map(cb => cb.value);
-        d.examples = {};
-        d.objectives.forEach(l => { d.examples[l] = document.getElementById(`dc-obj-ex-${l}`)?.value || ''; });
+        d.examples   = {};
+        d.objectives.forEach(l => { d.examples[l] = ft(`dc-obj-ex-${l}`); });
+        d.text = ft('dc-ft-stage-obj');
         break;
       case 'methodology':
-        d.tools = document.getElementById('dc-meth-tools')?.value || '';
-        d.assistant = document.getElementById('dc-meth-assistant')?.value || '';
-        d.assistantDetail = document.getElementById('dc-meth-assistant-detail')?.value || '';
+        d.tools          = ft('dc-meth-tools');
+        d.toolsText      = ft('dc-ft-meth-tools');
+        d.assistant      = ft('dc-meth-assistant');
+        d.assistantDetail = ft('dc-meth-assistant-detail');
+        d.assistantText  = ft('dc-ft-meth-assistant');
         break;
       case 'sequencing':
-        d.sessions = document.getElementById('dc-seq-sessions')?.value || '';
-        d.units = Array.from(document.querySelectorAll('.dc-unit-title')).map(el => ({
-          unit: el.dataset.unit,
-          title: el.value,
+        d.sessions   = ft('dc-seq-sessions');
+        d.introText  = ft('dc-ft-seq-intro');
+        d.units      = Array.from(document.querySelectorAll('.dc-unit-title')).map(el => ({
+          unit: el.dataset.unit, title: el.value,
           sdg: document.querySelector(`[data-sdg="${el.dataset.unit}"]`)?.value || ''
         }));
         break;
       case 'assessment_learning':
-        d.spc = [1,2,3,4,5,6].map(n => ({ name: `SPC${n}`, pct: document.getElementById(`dc-spc-${n}`)?.value || '0' }));
+        d.spc = [1,2,3,4,5,6].map(n => ({ name: `SPC${n}`, pct: ft(`dc-spc-${n}`) || '0' }));
         break;
       case 'eval_teaching':
-        d.terms = [1,2,3].map(n => ({ term: n, units: document.getElementById(`dc-term-${n}`)?.value || '0' }));
+        d.terms = [1,2,3].map(n => ({ term: n, units: ft(`dc-term-${n}`) || '0' }));
         break;
       case 'communication':
-        d.assistant = document.getElementById('dc-comm-assistant')?.value || '';
-        d.platforms = Array.from(document.querySelectorAll('.dc-comm-platform:checked')).map(cb => cb.value);
+        d.assistant  = ft('dc-comm-assistant');
+        d.edvoiceText = ft('dc-ft-comm-edvoice');
+        d.platforms  = Array.from(document.querySelectorAll('.dc-comm-platform:checked')).map(cb => cb.value);
         break;
       case 'bibliography':
-        d.extra = document.getElementById('dc-biblio-extra')?.value || '';
+        d.standard = ft('dc-ft-biblio-standard');
+        d.extra    = ft('dc-biblio-extra');
         break;
     }
     data[s.id] = d;
