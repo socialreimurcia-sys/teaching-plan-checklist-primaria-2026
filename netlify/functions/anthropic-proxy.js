@@ -14,12 +14,6 @@ exports.handler = async (event) => {
     const body = JSON.parse(event.body);
     const studentId = event.headers['x-student-id'] || null;
     const section = event.headers['x-section'] || null;
-    const isDraft = body.mode === 'draft';
-
-    // For draft mode allow larger max_tokens; cap at 4000 regardless
-    if (isDraft && (!body.max_tokens || body.max_tokens < 4000)) {
-      body.max_tokens = 4000;
-    }
     // Remove non-Anthropic fields before forwarding
     delete body.mode;
 
