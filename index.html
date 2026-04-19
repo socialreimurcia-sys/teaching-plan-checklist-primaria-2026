@@ -844,11 +844,95 @@
   .tab2-ai-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--navy); }
   .tab2-ai-subtitle { font-size: 0.78rem; color: var(--grey-600); margin-top: 2px; }
   .tab2-ai-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 14px; }
-  .tab2-ai-body .ai-section-select { font-size: 0.85rem; padding: 10px 12px; }
   .tab2-ai-body .ai-textarea { height: 140px; font-size: 0.82rem; }
   .tab2-ai-body .btn-analyze { padding: 12px; font-size: 0.88rem; }
-  .tab2-ai-body .ai-response { font-size: 0.82rem; max-height: 400px; }
+  .tab2-ai-body .ai-response { font-size: 0.82rem; max-height: 500px; }
   .tab2-ai-body .btn-download-pdf { font-size: 0.85rem; padding: 11px; }
+
+  /* ─── MULTI-SECTION SELECTOR ─── */
+  .section-multiselect { border: 1.5px solid var(--navy); border-radius: var(--radius-sm); overflow: hidden; }
+  .section-multiselect-controls {
+    display: flex; gap: 6px; padding: 8px 10px;
+    background: var(--navy); flex-wrap: wrap;
+  }
+  .btn-ms-ctrl {
+    padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.3);
+    background: none; color: rgba(255,255,255,0.85); font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: background 0.15s;
+  }
+  .btn-ms-ctrl:hover { background: rgba(255,255,255,0.15); }
+  .btn-ms-ctrl.common { border-color: var(--gold); color: var(--gold); }
+  .btn-ms-ctrl.common:hover { background: rgba(200,169,81,0.2); }
+  .section-multiselect-list {
+    max-height: 200px; overflow-y: auto; padding: 6px 0;
+    background: var(--white);
+  }
+  .section-multiselect-list::-webkit-scrollbar { width: 4px; }
+  .section-multiselect-list::-webkit-scrollbar-thumb { background: var(--grey-200); border-radius: 2px; }
+  .ms-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 5px 12px; cursor: pointer; font-size: 0.8rem;
+    color: var(--grey-800); transition: background 0.1s;
+  }
+  .ms-item:hover { background: var(--grey-50); }
+  .ms-item input[type="checkbox"] { accent-color: var(--navy); width: 14px; height: 14px; flex-shrink: 0; cursor: pointer; }
+  .ms-item.selected { background: var(--gold-pale); font-weight: 500; }
+  .section-pills {
+    display: flex; flex-wrap: wrap; gap: 6px; min-height: 28px;
+  }
+  .section-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px; background: var(--navy); color: var(--white);
+    border-radius: 12px; font-size: 0.72rem; font-weight: 600;
+  }
+  .section-pill button {
+    background: none; border: none; color: rgba(255,255,255,0.7);
+    cursor: pointer; font-size: 0.75rem; padding: 0; line-height: 1;
+  }
+  .section-pill button:hover { color: var(--gold); }
+
+  /* ─── SECTION SELECT/DESELECT BUTTONS ─── */
+  .btn-sec-all {
+    padding: 2px 8px; border-radius: 10px; border: 1px solid var(--navy);
+    background: none; color: var(--navy); font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem; font-weight: 600; cursor: pointer; transition: background 0.15s;
+    white-space: nowrap;
+  }
+  .btn-sec-all:hover { background: var(--navy); color: var(--white); }
+  .btn-sec-all.deselect { border-color: var(--grey-400); color: var(--grey-600); }
+  .btn-sec-all.deselect:hover { background: var(--grey-400); color: var(--white); }
+  .global-checklist-controls {
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  }
+  .btn-global-all {
+    padding: 6px 14px; border-radius: var(--radius-sm); border: 1.5px solid var(--navy);
+    background: none; color: var(--navy); font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: background 0.15s;
+  }
+  .btn-global-all:hover { background: var(--navy); color: var(--white); }
+  .btn-global-all.deselect { border-color: var(--grey-400); color: var(--grey-600); }
+  .btn-global-all.deselect:hover { background: var(--grey-400); color: var(--white); }
+
+  /* ─── FORMATTED AI RESPONSE ─── */
+  .ai-response h2 { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--navy); margin: 12px 0 6px; border-bottom: 1px solid var(--grey-200); padding-bottom: 4px; }
+  .ai-response h3 { font-family: 'DM Serif Display', serif; font-size: 0.9rem; color: var(--navy); margin: 10px 0 4px; }
+  .ai-response h4 { font-size: 0.82rem; font-weight: 700; color: var(--navy); margin: 8px 0 3px; }
+  .ai-response p { margin: 4px 0; }
+  .ai-response ul { margin: 4px 0 8px 16px; padding: 0; }
+  .ai-response li { margin-bottom: 3px; }
+  .ai-response .strength { color: var(--success); }
+  .ai-response .gap { color: var(--granate); }
+
+  /* ─── DOWNLOAD BUTTONS ROW ─── */
+  .download-btns-row { display: none; flex-direction: column; gap: 8px; }
+  .download-btns-row.visible { display: flex; }
+  .btn-dl-html {
+    width: 100%; padding: 9px; background: var(--gold-pale); color: var(--navy);
+    border: 1.5px solid var(--gold); border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif; font-size: 0.80rem; font-weight: 600;
+    cursor: pointer; transition: background 0.2s; text-align: center;
+  }
+  .btn-dl-html:hover { background: var(--gold); color: var(--white); }
 
   /* ─── LOGIN SCREEN ─── */
   .login-overlay {
@@ -1208,6 +1292,10 @@
 
     <!-- TAB 1: Checklist & Report -->
     <div id="tab1-main">
+      <div class="global-checklist-controls" style="margin-bottom:10px">
+        <button class="btn-global-all" id="btn-select-all-global">✓ Select All</button>
+        <button class="btn-global-all deselect" id="btn-deselect-all-global">✕ Deselect All</button>
+      </div>
       <div class="tab1-toolbar">
         <div class="search-wrap" style="flex:1;margin-bottom:0">
           <span class="search-icon">🔍</span>
@@ -1232,31 +1320,41 @@
           </div>
         </div>
         <div class="tab2-ai-body">
-          <select class="ai-section-select" id="ai-section-select">
-            <option value="">— Select a section —</option>
-            <option value="cover">Cover &amp; Table of Contents</option>
-            <option value="formatting">Formatting</option>
-            <option value="introduction">I. Introduction</option>
-            <option value="justification">2. Justification (Foundations)</option>
-            <option value="setting">3. Setting &amp; Addressees</option>
-            <option value="diversity">4. Attention to Diversity</option>
-            <option value="stage_obj">5.1 Stage Objectives</option>
-            <option value="key_comp">5.2 Key Competences &amp; Exit Profile</option>
-            <option value="spc">5.4 Specific Competences</option>
-            <option value="assessment_criteria">5.5 Assessment Criteria</option>
-            <option value="basic_knowledge">4.6 Basic Knowledge</option>
-            <option value="transversal">4.7 Transversal &amp; Interdisciplinary</option>
-            <option value="sequencing">9. Sequencing of Units</option>
-            <option value="unit_charts">Unit Charts</option>
-            <option value="methodology">10. Methodology</option>
-            <option value="materials">11. Materials &amp; Resources</option>
-            <option value="groupings">12. Groupings &amp; Layout</option>
-            <option value="reading">15. Reading Habits</option>
-            <option value="assessment_learning">15. Assessment of Learning</option>
-            <option value="eval_teaching">16. Evaluation of Teaching</option>
-            <option value="communication">17. Communication</option>
-            <option value="bibliography">18. Bibliography</option>
-          </select>
+          <!-- Multi-section selector -->
+          <div>
+            <div class="section-multiselect" id="section-multiselect">
+              <div class="section-multiselect-controls">
+                <button class="btn-ms-ctrl" onclick="msSelectAll()">Select All</button>
+                <button class="btn-ms-ctrl" onclick="msDeselectAll()">Deselect All</button>
+                <button class="btn-ms-ctrl common" onclick="msSelectCommon()">★ Select Common</button>
+              </div>
+              <div class="section-multiselect-list" id="ms-list">
+                <label class="ms-item" data-val="cover"><input type="checkbox" value="cover"> Cover &amp; Table of Contents</label>
+                <label class="ms-item" data-val="formatting"><input type="checkbox" value="formatting"> Formatting</label>
+                <label class="ms-item" data-val="introduction"><input type="checkbox" value="introduction"> I. Introduction</label>
+                <label class="ms-item" data-val="justification"><input type="checkbox" value="justification"> 2. Justification (Foundations)</label>
+                <label class="ms-item" data-val="setting"><input type="checkbox" value="setting"> 3. Setting &amp; Addressees</label>
+                <label class="ms-item" data-val="diversity"><input type="checkbox" value="diversity"> 4. Attention to Diversity</label>
+                <label class="ms-item" data-val="stage_obj"><input type="checkbox" value="stage_obj"> 5.1 Stage Objectives</label>
+                <label class="ms-item" data-val="key_comp"><input type="checkbox" value="key_comp"> 5.2 Key Competences &amp; Exit Profile</label>
+                <label class="ms-item" data-val="spc"><input type="checkbox" value="spc"> 5.4 Specific Competences</label>
+                <label class="ms-item" data-val="assessment_criteria"><input type="checkbox" value="assessment_criteria"> 5.5 Assessment Criteria</label>
+                <label class="ms-item" data-val="basic_knowledge"><input type="checkbox" value="basic_knowledge"> 4.6 Basic Knowledge</label>
+                <label class="ms-item" data-val="transversal"><input type="checkbox" value="transversal"> 4.7 Transversal &amp; Interdisciplinary</label>
+                <label class="ms-item" data-val="sequencing"><input type="checkbox" value="sequencing"> 9. Sequencing of Units</label>
+                <label class="ms-item" data-val="unit_charts"><input type="checkbox" value="unit_charts"> Unit Charts</label>
+                <label class="ms-item" data-val="methodology"><input type="checkbox" value="methodology"> 10. Methodology</label>
+                <label class="ms-item" data-val="materials"><input type="checkbox" value="materials"> 11. Materials &amp; Resources</label>
+                <label class="ms-item" data-val="groupings"><input type="checkbox" value="groupings"> 12. Groupings &amp; Layout</label>
+                <label class="ms-item" data-val="reading"><input type="checkbox" value="reading"> 15. Reading Habits</label>
+                <label class="ms-item" data-val="assessment_learning"><input type="checkbox" value="assessment_learning"> 15. Assessment of Learning</label>
+                <label class="ms-item" data-val="eval_teaching"><input type="checkbox" value="eval_teaching"> 16. Evaluation of Teaching</label>
+                <label class="ms-item" data-val="communication"><input type="checkbox" value="communication"> 17. Communication</label>
+                <label class="ms-item" data-val="bibliography"><input type="checkbox" value="bibliography"> 18. Bibliography</label>
+              </div>
+            </div>
+            <div class="section-pills" id="section-pills" style="margin-top:8px"></div>
+          </div>
           <div class="doc-upload-area">
             <label class="doc-upload-label" id="doc-upload-label">
               <span class="doc-upload-icon">📄</span>
@@ -1276,7 +1374,10 @@
             <span class="btn-label">Analyse with AI</span>
           </button>
           <div class="ai-response" id="ai-response"></div>
-          <button class="btn-download-pdf" id="btn-download-pdf">⬇ Download feedback as PDF</button>
+          <div class="download-btns-row" id="download-btns-row">
+            <button class="btn-download-pdf" id="btn-download-pdf">⬇ Download PDF</button>
+            <button class="btn-dl-html" id="btn-dl-html">🌐 View / Download HTML Report</button>
+          </div>
         </div>
       </div>
     </div>
@@ -2319,6 +2420,8 @@ function renderChecklist() {
           </div>
         </div>
         <div class="section-header-right">
+          <button class="btn-sec-all" onclick="event.stopPropagation();sectionSelectAll('${section.id}',true)">✓ All</button>
+          <button class="btn-sec-all deselect" onclick="event.stopPropagation();sectionSelectAll('${section.id}',false)">✕ None</button>
           <span class="section-pct-pill ${pillClass}">${pct}% · ${sectionDone}/${sectionTotal}</span>
           <span class="chevron">▾</span>
         </div>
@@ -2460,43 +2563,152 @@ function updateStats() {
 }
 
 /* ═══════════════════════════════════════════════
+   SECTION NAME MAP
+   ═══════════════════════════════════════════════ */
+const SECTION_NAMES = {
+  cover: 'Cover Page & Table of Contents',
+  formatting: 'Formatting',
+  introduction: 'Introduction',
+  justification: 'Justification (Legal, Sociological, Psychopedagogical, Epistemological Foundations)',
+  setting: 'Setting & Addressees',
+  diversity: 'Attention to Diversity',
+  stage_obj: 'Stage Objectives (5.1)',
+  key_comp: 'Key Competences & Exit Profile Descriptors (5.2–5.3)',
+  spc: 'Specific Competences (5.4)',
+  assessment_criteria: 'Assessment Criteria (5.5)',
+  basic_knowledge: 'Basic Knowledge (4.6)',
+  transversal: 'Transversal & Interdisciplinary Connections (4.7)',
+  sequencing: 'Sequencing of Units (9)',
+  unit_charts: 'Unit Charts',
+  methodology: 'Methodology (10)',
+  materials: 'Materials & Resources (11)',
+  groupings: 'Groupings & Classroom Layout (12)',
+  reading: 'Promotion of Reading Habits (15)',
+  assessment_learning: 'Assessment of Learning (15)',
+  eval_teaching: 'Evaluation of Teaching (16)',
+  communication: 'Communication (17)',
+  bibliography: 'Bibliography (18)'
+};
+
+/* ═══════════════════════════════════════════════
+   MULTI-SELECT HELPERS
+   ═══════════════════════════════════════════════ */
+const COMMON_SECTIONS = ['introduction','justification','setting','diversity','methodology','assessment_learning'];
+
+function msSelectAll() {
+  document.querySelectorAll('#ms-list input[type=checkbox]').forEach(cb => cb.checked = true);
+  renderPills();
+}
+function msDeselectAll() {
+  document.querySelectorAll('#ms-list input[type=checkbox]').forEach(cb => cb.checked = false);
+  renderPills();
+}
+function msSelectCommon() {
+  document.querySelectorAll('#ms-list input[type=checkbox]').forEach(cb => {
+    cb.checked = COMMON_SECTIONS.includes(cb.dataset.val);
+  });
+  renderPills();
+}
+function getSelectedSections() {
+  return Array.from(document.querySelectorAll('#ms-list input[type=checkbox]:checked')).map(cb => cb.dataset.val);
+}
+function renderPills() {
+  const selected = getSelectedSections();
+  const container = document.getElementById('section-pills');
+  if (!container) return;
+  container.innerHTML = selected.map(id =>
+    `<span class="section-pill">${SECTION_NAMES[id] || id}</span>`
+  ).join('');
+}
+document.querySelectorAll('#ms-list input[type=checkbox]').forEach(cb => {
+  cb.addEventListener('change', renderPills);
+});
+
+/* ═══════════════════════════════════════════════
+   SECTION SELECT / DESELECT ALL
+   ═══════════════════════════════════════════════ */
+function sectionSelectAll(sectionId, select) {
+  const section = CHECKLIST.find(s => s.id === sectionId);
+  if (!section) return;
+  section.subsections.forEach(sub => sub.items.forEach(item => {
+    if (select) state.checked.add(item.id);
+    else state.checked.delete(item.id);
+  }));
+  save();
+  renderChecklist();
+}
+
+document.getElementById('btn-select-all-global').addEventListener('click', () => {
+  getAllItems().forEach(item => state.checked.add(item.id));
+  save();
+  renderChecklist();
+});
+document.getElementById('btn-deselect-all-global').addEventListener('click', () => {
+  state.checked.clear();
+  save();
+  renderChecklist();
+});
+
+/* ═══════════════════════════════════════════════
+   MARKDOWN → HTML
+   ═══════════════════════════════════════════════ */
+function processInline(text) {
+  return text
+    .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+}
+function markdownToHtml(md) {
+  const lines = md.split('\n');
+  let html = '';
+  let inUl = false;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
+    if (/^#{1}\s/.test(trimmed)) {
+      if (inUl) { html += '</ul>'; inUl = false; }
+      html += `<h2>${processInline(trimmed.replace(/^#+\s/, ''))}</h2>`;
+    } else if (/^#{2}\s/.test(trimmed)) {
+      if (inUl) { html += '</ul>'; inUl = false; }
+      html += `<h3>${processInline(trimmed.replace(/^#+\s/, ''))}</h3>`;
+    } else if (/^#{3,}\s/.test(trimmed)) {
+      if (inUl) { html += '</ul>'; inUl = false; }
+      html += `<h4>${processInline(trimmed.replace(/^#+\s/, ''))}</h4>`;
+    } else if (/^[-*]\s/.test(trimmed)) {
+      if (!inUl) { html += '<ul>'; inUl = true; }
+      html += `<li>${processInline(trimmed.replace(/^[-*]\s/, ''))}</li>`;
+    } else if (/^\d+\.\s/.test(trimmed)) {
+      if (inUl) { html += '</ul>'; inUl = false; }
+      html += `<li>${processInline(trimmed.replace(/^\d+\.\s/, ''))}</li>`;
+    } else if (trimmed === '') {
+      if (inUl) { html += '</ul>'; inUl = false; }
+    } else {
+      if (inUl) { html += '</ul>'; inUl = false; }
+      html += `<p>${processInline(trimmed)}</p>`;
+    }
+  }
+  if (inUl) html += '</ul>';
+  return html;
+}
+
+/* ═══════════════════════════════════════════════
    ANTHROPIC API
    ═══════════════════════════════════════════════ */
 // API key handled server-side via Netlify Function proxy
 
-async function callAnthropicAPI(sectionId, userText, docText) {
-  const sectionNames = {
-    cover: 'Cover Page & Table of Contents',
-    formatting: 'Formatting',
-    introduction: 'Introduction',
-    justification: 'Justification (Legal, Sociological, Psychopedagogical, Epistemological Foundations)',
-    setting: 'Setting & Addressees',
-    diversity: 'Attention to Diversity',
-    stage_obj: 'Stage Objectives (5.1)',
-    key_comp: 'Key Competences & Exit Profile Descriptors (5.2–5.3)',
-    spc: 'Specific Competences (5.4)',
-    assessment_criteria: 'Assessment Criteria (5.5)',
-    basic_knowledge: 'Basic Knowledge (4.6)',
-    transversal: 'Transversal & Interdisciplinary Connections (4.7)',
-    sequencing: 'Sequencing of Units (9)',
-    unit_charts: 'Unit Charts',
-    methodology: 'Methodology (10)',
-    materials: 'Materials & Resources (11)',
-    groupings: 'Groupings & Classroom Layout (12)',
-    reading: 'Promotion of Reading Habits (15)',
-    assessment_learning: 'Assessment of Learning (15)',
-    eval_teaching: 'Evaluation of Teaching (16)',
-    communication: 'Communication (17)',
-    bibliography: 'Bibliography (18)'
-  };
-
-  const sectionName = sectionNames[sectionId] || sectionId;
+async function callAnthropicAPI(sectionIds, userText, docText) {
+  const ids = Array.isArray(sectionIds) ? sectionIds : [sectionIds];
+  const sectionList = ids.map(id => `- ${SECTION_NAMES[id] || id}`).join('\n');
+  const sectionLabel = ids.length === 1
+    ? (SECTION_NAMES[ids[0]] || ids[0])
+    : `${ids.length} sections: ${ids.map(id => SECTION_NAMES[id] || id).join(', ')}`;
 
   const docSection = docText
     ? `\n\nFULL TEACHING PLAN DOCUMENT (extracted text):\n\n---\n${docText.slice(0, 60000)}\n---`
     : '';
 
-  const userMessage = `Please evaluate the following draft for the section: **${sectionName}**
+  const userMessage = ids.length === 1
+    ? `Please evaluate the following draft for the section: **${SECTION_NAMES[ids[0]] || ids[0]}**
 
 The student has written:
 
@@ -2505,22 +2717,45 @@ ${userText || '(No text provided — please give me an overview of what this sec
 ---
 ${docSection}
 Please provide:
-1. **Strengths** — what is present and correct
-2. **Gaps & Issues** — what is missing or needs improvement
-3. **Specific Suggestions** — concrete wording or content to add
-Keep your response focused and actionable. Maximum 350 words.`;
+## Strengths
+What is present and correct.
+## Gaps & Issues
+What is missing or needs improvement.
+## Specific Suggestions
+Concrete wording or content to add.
+Keep your response focused and actionable. Use markdown headings (##) and bullet points (-).`
+    : `Please evaluate the following sections of a Spanish Primary teaching plan draft:
+
+${sectionList}
+
+The student has written (may cover multiple sections):
+
+---
+${userText || '(No text provided — please review what each section should contain according to the FUSTERSAURA model)'}
+---
+${docSection}
+For EACH section listed above, provide a brief analysis using this structure:
+## [Section Name]
+### Strengths
+- ...
+### Gaps & Issues
+- ...
+### Specific Suggestions
+- ...
+
+Use markdown headings (##, ###) and bullet points (-). Be concise and actionable.`;
 
   const headers = { 'Content-Type': 'application/json' };
   if (currentStudentId) {
     headers['x-student-id'] = currentStudentId;
-    headers['x-section'] = sectionId;
+    headers['x-section'] = ids.join(',');
   }
   const response = await fetch('/.netlify/functions/anthropic-proxy', {
     method: 'POST',
     headers,
     body: JSON.stringify({
       model: 'claude-sonnet-4-6',
-      max_tokens: 2000,
+      max_tokens: 3000,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: userMessage }]
     })
@@ -2609,33 +2844,32 @@ document.getElementById('doc-clear-btn').addEventListener('click', () => {
    EVENT LISTENERS
    ═══════════════════════════════════════════════ */
 let lastFeedbackText = '';
-let lastFeedbackSection = '';
+let lastFeedbackSections = [];
 
 document.getElementById('btn-analyze').addEventListener('click', async () => {
-  const sectionId = document.getElementById('ai-section-select').value;
+  const selectedSections = getSelectedSections();
   const userText = document.getElementById('ai-input').value.trim();
   const btn = document.getElementById('btn-analyze');
   const responseEl = document.getElementById('ai-response');
-  const dlBtn = document.getElementById('btn-download-pdf');
+  const dlRow = document.getElementById('download-btns-row');
 
-  if (!sectionId) {
-    showToast('Please select a section first');
+  if (!selectedSections.length) {
+    showToast('Please select at least one section first');
     return;
   }
 
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Analysing...';
   responseEl.classList.remove('visible');
-  dlBtn.classList.remove('visible');
+  if (dlRow) dlRow.classList.remove('visible');
 
   try {
-    const result = await callAnthropicAPI(sectionId, userText, extractedDocText);
+    const result = await callAnthropicAPI(selectedSections, userText, extractedDocText);
     lastFeedbackText = result;
-    lastFeedbackSection = sectionId;
-    const formatted = result.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-    responseEl.innerHTML = formatted;
+    lastFeedbackSections = selectedSections;
+    responseEl.innerHTML = markdownToHtml(result);
     responseEl.classList.add('visible');
-    dlBtn.classList.add('visible');
+    if (dlRow) dlRow.classList.add('visible');
   } catch (err) {
     responseEl.innerHTML = `<strong style="color:var(--granate)">Error:</strong> ${err.message}`;
     responseEl.classList.add('visible');
@@ -2653,90 +2887,138 @@ document.getElementById('btn-download-pdf').addEventListener('click', () => {
   const margin = 18;
   const contentW = pageW - margin * 2;
 
-  // Header bar (granate)
+  // Header bar
   doc.setFillColor(139, 0, 0);
   doc.rect(0, 0, pageW, 22, 'F');
-
-  // Brand name
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(13);
   doc.setTextColor(255, 255, 255);
   doc.text('FUSTERSAURA', margin, 14);
-
-  // Subtitle in header
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(220, 190, 120);
   doc.text('AI Feedback Report · Modelo FUSTERSAURA', pageW - margin, 14, { align: 'right' });
-
-  // Navy divider
   doc.setFillColor(27, 42, 74);
   doc.rect(0, 22, pageW, 4, 'F');
 
-  // Section label
-  const sectionNames = {
-    cover: 'Cover Page & Table of Contents', formatting: 'Formatting',
-    introduction: 'Introduction', justification: 'Justification (Foundations)',
-    setting: 'Setting & Addressees', diversity: 'Attention to Diversity',
-    stage_obj: 'Stage Objectives (5.1)', key_comp: 'Key Competences & Exit Profile (5.2)',
-    spc: 'Specific Competences (5.4)', assessment_criteria: 'Assessment Criteria (5.5)',
-    basic_knowledge: 'Basic Knowledge (4.6)', transversal: 'Transversal & Interdisciplinary (4.7)',
-    sequencing: 'Sequencing of Units (9)', unit_charts: 'Unit Charts',
-    methodology: 'Methodology (10)', materials: 'Materials & Resources (11)',
-    groupings: 'Groupings & Classroom Layout (12)', reading: 'Promotion of Reading Habits (15)',
-    assessment_learning: 'Assessment of Learning (15)', eval_teaching: 'Evaluation of Teaching (16)',
-    communication: 'Communication (17)', bibliography: 'Bibliography (18)'
-  };
-  const sectionLabel = sectionNames[lastFeedbackSection] || lastFeedbackSection;
   const today = new Date();
   const dateStr = today.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+  const sectionLabel = lastFeedbackSections.length === 1
+    ? (SECTION_NAMES[lastFeedbackSections[0]] || lastFeedbackSections[0])
+    : `${lastFeedbackSections.length} sections`;
 
   let y = 34;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
   doc.setTextColor(27, 42, 74);
   doc.text(`Section: ${sectionLabel}`, margin, y);
-
   y += 7;
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
   doc.setTextColor(90, 85, 80);
   doc.text(`Generated: ${dateStr}`, margin, y);
-
-  // Divider line
   y += 5;
   doc.setDrawColor(200, 169, 81);
   doc.setLineWidth(0.5);
   doc.line(margin, y, pageW - margin, y);
   y += 8;
 
-  // Feedback body
+  // Clean markdown for PDF
+  const cleanText = lastFeedbackText
+    .replace(/^#{1,4}\s+/gm, '')
+    .replace(/\*\*\*(.*?)\*\*\*/g, '$1')
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .replace(/\*(.*?)\*/g, '$1')
+    .replace(/^[-*]\s/gm, '• ');
+
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9.5);
   doc.setTextColor(45, 42, 38);
 
-  const lines = doc.splitTextToSize(lastFeedbackText, contentW);
-  lines.forEach(line => {
-    if (y > pageH - 20) {
-      doc.addPage();
-      y = 20;
-    }
-    const isBold = /^(Strengths|Gaps|Issues|Specific Suggestions|1\.|2\.|3\.)/.test(line.trim());
-    doc.setFont('helvetica', isBold ? 'bold' : 'normal');
-    doc.text(line, margin, y);
-    y += 5.5;
+  const rawLines = cleanText.split('\n');
+  rawLines.forEach(rawLine => {
+    if (!rawLine.trim()) { y += 3; return; }
+    const wrapped = doc.splitTextToSize(rawLine, contentW);
+    const isHeading = /^(Strengths|Gaps|Issues|Specific Suggestions|Cover Page|Formatting|Introduction|Justification|Setting|Diversity|Stage|Key Comp|Specific Comp|Assessment|Basic|Transversal|Sequencing|Unit|Methodology|Materials|Groupings|Reading|Evaluation|Communication|Bibliography)/.test(rawLine.trim());
+    wrapped.forEach(line => {
+      if (y > pageH - 20) { doc.addPage(); y = 20; }
+      doc.setFont('helvetica', isHeading ? 'bold' : 'normal');
+      doc.text(line, margin, y);
+      y += 5.5;
+    });
   });
 
-  // Footer
   doc.setFont('helvetica', 'italic');
   doc.setFontSize(7.5);
   doc.setTextColor(157, 151, 140);
   doc.text('FUSTERSAURA · Primary Teaching Plan 2025–26', margin, pageH - 10);
   doc.text(dateStr, pageW - margin, pageH - 10, { align: 'right' });
 
-  const safeName = (sectionLabel).replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_');
-  const dateFile = today.toISOString().slice(0, 10);
-  doc.save(`FUSTERSAURA_feedback_${safeName}_${dateFile}.pdf`);
+  const safeName = sectionLabel.replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_');
+  doc.save(`FUSTERSAURA_feedback_${safeName}_${today.toISOString().slice(0,10)}.pdf`);
+});
+
+document.getElementById('btn-dl-html').addEventListener('click', () => {
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+  const sectionLabel = lastFeedbackSections.length === 1
+    ? (SECTION_NAMES[lastFeedbackSections[0]] || lastFeedbackSections[0])
+    : lastFeedbackSections.map(id => SECTION_NAMES[id] || id).join(', ');
+  const bodyHtml = markdownToHtml(lastFeedbackText);
+
+  const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FUSTERSAURA AI Feedback – ${sectionLabel}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;color:#2d2a26;background:#f8f6f2;padding:0}
+  .header{background:#8B0000;color:#fff;padding:18px 40px 14px;display:flex;align-items:center;justify-content:space-between}
+  .header-brand{font-family:'DM Serif Display',serif;font-size:22px;letter-spacing:.06em}
+  .header-sub{font-size:11px;color:#dfc97a;text-align:right}
+  .navy-bar{background:#1B2A4A;height:5px}
+  .content{max-width:820px;margin:40px auto;padding:0 30px 60px}
+  .meta{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:30px;padding-bottom:20px;border-bottom:2px solid #C8A951}
+  .meta-item{display:flex;flex-direction:column;gap:2px}
+  .meta-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8B0000}
+  .meta-value{font-size:13px;color:#1B2A4A;font-weight:500}
+  h2{font-family:'DM Serif Display',serif;font-size:20px;color:#8B0000;margin:28px 0 10px;padding-bottom:6px;border-bottom:1px solid #e8e2d8}
+  h3{font-size:15px;font-weight:700;color:#1B2A4A;margin:18px 0 8px}
+  h4{font-size:13px;font-weight:700;color:#5a5550;margin:14px 0 6px}
+  p{font-size:13.5px;line-height:1.7;margin:8px 0;color:#3a3630}
+  ul{padding-left:22px;margin:8px 0}
+  li{font-size:13.5px;line-height:1.7;margin:4px 0;color:#3a3630}
+  strong{color:#1B2A4A}
+  .print-btn{display:block;margin:30px auto 0;padding:10px 28px;background:#8B0000;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:.04em}
+  .print-btn:hover{background:#6a0000}
+  .footer{text-align:center;font-size:10px;color:#aaa;margin-top:50px;padding-top:18px;border-top:1px solid #e0dbd0}
+  @media print{.print-btn{display:none}body{background:#fff}.header{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-brand">FUSTERSAURA</div>
+  <div class="header-sub">AI Feedback Report<br>Modelo FUSTERSAURA · Primaria 2026</div>
+</div>
+<div class="navy-bar"></div>
+<div class="content">
+  <div class="meta">
+    <div class="meta-item"><span class="meta-label">Section(s)</span><span class="meta-value">${sectionLabel}</span></div>
+    <div class="meta-item"><span class="meta-label">Generated</span><span class="meta-value">${dateStr}</span></div>
+  </div>
+  ${bodyHtml}
+  <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+  <div class="footer">FUSTERSAURA · Primary Teaching Plan 2025–26 · AI-generated feedback</div>
+</div>
+</body>
+</html>`;
+
+  const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
 });
 
 /* ═══════════════════════════════════════════════
