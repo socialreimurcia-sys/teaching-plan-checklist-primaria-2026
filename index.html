@@ -376,7 +376,7 @@
   }
   .section-header:hover { background: var(--grey-100); }
 
-  .section-header-left { display: flex; align-items: center; gap: 12px; }
+  .section-header-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
   .section-num {
     width: 32px; height: 32px;
     background: var(--granate);
@@ -390,7 +390,7 @@
   .section-num.gold { background: var(--gold); }
   .section-num.navy { background: var(--navy); }
 
-  .section-name { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--navy); }
+  .section-name { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .section-author {
     font-size: 0.68rem;
     color: var(--grey-400);
@@ -402,7 +402,7 @@
     gap: 4px;
   }
 
-  .section-header-right { display: flex; align-items: center; gap: 10px; }
+  .section-header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
   .section-pct-pill {
     padding: 3px 10px;
     border-radius: 99px;
