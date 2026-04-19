@@ -3594,17 +3594,28 @@ function validateContextForm() {
 }
 
 /* ─── Draft generation ─── */
-const DRAFT_BATCHES = [
-  { ids: ['cover'], label: 'Generating Cover Page...' },
-  { ids: ['introduction','justification'], label: 'Generating Introduction and Justification...' },
-  { ids: ['setting','addressees'], label: 'Building Setting and Addressees...' },
-  { ids: ['diversity'], label: 'Writing Attention to Diversity...' },
-  { ids: ['stage_obj','key_comp','spc','assessment_criteria','basic_knowledge','transversal'], label: 'Generating curricular elements...' },
-  { ids: ['sequencing'], label: 'Building Sequencing of Units...' },
-  { ids: ['methodology','materials','groupings'], label: 'Writing Methodology, Materials and Groupings...' },
-  { ids: ['assessment_learning','eval_teaching'], label: 'Writing Assessment and Evaluation sections...' },
-  { ids: ['communication','bibliography'], label: 'Finishing Communication and Bibliography...' },
-];
+const DRAFT_SECTION_LABELS = {
+  cover: 'Generating Cover Page...',
+  introduction: 'Generating Introduction...',
+  justification: 'Generating Justification...',
+  setting: 'Writing Setting...',
+  addressees: 'Writing Addressees...',
+  diversity: 'Writing Attention to Diversity...',
+  stage_obj: 'Generating Stage Objectives...',
+  key_comp: 'Generating Key Competences...',
+  spc: 'Generating Specific Competences...',
+  assessment_criteria: 'Generating Assessment Criteria...',
+  basic_knowledge: 'Generating Basic Knowledge...',
+  transversal: 'Generating Transversal Connections...',
+  sequencing: 'Building Sequencing of Units...',
+  methodology: 'Writing Methodology...',
+  materials: 'Writing Materials & Resources...',
+  groupings: 'Writing Groupings & Layout...',
+  assessment_learning: 'Writing Assessment of Learning...',
+  eval_teaching: 'Writing Evaluation of Teaching...',
+  communication: 'Writing Communication section...',
+  bibliography: 'Finalising Bibliography...',
+};
 
 async function draftGenerate() {
   if (!validateContextForm()) return;
@@ -3623,47 +3634,35 @@ async function draftGenerate() {
   outputArea.style.display = 'none';
   preview.innerHTML = '';
 
-  const activeBatches = DRAFT_BATCHES.map(b => ({
-    ...b,
-    ids: b.ids.filter(id => draftSelectedSections.has(id))
-  })).filter(b => b.ids.length > 0);
-
+  // Generate one section at a time to avoid Netlify 10s timeout
+  const activeIds = DRAFT_SECTIONS.map(s => s.id).filter(id => draftSelectedSections.has(id));
   let completed = 0;
-  const total = activeBatches.length;
+  const total = activeIds.length;
 
-  for (const batch of activeBatches) {
-    progressMsg.textContent = batch.label;
+  for (const id of activeIds) {
+    const sec = DRAFT_SECTIONS.find(s => s.id === id);
+    progressMsg.textContent = DRAFT_SECTION_LABELS[id] || `Generating ${sec.label}...`;
     progressBar.style.width = `${Math.round((completed / total) * 100)}%`;
 
     // Add placeholder in preview
-    batch.ids.forEach(id => {
-      const sec = DRAFT_SECTIONS.find(s => s.id === id);
-      if (!sec) return;
-      const div = document.createElement('div');
-      div.className = 'draft-section-output';
-      div.id = `draft-sec-${id}`;
-      div.innerHTML = `<h3>${sec.num ? sec.num + '. ' : ''}${sec.label}</h3><p class="generating">Generating…</p>`;
-      preview.appendChild(div);
-    });
+    const div = document.createElement('div');
+    div.className = 'draft-section-output';
+    div.id = `draft-sec-${id}`;
+    div.innerHTML = `<h3>${sec.num ? sec.num + '. ' : ''}${sec.label}</h3><p class="generating">Generating…</p>`;
+    preview.appendChild(div);
+    preview.scrollTop = preview.scrollHeight;
 
     try {
-      const text = await callDraftAPI(batch.ids, draftContextData);
-      // Split result by section if multiple sections
-      const parts = splitDraftBySections(text, batch.ids);
-      batch.ids.forEach(id => {
-        draftGeneratedSections[id] = parts[id] || text;
-        const el = document.getElementById(`draft-sec-${id}`);
-        if (el) {
-          const sec = DRAFT_SECTIONS.find(s => s.id === id);
-          el.innerHTML = `<h3>${sec.num ? sec.num + '. ' : ''}${sec.label}</h3><div>${markdownToHtml(draftGeneratedSections[id])}</div>`;
-        }
-      });
+      const text = await callDraftAPI([id], draftContextData);
+      draftGeneratedSections[id] = text;
+      const el = document.getElementById(`draft-sec-${id}`);
+      if (el) {
+        el.innerHTML = `<h3>${sec.num ? sec.num + '. ' : ''}${sec.label}</h3><div>${markdownToHtml(text)}</div>`;
+      }
     } catch (err) {
-      batch.ids.forEach(id => {
-        draftGeneratedSections[id] = `Error generating this section: ${err.message}`;
-        const el = document.getElementById(`draft-sec-${id}`);
-        if (el) el.querySelector('.generating').textContent = `Error: ${err.message}`;
-      });
+      draftGeneratedSections[id] = '';
+      const el = document.getElementById(`draft-sec-${id}`);
+      if (el) el.innerHTML = `<h3>${sec.num ? sec.num + '. ' : ''}${sec.label}</h3><p style="color:var(--granate);font-size:.85rem">Error: ${err.message}</p>`;
     }
 
     completed++;
@@ -3678,29 +3677,6 @@ async function draftGenerate() {
   }, 800);
 }
 
-function splitDraftBySections(text, ids) {
-  if (ids.length === 1) return { [ids[0]]: text };
-  const result = {};
-  ids.forEach((id, idx) => {
-    const sec = DRAFT_SECTIONS.find(s => s.id === id);
-    const name = sec ? sec.label : id;
-    const nextId = ids[idx + 1];
-    const nextSec = nextId ? DRAFT_SECTIONS.find(s => s.id === nextId) : null;
-    const nextName = nextSec ? nextSec.label : null;
-
-    const startRe = new RegExp(`(?:^|\\n)#+\\s*(?:\\d[\\d.]*\\.?\\s*)?${name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}`, 'i');
-    const endRe = nextName ? new RegExp(`(?:^|\\n)#+\\s*(?:\\d[\\d.]*\\.?\\s*)?${nextName.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}`, 'i') : null;
-
-    const startMatch = text.match(startRe);
-    const startIdx = startMatch ? text.indexOf(startMatch[0]) : (idx === 0 ? 0 : -1);
-
-    if (startIdx === -1) { result[id] = ''; return; }
-
-    const endIdx = endRe ? (() => { const m = text.slice(startIdx + 1).match(endRe); return m ? startIdx + 1 + text.slice(startIdx+1).indexOf(m[0]) : -1; })() : -1;
-    result[id] = endIdx > -1 ? text.slice(startIdx, endIdx).trim() : text.slice(startIdx).trim();
-  });
-  return result;
-}
 
 function buildContextSummary(ids, contextData) {
   return ids.map(id => {
@@ -3750,7 +3726,7 @@ If generating multiple sections, use a level-2 markdown heading (##) for each se
     headers,
     body: JSON.stringify({
       model: 'claude-sonnet-4-6',
-      max_tokens: 4000,
+      max_tokens: 2000,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: userMessage }],
       mode: 'draft'
