@@ -4115,13 +4115,15 @@ If generating multiple sections, use a level-2 markdown heading (##) for each se
     headers['x-section'] = sectionIds.join(',');
   }
 
+  const DRAFT_SYSTEM = 'You are a specialist in Spanish Primary Education Teaching Plan writing with deep expertise in LOMLOE, RD\u00a0157/2022, and Decree\u00a0209/2022 (Murcia). Generate well-structured, complete sections for a Primary English Teaching Plan following the FUSTERSAURA model. Write in formal academic British English prose. Include all required legislation references. Be precise and thorough.';
+
   const response = await fetch('/.netlify/functions/anthropic-proxy', {
     method: 'POST',
     headers,
     body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
+      model: 'claude-haiku-4-5-20251001',
       max_tokens: 1500,
-      system: SYSTEM_PROMPT,
+      system: DRAFT_SYSTEM,
       messages: [{ role: 'user', content: userMessage }],
       mode: 'draft'
     })
