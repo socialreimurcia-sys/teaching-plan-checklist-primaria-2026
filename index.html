@@ -934,6 +934,84 @@
   }
   .btn-dl-html:hover { background: var(--gold); color: var(--white); }
 
+  /* ─── DRAFT GENERATOR TAB ─── */
+  .draft-wrap { max-width: 900px; margin: 0 auto; padding: 24px 16px 60px; }
+  .draft-disclaimer { background: #fff8e6; border: 1.5px solid var(--gold); border-radius: var(--radius); padding: 14px 18px; font-size: 0.85rem; color: #7a4f00; margin-bottom: 28px; line-height: 1.5; }
+  /* Steps progress */
+  .draft-steps { display: flex; align-items: center; gap: 0; margin-bottom: 32px; }
+  .draft-step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 0 0 auto; }
+  .draft-step-circle { width: 36px; height: 36px; border-radius: 50%; border: 2.5px solid var(--grey-200); background: var(--white); color: var(--grey-400); font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; transition: all .2s; }
+  .draft-step-label { font-size: 0.75rem; font-weight: 600; color: var(--grey-400); white-space: nowrap; }
+  .draft-step.active .draft-step-circle { border-color: var(--granate); background: var(--granate); color: #fff; }
+  .draft-step.active .draft-step-label { color: var(--granate); }
+  .draft-step.done .draft-step-circle { border-color: var(--success); background: var(--success); color: #fff; }
+  .draft-step.done .draft-step-label { color: var(--success); }
+  .draft-step-line { flex: 1; height: 2px; background: var(--grey-200); min-width: 40px; }
+  /* Panel */
+  .draft-panel { background: var(--white); border-radius: var(--radius); border: 1px solid var(--grey-200); padding: 28px; box-shadow: var(--shadow); }
+  .draft-panel-header { margin-bottom: 20px; }
+  .draft-panel-header h2 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--navy); margin-bottom: 6px; }
+  .draft-panel-sub { font-size: 0.85rem; color: var(--grey-600); }
+  /* Section selection grid */
+  .draft-section-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 12px; }
+  .btn-ds-ctrl { padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--grey-200); background: var(--white); font-size: 0.78rem; font-weight: 600; color: var(--navy); cursor: pointer; transition: all .15s; }
+  .btn-ds-ctrl:hover { border-color: var(--navy); background: var(--grey-50); }
+  .btn-ds-ctrl.recommended { border-color: var(--gold); color: var(--warning); background: var(--gold-pale); }
+  .btn-ds-ctrl.recommended:hover { background: var(--gold); color: var(--white); }
+  .ds-counter { font-size: 0.82rem; font-weight: 600; color: var(--granate); margin-left: auto; }
+  .draft-section-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
+  .ds-card { border: 2px solid var(--grey-200); border-radius: var(--radius-sm); padding: 14px 16px; cursor: pointer; transition: all .15s; background: var(--white); user-select: none; }
+  .ds-card:hover { border-color: var(--granate-light); background: var(--granate-pale); }
+  .ds-card.selected { border-color: var(--granate); background: var(--granate-pale); }
+  .ds-card-num { font-size: 0.72rem; font-weight: 700; color: var(--grey-400); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+  .ds-card-name { font-size: 0.88rem; font-weight: 600; color: var(--navy); line-height: 1.3; }
+  /* Navigation */
+  .draft-nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--grey-100); }
+  .btn-draft-nav { padding: 10px 26px; border-radius: var(--radius-sm); font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all .15s; border: none; }
+  .btn-draft-nav.next { background: var(--granate); color: var(--white); }
+  .btn-draft-nav.next:hover:not(:disabled) { background: var(--granate-light); }
+  .btn-draft-nav.next:disabled { background: var(--grey-200); color: var(--grey-400); cursor: not-allowed; }
+  .btn-draft-nav.back { background: var(--white); color: var(--navy); border: 1.5px solid var(--grey-200); }
+  .btn-draft-nav.back:hover { border-color: var(--navy); }
+  /* Context form */
+  .dc-section-card { border-left: 4px solid var(--granate); background: var(--white); border-radius: var(--radius-sm); padding: 22px 20px; margin-bottom: 20px; box-shadow: var(--shadow); }
+  .dc-section-title { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--granate); margin-bottom: 16px; }
+  .dc-auto-notice { font-size: 0.83rem; color: var(--grey-600); background: var(--grey-50); border-radius: var(--radius-sm); padding: 10px 14px; border: 1px dashed var(--grey-200); }
+  .dc-field { margin-bottom: 14px; }
+  .dc-label { display: block; font-size: 0.83rem; font-weight: 600; color: var(--navy); margin-bottom: 5px; }
+  .dc-input, .dc-select, .dc-textarea { width: 100%; padding: 8px 11px; border: 1.5px solid var(--navy); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.87rem; color: var(--grey-800); background: var(--white); transition: border-color .15s; }
+  .dc-input:focus, .dc-select:focus, .dc-textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200,169,81,.15); }
+  .dc-textarea { min-height: 80px; resize: vertical; }
+  .dc-checkgroup { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .dc-check-item { display: flex; align-items: center; gap: 5px; font-size: 0.82rem; cursor: pointer; }
+  .dc-check-item input { accent-color: var(--granate); cursor: pointer; }
+  .dc-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .dc-spc-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .dc-spc-row label { font-size: 0.82rem; font-weight: 600; color: var(--navy); width: 50px; }
+  .dc-spc-row input { width: 70px; padding: 5px 8px; border: 1.5px solid var(--navy); border-radius: 4px; font-size: 0.87rem; text-align: center; }
+  .dc-spc-total { font-size: 0.85rem; font-weight: 700; padding: 6px 12px; border-radius: 4px; background: var(--grey-100); color: var(--grey-800); }
+  .dc-spc-total.valid { background: var(--success-bg); color: var(--success); }
+  .dc-unit-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-bottom: 8px; }
+  .dc-unit-row .dc-input:first-child { flex: 1; }
+  /* Progress area */
+  .draft-progress-title { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--navy); margin-bottom: 16px; }
+  .draft-progress-bar-wrap { background: var(--grey-100); border-radius: 20px; height: 10px; overflow: hidden; margin-bottom: 10px; }
+  .draft-progress-bar { height: 100%; background: linear-gradient(90deg, var(--granate), var(--gold)); border-radius: 20px; transition: width .5s ease; }
+  .draft-progress-msg { font-size: 0.85rem; color: var(--grey-600); font-style: italic; }
+  /* Output area */
+  .draft-output-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+  .draft-output-title { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--success); }
+  .draft-output-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-draft-view { padding: 9px 18px; background: var(--navy); color: var(--white); border: none; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; cursor: pointer; }
+  .btn-draft-view:hover { background: var(--navy-light); }
+  .btn-draft-dl { padding: 9px 18px; background: var(--granate); color: var(--white); border: none; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; cursor: pointer; }
+  .btn-draft-dl:hover { background: var(--granate-light); }
+  .draft-output-preview { border: 1px solid var(--grey-200); border-radius: var(--radius-sm); padding: 20px; background: var(--grey-50); max-height: 600px; overflow-y: auto; }
+  .draft-section-output { margin-bottom: 28px; }
+  .draft-section-output h3 { font-family: 'DM Serif Display', serif; color: var(--navy); font-size: 1rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 2px solid var(--gold); }
+  .draft-section-output p { font-size: 0.87rem; line-height: 1.7; color: var(--grey-800); margin-bottom: 6px; }
+  .draft-section-output .generating { font-style: italic; color: var(--grey-400); font-size: 0.82rem; }
+
   /* ─── LOGIN SCREEN ─── */
   .login-overlay {
     display: none;
@@ -1243,7 +1321,11 @@
     <span class="tab-label">AI Quality Review</span>
     <span class="tab-byline">Upload your teaching plan sections and get expert feedback</span>
   </button>
-  <button class="tab-btn" id="tab-btn-3" onclick="switchTab(3)" style="display:none">
+  <button class="tab-btn" id="tab-btn-3" onclick="switchTab(3)">
+    <span class="tab-label">✏️ Draft Generator</span>
+    <span class="tab-byline">Generate a personalised teaching plan draft based on your context</span>
+  </button>
+  <button class="tab-btn" id="tab-btn-4" onclick="switchTab(4)" style="display:none">
     <span class="tab-label">🔒 Admin</span>
     <span class="tab-byline">Student management &amp; usage dashboard</span>
   </button>
@@ -1382,8 +1464,100 @@
       </div>
     </div>
 
-    <!-- TAB 3: Admin -->
+    <!-- TAB 3: Draft Generator -->
     <div id="tab3-main" style="display:none">
+      <div class="draft-wrap">
+
+        <!-- Disclaimer -->
+        <div class="draft-disclaimer">
+          ⚠️ This tool generates a personalised draft starting point based on FUSTERSAURA models. You must read, adapt, and make it genuinely yours before submission.
+        </div>
+
+        <!-- Step progress -->
+        <div class="draft-steps" id="draft-steps">
+          <div class="draft-step active" id="dstep-1">
+            <div class="draft-step-circle">1</div>
+            <div class="draft-step-label">Select Sections</div>
+          </div>
+          <div class="draft-step-line"></div>
+          <div class="draft-step" id="dstep-2">
+            <div class="draft-step-circle">2</div>
+            <div class="draft-step-label">Your Context</div>
+          </div>
+          <div class="draft-step-line"></div>
+          <div class="draft-step" id="dstep-3">
+            <div class="draft-step-circle">3</div>
+            <div class="draft-step-label">Your Draft</div>
+          </div>
+        </div>
+
+        <!-- Step 1: Section selector -->
+        <div class="draft-panel" id="draft-panel-1">
+          <div class="draft-panel-header">
+            <h2>Select the sections you want to generate</h2>
+            <div class="draft-section-controls">
+              <button class="btn-ds-ctrl" onclick="dsSelectAll()">Select All</button>
+              <button class="btn-ds-ctrl" onclick="dsDeselectAll()">Deselect All</button>
+              <button class="btn-ds-ctrl recommended" onclick="dsSelectRecommended()">★ Select Recommended</button>
+              <span class="ds-counter" id="ds-counter">0 sections selected</span>
+            </div>
+          </div>
+          <div class="draft-section-grid" id="draft-section-grid">
+            <!-- Cards injected by JS -->
+          </div>
+          <div class="draft-nav-row">
+            <span></span>
+            <button class="btn-draft-nav next" id="ds-next" onclick="draftGoStep(2)" disabled>Next →</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Context questionnaire -->
+        <div class="draft-panel" id="draft-panel-2" style="display:none">
+          <div class="draft-panel-header">
+            <h2>Tell us about your context</h2>
+            <p class="draft-panel-sub">Fill in the questions for each selected section. Fields marked * are required.</p>
+          </div>
+          <div id="draft-context-form">
+            <!-- Section cards injected by JS -->
+          </div>
+          <div class="draft-nav-row">
+            <button class="btn-draft-nav back" onclick="draftGoStep(1)">← Back</button>
+            <button class="btn-draft-nav next" id="dc-next" onclick="draftGenerate()">Generate Draft ✨</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Draft output -->
+        <div class="draft-panel" id="draft-panel-3" style="display:none">
+          <div id="draft-progress-area">
+            <div class="draft-progress-title">Generating your draft…</div>
+            <div class="draft-progress-bar-wrap">
+              <div class="draft-progress-bar" id="draft-progress-bar" style="width:0%"></div>
+            </div>
+            <div class="draft-progress-msg" id="draft-progress-msg">Reading your context...</div>
+          </div>
+          <div id="draft-output-area" style="display:none">
+            <div class="draft-output-header">
+              <div class="draft-output-title">✅ Your draft is ready</div>
+              <div class="draft-output-actions">
+                <button class="btn-draft-view" id="btn-draft-view">🌐 View Full Draft in Browser</button>
+                <button class="btn-draft-dl" id="btn-draft-dl">⬇ Download Draft as HTML</button>
+              </div>
+            </div>
+            <div class="draft-output-preview" id="draft-output-preview">
+              <!-- Live sections appear here -->
+            </div>
+          </div>
+          <div class="draft-nav-row" style="margin-top:24px">
+            <button class="btn-draft-nav back" onclick="draftGoStep(2)">← Back</button>
+            <button class="btn-draft-nav next" onclick="draftGoStep(1)">Start Over</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 4: Admin -->
+    <div id="tab4-main" style="display:none">
       <div class="admin-tab-wrap">
         <div class="admin-header-bar">
           <span style="font-size:1.3rem">🔒</span>
@@ -1487,7 +1661,7 @@ function showApp(user, studentRow) {
   nameEl.textContent = studentRow ? `${studentRow.name} ${studentRow.surname}` : user.email;
   nameEl.classList.add('visible');
   if (user.email === ADMIN_EMAIL) {
-    document.getElementById('tab-btn-3').style.display = '';
+    document.getElementById('tab-btn-4').style.display = '';
   }
 }
 
@@ -1542,7 +1716,7 @@ document.getElementById('btn-logout').addEventListener('click', async () => {
   await supabase.auth.signOut();
   currentUser = null;
   currentStudentId = null;
-  document.getElementById('tab-btn-3').style.display = 'none';
+  document.getElementById('tab-btn-4').style.display = 'none';
   switchTab(1);
   showLoginOverlay();
 });
@@ -3022,17 +3196,705 @@ document.getElementById('btn-dl-html').addEventListener('click', () => {
 });
 
 /* ═══════════════════════════════════════════════
+   DRAFT GENERATOR — DATA
+   ═══════════════════════════════════════════════ */
+const DRAFT_SECTIONS = [
+  { id: 'cover',              num: '',    label: 'Cover Page & Table of Contents' },
+  { id: 'introduction',       num: '1',   label: 'Introduction' },
+  { id: 'justification',      num: '2',   label: 'Justification (Foundations)' },
+  { id: 'setting',            num: '3',   label: 'Setting' },
+  { id: 'addressees',         num: '3b',  label: 'Addressees' },
+  { id: 'diversity',          num: '4',   label: 'Attention to Diversity' },
+  { id: 'stage_obj',          num: '5.1', label: 'Stage Objectives' },
+  { id: 'key_comp',           num: '5.2', label: 'Key Competences & Exit Profile' },
+  { id: 'spc',                num: '5.4', label: 'Specific Competences' },
+  { id: 'assessment_criteria',num: '5.5', label: 'Assessment Criteria' },
+  { id: 'basic_knowledge',    num: '4.6', label: 'Basic Knowledge' },
+  { id: 'transversal',        num: '4.7', label: 'Transversal & Interdisciplinary' },
+  { id: 'sequencing',         num: '9',   label: 'Sequencing of Units' },
+  { id: 'methodology',        num: '10',  label: 'Methodology' },
+  { id: 'materials',          num: '11',  label: 'Materials & Resources' },
+  { id: 'groupings',          num: '12',  label: 'Groupings & Classroom Layout' },
+  { id: 'assessment_learning',num: '15',  label: 'Assessment of Learning' },
+  { id: 'eval_teaching',      num: '16',  label: 'Evaluation of Teaching' },
+  { id: 'communication',      num: '17',  label: 'Communication' },
+  { id: 'bibliography',       num: '18',  label: 'Bibliography' },
+];
+
+const DRAFT_RECOMMENDED = ['justification','setting','diversity','stage_obj','methodology','assessment_learning','communication','bibliography'];
+
+const AUTO_SECTIONS = ['key_comp','spc','assessment_criteria','basic_knowledge','transversal'];
+
+let draftSelectedSections = new Set();
+let draftContextData = {};
+let draftGeneratedSections = {};
+
+/* ─── Step 1: Section Grid ─── */
+function buildDraftSectionGrid() {
+  const grid = document.getElementById('draft-section-grid');
+  if (!grid) return;
+  grid.innerHTML = DRAFT_SECTIONS.map(s => `
+    <div class="ds-card${draftSelectedSections.has(s.id) ? ' selected' : ''}" data-id="${s.id}" onclick="dsToggle('${s.id}')">
+      <div class="ds-card-num">${s.num ? 'Section ' + s.num : 'Cover'}</div>
+      <div class="ds-card-name">${s.label}</div>
+    </div>`).join('');
+  updateDsCounter();
+}
+
+function dsToggle(id) {
+  if (draftSelectedSections.has(id)) draftSelectedSections.delete(id);
+  else draftSelectedSections.add(id);
+  buildDraftSectionGrid();
+}
+
+function dsSelectAll() {
+  DRAFT_SECTIONS.forEach(s => draftSelectedSections.add(s.id));
+  buildDraftSectionGrid();
+}
+
+function dsDeselectAll() {
+  draftSelectedSections.clear();
+  buildDraftSectionGrid();
+}
+
+function dsSelectRecommended() {
+  draftSelectedSections.clear();
+  DRAFT_RECOMMENDED.forEach(id => draftSelectedSections.add(id));
+  buildDraftSectionGrid();
+}
+
+function updateDsCounter() {
+  const n = draftSelectedSections.size;
+  const el = document.getElementById('ds-counter');
+  if (el) el.textContent = `${n} section${n !== 1 ? 's' : ''} selected`;
+  const nextBtn = document.getElementById('ds-next');
+  if (nextBtn) nextBtn.disabled = n === 0;
+}
+
+/* ─── Step 2: Context Form ─── */
+function buildContextForm() {
+  const form = document.getElementById('draft-context-form');
+  if (!form) return;
+  const selected = DRAFT_SECTIONS.filter(s => draftSelectedSections.has(s.id));
+  form.innerHTML = selected.map(s => buildSectionCard(s)).join('');
+  // wire SPC sum live counter
+  wireSpcCounter();
+}
+
+function buildSectionCard(s) {
+  const questions = getSectionQuestions(s.id);
+  if (!questions) {
+    return `<div class="dc-section-card">
+      <div class="dc-section-title">${s.num ? s.num + '. ' : ''}${s.label}</div>
+      <div class="dc-auto-notice">This section follows the standard FUSTERSAURA model closely. The AI will generate it using best practice content with no additional questions needed.</div>
+    </div>`;
+  }
+  return `<div class="dc-section-card" id="dc-card-${s.id}">
+    <div class="dc-section-title">${s.num ? s.num + '. ' : ''}${s.label}</div>
+    ${questions}
+  </div>`;
+}
+
+function getSectionQuestions(id) {
+  if (AUTO_SECTIONS.includes(id)) return null;
+  switch(id) {
+    case 'cover': return `
+      <div class="dc-row-2">
+        <div class="dc-field"><label class="dc-label">Full name *</label><input class="dc-input" id="dc-cover-name" required placeholder="e.g. María García Pérez"></div>
+        <div class="dc-field"><label class="dc-label">ID number (DNI/NIE) *</label><input class="dc-input" id="dc-cover-id" required placeholder="12345678A"></div>
+      </div>
+      <div class="dc-row-2">
+        <div class="dc-field"><label class="dc-label">Year group *</label>
+          <select class="dc-select" id="dc-cover-year" required>
+            <option value="">Select…</option>
+            ${[1,2,3,4,5,6].map(n=>`<option>Year ${n}</option>`).join('')}
+          </select>
+        </div>
+        <div class="dc-field"><label class="dc-label">Examining board number *</label><input class="dc-input" id="dc-cover-board" required placeholder="e.g. 30012345"></div>
+      </div>`;
+    case 'introduction':
+    case 'justification': return `
+      <div class="dc-row-2">
+        <div class="dc-field"><label class="dc-label">Year group *</label>
+          <select class="dc-select" id="dc-intro-year" required>
+            <option value="">Select…</option>
+            ${[1,2,3,4,5,6].map(n=>`<option>Year ${n}</option>`).join('')}
+          </select>
+        </div>
+        <div class="dc-field"><label class="dc-label">Programme start term *</label>
+          <select class="dc-select" id="dc-intro-term" required>
+            <option value="">Select…</option>
+            <option>September</option><option>January</option><option>April</option>
+          </select>
+        </div>
+      </div>
+      <div class="dc-field"><label class="dc-label">Any specific legislative resolution to mention? (optional)</label><input class="dc-input" id="dc-intro-law" placeholder="e.g. Resolución de 17 de junio de 2024…"></div>`;
+    case 'setting': return `
+      <div class="dc-field"><label class="dc-label">School neighbourhood description *</label><textarea class="dc-textarea" id="dc-setting-area" required placeholder="e.g. The school is located in a semi-urban area in the outskirts of Murcia city…"></textarea></div>
+      <div class="dc-row-2">
+        <div class="dc-field"><label class="dc-label">Approximate number of pupils *</label><input class="dc-input" id="dc-setting-pupils" required type="number" min="1" max="50" placeholder="e.g. 25"></div>
+        <div class="dc-field"><label class="dc-label">Girls / Boys *</label><input class="dc-input" id="dc-setting-gender" required placeholder="e.g. 13 girls, 12 boys"></div>
+      </div>
+      <div class="dc-field"><label class="dc-label">Nationalities present *</label><input class="dc-input" id="dc-setting-nationalities" required placeholder="e.g. Spanish, Moroccan, Romanian"></div>
+      <div class="dc-field"><label class="dc-label">Notable school projects? (optional)</label><input class="dc-input" id="dc-setting-projects" placeholder="e.g. Erasmus+, bilingual programme, STEM…"></div>
+      <div class="dc-field"><label class="dc-label">Specific facilities? (optional)</label><input class="dc-input" id="dc-setting-facilities" placeholder="e.g. interactive whiteboard, computer lab…"></div>`;
+    case 'addressees': return `
+      <div class="dc-field"><label class="dc-label">Average English level of the group *</label>
+        <select class="dc-select" id="dc-addr-level" required>
+          <option value="">Select…</option>
+          <option>Pre-A1</option><option>A1</option><option>A1-A2</option>
+        </select>
+      </div>
+      <div class="dc-field"><label class="dc-label">Any SEN students? If yes, briefly describe (optional)</label><textarea class="dc-textarea" id="dc-addr-sen" placeholder="e.g. One student with dyslexia, one with ADHD…"></textarea></div>
+      <div class="dc-field"><label class="dc-label">Main interests and motivations of the group *</label><input class="dc-input" id="dc-addr-interests" required placeholder="e.g. games, music, sports, technology…"></div>`;
+    case 'diversity': return `
+      <div class="dc-field"><label class="dc-label">Specific SEN students and their needs (optional)</label><textarea class="dc-textarea" id="dc-div-sen" placeholder="e.g. 1 student with ASD, 2 with reading difficulties…"></textarea></div>
+      <div class="dc-field"><label class="dc-label">General diversity measures used</label>
+        <div class="dc-checkgroup">
+          ${['Extension tasks','Reinforcement worksheets','Flipped classroom','Flexible groupings','ICT adaptations','Adapted materials'].map(m=>`
+          <label class="dc-check-item"><input type="checkbox" class="dc-div-measure" value="${m}"> ${m}</label>`).join('')}
+        </div>
+      </div>`;
+    case 'stage_obj': return `
+      <div class="dc-field"><label class="dc-label">Which three stage objectives does English contribute to most directly? *</label>
+        <div class="dc-checkgroup" id="dc-obj-checkgroup">
+          ${['a','b','c','d','e','f','g','h','i','j','k','l','m','n'].map(l=>`
+          <label class="dc-check-item"><input type="checkbox" class="dc-obj-check" value="${l}"> ${l}</label>`).join('')}
+        </div>
+      </div>
+      <div id="dc-obj-examples"></div>`;
+    case 'methodology': return `
+      <div class="dc-field"><label class="dc-label">Additional apps or tools beyond standard ones (optional)</label><input class="dc-input" id="dc-meth-tools" placeholder="e.g. Kahoot, Genially, Canva for Education…"></div>
+      <div class="dc-row-2">
+        <div class="dc-field"><label class="dc-label">Language assistant? *</label>
+          <select class="dc-select" id="dc-meth-assistant" required>
+            <option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option>
+          </select>
+        </div>
+        <div class="dc-field" id="dc-meth-assistant-detail-wrap" style="display:none">
+          <label class="dc-label">Nationality &amp; sessions/week</label>
+          <input class="dc-input" id="dc-meth-assistant-detail" placeholder="e.g. American, 2 sessions/week">
+        </div>
+      </div>`;
+    case 'sequencing': return `
+      <div class="dc-field"><label class="dc-label">Sessions per week *</label>
+        <select class="dc-select" id="dc-seq-sessions" required>
+          <option value="">Select…</option><option>3</option><option>4</option><option>5</option>
+        </select>
+      </div>
+      <div class="dc-field"><label class="dc-label">Unit titles and SDG connections *</label>
+        <div id="dc-seq-units">
+          ${Array.from({length:12},(_,i)=>`
+          <div class="dc-unit-row">
+            <input class="dc-input dc-unit-title" required placeholder="Unit ${i+1} title" data-unit="${i+1}">
+            <input class="dc-input" style="width:80px" placeholder="SDG#" data-sdg="${i+1}">
+          </div>`).join('')}
+        </div>
+      </div>`;
+    case 'assessment_learning': return `
+      <div class="dc-field"><label class="dc-label">Percentage weight per specific competence (must total 100%) *</label>
+        ${[1,2,3,4,5,6].map(n=>`
+        <div class="dc-spc-row">
+          <label>SPC${n}</label>
+          <input type="number" class="dc-input dc-spc-input" id="dc-spc-${n}" min="0" max="100" value="0" oninput="updateSpcTotal()">
+          <span style="font-size:.8rem;color:var(--grey-400)">%</span>
+        </div>`).join('')}
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+          <span style="font-size:.83rem;color:var(--grey-600)">Total:</span>
+          <span class="dc-spc-total" id="dc-spc-total">0 / 100</span>
+        </div>
+      </div>`;
+    case 'eval_teaching': return `
+      <div class="dc-field"><label class="dc-label">Units planned per term (must total 12) *</label>
+        <div class="dc-row-2">
+          <div class="dc-field"><label class="dc-label">Term 1</label><input type="number" class="dc-input dc-term-input" id="dc-term-1" min="0" max="12" value="4" oninput="updateTermTotal()"></div>
+          <div class="dc-field"><label class="dc-label">Term 2</label><input type="number" class="dc-input dc-term-input" id="dc-term-2" min="0" max="12" value="4" oninput="updateTermTotal()"></div>
+          <div class="dc-field"><label class="dc-label">Term 3</label><input type="number" class="dc-input dc-term-input" id="dc-term-3" min="0" max="12" value="4" oninput="updateTermTotal()"></div>
+        </div>
+        <div style="margin-top:4px"><span class="dc-spc-total" id="dc-term-total">12 / 12</span></div>
+      </div>`;
+    case 'communication': return `
+      <div class="dc-row-2">
+        <div class="dc-field"><label class="dc-label">Language assistant? *</label>
+          <select class="dc-select" id="dc-comm-assistant" required>
+            <option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option>
+          </select>
+        </div>
+      </div>
+      <div class="dc-field"><label class="dc-label">Optional platforms used</label>
+        <div class="dc-checkgroup">
+          ${['Google Classroom','Additio','Other'].map(p=>`
+          <label class="dc-check-item"><input type="checkbox" class="dc-comm-platform" value="${p}"> ${p}</label>`).join('')}
+        </div>
+      </div>`;
+    case 'bibliography': return `
+      <div class="dc-field"><label class="dc-label">Additional references beyond standard FUSTERSAURA bibliography (optional)</label>
+        <textarea class="dc-textarea" id="dc-biblio-extra" placeholder="e.g. Harmer, J. (2015). The Practice of English Language Teaching…"></textarea>
+      </div>`;
+    default: return null;
+  }
+}
+
+function wireSpcCounter() {
+  // language assistant toggle
+  const methAssist = document.getElementById('dc-meth-assistant');
+  if (methAssist) {
+    methAssist.addEventListener('change', () => {
+      const wrap = document.getElementById('dc-meth-assistant-detail-wrap');
+      if (wrap) wrap.style.display = methAssist.value === 'yes' ? '' : 'none';
+    });
+  }
+  // stage objectives -> dynamic unit example inputs
+  document.querySelectorAll('.dc-obj-check').forEach(cb => {
+    cb.addEventListener('change', updateObjExamples);
+  });
+  updateSpcTotal();
+  updateTermTotal();
+}
+
+function updateObjExamples() {
+  const checked = Array.from(document.querySelectorAll('.dc-obj-check:checked')).map(cb => cb.value);
+  const wrap = document.getElementById('dc-obj-examples');
+  if (!wrap) return;
+  wrap.innerHTML = checked.map(l => `
+    <div class="dc-field">
+      <label class="dc-label">Example unit for objective (${l})</label>
+      <input class="dc-input" id="dc-obj-ex-${l}" placeholder="Describe a unit activity that addresses this objective">
+    </div>`).join('');
+}
+
+function updateSpcTotal() {
+  const inputs = document.querySelectorAll('.dc-spc-input');
+  let total = 0;
+  inputs.forEach(i => total += parseInt(i.value || 0, 10));
+  const el = document.getElementById('dc-spc-total');
+  if (el) {
+    el.textContent = `${total} / 100`;
+    el.classList.toggle('valid', total === 100);
+  }
+}
+
+function updateTermTotal() {
+  const vals = [1,2,3].map(n => parseInt(document.getElementById(`dc-term-${n}`)?.value || 0, 10));
+  const total = vals.reduce((a,b)=>a+b,0);
+  const el = document.getElementById('dc-term-total');
+  if (el) {
+    el.textContent = `${total} / 12`;
+    el.classList.toggle('valid', total === 12);
+  }
+}
+
+/* ─── Step navigation ─── */
+function draftGoStep(n) {
+  [1,2,3].forEach(i => {
+    const panel = document.getElementById(`draft-panel-${i}`);
+    if (panel) panel.style.display = i === n ? '' : 'none';
+    const step = document.getElementById(`dstep-${i}`);
+    if (step) {
+      step.classList.remove('active','done');
+      if (i < n) step.classList.add('done');
+      else if (i === n) step.classList.add('active');
+    }
+  });
+  if (n === 2) buildContextForm();
+  if (n === 1) buildDraftSectionGrid();
+}
+
+/* ─── Step 3: Generate ─── */
+function collectContextData() {
+  const data = {};
+  const selected = DRAFT_SECTIONS.filter(s => draftSelectedSections.has(s.id));
+  selected.forEach(s => {
+    const d = {};
+    switch(s.id) {
+      case 'cover':
+        d.name = document.getElementById('dc-cover-name')?.value || '';
+        d.id = document.getElementById('dc-cover-id')?.value || '';
+        d.year = document.getElementById('dc-cover-year')?.value || '';
+        d.board = document.getElementById('dc-cover-board')?.value || '';
+        break;
+      case 'introduction':
+      case 'justification':
+        d.year = document.getElementById('dc-intro-year')?.value || '';
+        d.term = document.getElementById('dc-intro-term')?.value || '';
+        d.law = document.getElementById('dc-intro-law')?.value || '';
+        break;
+      case 'setting':
+        d.area = document.getElementById('dc-setting-area')?.value || '';
+        d.pupils = document.getElementById('dc-setting-pupils')?.value || '';
+        d.gender = document.getElementById('dc-setting-gender')?.value || '';
+        d.nationalities = document.getElementById('dc-setting-nationalities')?.value || '';
+        d.projects = document.getElementById('dc-setting-projects')?.value || '';
+        d.facilities = document.getElementById('dc-setting-facilities')?.value || '';
+        break;
+      case 'addressees':
+        d.level = document.getElementById('dc-addr-level')?.value || '';
+        d.sen = document.getElementById('dc-addr-sen')?.value || '';
+        d.interests = document.getElementById('dc-addr-interests')?.value || '';
+        break;
+      case 'diversity':
+        d.sen = document.getElementById('dc-div-sen')?.value || '';
+        d.measures = Array.from(document.querySelectorAll('.dc-div-measure:checked')).map(cb => cb.value);
+        break;
+      case 'stage_obj':
+        d.objectives = Array.from(document.querySelectorAll('.dc-obj-check:checked')).map(cb => cb.value);
+        d.examples = {};
+        d.objectives.forEach(l => { d.examples[l] = document.getElementById(`dc-obj-ex-${l}`)?.value || ''; });
+        break;
+      case 'methodology':
+        d.tools = document.getElementById('dc-meth-tools')?.value || '';
+        d.assistant = document.getElementById('dc-meth-assistant')?.value || '';
+        d.assistantDetail = document.getElementById('dc-meth-assistant-detail')?.value || '';
+        break;
+      case 'sequencing':
+        d.sessions = document.getElementById('dc-seq-sessions')?.value || '';
+        d.units = Array.from(document.querySelectorAll('.dc-unit-title')).map(el => ({
+          unit: el.dataset.unit,
+          title: el.value,
+          sdg: document.querySelector(`[data-sdg="${el.dataset.unit}"]`)?.value || ''
+        }));
+        break;
+      case 'assessment_learning':
+        d.spc = [1,2,3,4,5,6].map(n => ({ name: `SPC${n}`, pct: document.getElementById(`dc-spc-${n}`)?.value || '0' }));
+        break;
+      case 'eval_teaching':
+        d.terms = [1,2,3].map(n => ({ term: n, units: document.getElementById(`dc-term-${n}`)?.value || '0' }));
+        break;
+      case 'communication':
+        d.assistant = document.getElementById('dc-comm-assistant')?.value || '';
+        d.platforms = Array.from(document.querySelectorAll('.dc-comm-platform:checked')).map(cb => cb.value);
+        break;
+      case 'bibliography':
+        d.extra = document.getElementById('dc-biblio-extra')?.value || '';
+        break;
+    }
+    data[s.id] = d;
+  });
+  return data;
+}
+
+function validateContextForm() {
+  let valid = true;
+  document.querySelectorAll('#draft-context-form [required]').forEach(el => {
+    if (!el.value.trim()) { el.style.borderColor = 'var(--granate)'; valid = false; }
+    else el.style.borderColor = '';
+  });
+  // SPC must total 100
+  if (draftSelectedSections.has('assessment_learning')) {
+    let total = 0;
+    document.querySelectorAll('.dc-spc-input').forEach(i => total += parseInt(i.value||0,10));
+    if (total !== 100) { showToast('SPC percentages must add up to 100%'); valid = false; }
+  }
+  // terms must total 12
+  if (draftSelectedSections.has('eval_teaching')) {
+    const vals = [1,2,3].map(n => parseInt(document.getElementById(`dc-term-${n}`)?.value||0,10));
+    if (vals.reduce((a,b)=>a+b,0) !== 12) { showToast('Units per term must total 12'); valid = false; }
+  }
+  return valid;
+}
+
+/* ─── Draft generation ─── */
+const DRAFT_BATCHES = [
+  { ids: ['cover'], label: 'Generating Cover Page...' },
+  { ids: ['introduction','justification'], label: 'Generating Introduction and Justification...' },
+  { ids: ['setting','addressees'], label: 'Building Setting and Addressees...' },
+  { ids: ['diversity'], label: 'Writing Attention to Diversity...' },
+  { ids: ['stage_obj','key_comp','spc','assessment_criteria','basic_knowledge','transversal'], label: 'Generating curricular elements...' },
+  { ids: ['sequencing'], label: 'Building Sequencing of Units...' },
+  { ids: ['methodology','materials','groupings'], label: 'Writing Methodology, Materials and Groupings...' },
+  { ids: ['assessment_learning','eval_teaching'], label: 'Writing Assessment and Evaluation sections...' },
+  { ids: ['communication','bibliography'], label: 'Finishing Communication and Bibliography...' },
+];
+
+async function draftGenerate() {
+  if (!validateContextForm()) return;
+  draftContextData = collectContextData();
+  draftGeneratedSections = {};
+
+  draftGoStep(3);
+
+  const progressBar = document.getElementById('draft-progress-bar');
+  const progressMsg = document.getElementById('draft-progress-msg');
+  const progressArea = document.getElementById('draft-progress-area');
+  const outputArea = document.getElementById('draft-output-area');
+  const preview = document.getElementById('draft-output-preview');
+
+  progressArea.style.display = '';
+  outputArea.style.display = 'none';
+  preview.innerHTML = '';
+
+  const activeBatches = DRAFT_BATCHES.map(b => ({
+    ...b,
+    ids: b.ids.filter(id => draftSelectedSections.has(id))
+  })).filter(b => b.ids.length > 0);
+
+  let completed = 0;
+  const total = activeBatches.length;
+
+  for (const batch of activeBatches) {
+    progressMsg.textContent = batch.label;
+    progressBar.style.width = `${Math.round((completed / total) * 100)}%`;
+
+    // Add placeholder in preview
+    batch.ids.forEach(id => {
+      const sec = DRAFT_SECTIONS.find(s => s.id === id);
+      if (!sec) return;
+      const div = document.createElement('div');
+      div.className = 'draft-section-output';
+      div.id = `draft-sec-${id}`;
+      div.innerHTML = `<h3>${sec.num ? sec.num + '. ' : ''}${sec.label}</h3><p class="generating">Generating…</p>`;
+      preview.appendChild(div);
+    });
+
+    try {
+      const text = await callDraftAPI(batch.ids, draftContextData);
+      // Split result by section if multiple sections
+      const parts = splitDraftBySections(text, batch.ids);
+      batch.ids.forEach(id => {
+        draftGeneratedSections[id] = parts[id] || text;
+        const el = document.getElementById(`draft-sec-${id}`);
+        if (el) {
+          const sec = DRAFT_SECTIONS.find(s => s.id === id);
+          el.innerHTML = `<h3>${sec.num ? sec.num + '. ' : ''}${sec.label}</h3><div>${markdownToHtml(draftGeneratedSections[id])}</div>`;
+        }
+      });
+    } catch (err) {
+      batch.ids.forEach(id => {
+        draftGeneratedSections[id] = `Error generating this section: ${err.message}`;
+        const el = document.getElementById(`draft-sec-${id}`);
+        if (el) el.querySelector('.generating').textContent = `Error: ${err.message}`;
+      });
+    }
+
+    completed++;
+    progressBar.style.width = `${Math.round((completed / total) * 100)}%`;
+  }
+
+  progressBar.style.width = '100%';
+  progressMsg.textContent = 'Done!';
+  setTimeout(() => {
+    progressArea.style.display = 'none';
+    outputArea.style.display = '';
+  }, 800);
+}
+
+function splitDraftBySections(text, ids) {
+  if (ids.length === 1) return { [ids[0]]: text };
+  const result = {};
+  ids.forEach((id, idx) => {
+    const sec = DRAFT_SECTIONS.find(s => s.id === id);
+    const name = sec ? sec.label : id;
+    const nextId = ids[idx + 1];
+    const nextSec = nextId ? DRAFT_SECTIONS.find(s => s.id === nextId) : null;
+    const nextName = nextSec ? nextSec.label : null;
+
+    const startRe = new RegExp(`(?:^|\\n)#+\\s*(?:\\d[\\d.]*\\.?\\s*)?${name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}`, 'i');
+    const endRe = nextName ? new RegExp(`(?:^|\\n)#+\\s*(?:\\d[\\d.]*\\.?\\s*)?${nextName.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}`, 'i') : null;
+
+    const startMatch = text.match(startRe);
+    const startIdx = startMatch ? text.indexOf(startMatch[0]) : (idx === 0 ? 0 : -1);
+
+    if (startIdx === -1) { result[id] = ''; return; }
+
+    const endIdx = endRe ? (() => { const m = text.slice(startIdx + 1).match(endRe); return m ? startIdx + 1 + text.slice(startIdx+1).indexOf(m[0]) : -1; })() : -1;
+    result[id] = endIdx > -1 ? text.slice(startIdx, endIdx).trim() : text.slice(startIdx).trim();
+  });
+  return result;
+}
+
+function buildContextSummary(ids, contextData) {
+  return ids.map(id => {
+    const d = contextData[id] || {};
+    const sec = DRAFT_SECTIONS.find(s => s.id === id);
+    if (!sec) return '';
+    if (AUTO_SECTIONS.includes(id)) return `[${sec.label}]: Use standard FUSTERSAURA model content.`;
+    const lines = Object.entries(d).map(([k, v]) => {
+      if (Array.isArray(v)) return `  ${k}: ${v.map(x => typeof x === 'object' ? JSON.stringify(x) : x).join(', ')}`;
+      if (typeof v === 'object') return `  ${k}: ${JSON.stringify(v)}`;
+      return `  ${k}: ${v}`;
+    }).join('\n');
+    return `[${sec.label}]:\n${lines}`;
+  }).filter(Boolean).join('\n\n');
+}
+
+async function callDraftAPI(sectionIds, contextData) {
+  const sectionList = sectionIds.map(id => {
+    const s = DRAFT_SECTIONS.find(x => x.id === id);
+    return s ? `${s.num ? s.num + '. ' : ''}${s.label}` : id;
+  }).join(', ');
+
+  const contextSummary = buildContextSummary(sectionIds, contextData);
+  const yearGroup = contextData.cover?.year || contextData.introduction?.year || contextData.justification?.year || 'Year [unspecified]';
+
+  const userMessage = `Generate the named sections of a Primary Education English Teaching Plan for the Region of Murcia following the FUSTERSAURA model exactly. Use the user's context answers to personalise the content. Write in connected academic prose, British English, Arial 11pt register. Do not use bullet points in the main prose. Include all required legislation references. Each section should be the correct length as per the FUSTERSAURA model — not too short, not too long.
+
+Year group: ${yearGroup}
+
+Sections to generate: ${sectionList}
+
+User context:
+${contextSummary}
+
+For the sequencing section, if unit titles were provided, generate a schematic HTML table showing the correct chart structure with placeholder text clearly marked in square brackets for the user to fill in.
+
+If generating multiple sections, use a level-2 markdown heading (##) for each section name before its content.`;
+
+  const headers = { 'Content-Type': 'application/json', 'mode': 'draft' };
+  if (currentStudentId) {
+    headers['x-student-id'] = currentStudentId;
+    headers['x-section'] = sectionIds.join(',');
+  }
+
+  const response = await fetch('/.netlify/functions/anthropic-proxy', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 4000,
+      system: SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: userMessage }],
+      mode: 'draft'
+    })
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error?.message || `API error ${response.status}`);
+  }
+  const data = await response.json();
+  return data.content[0]?.text || '';
+}
+
+/* ─── HTML draft document generation ─── */
+function buildDraftHtmlDoc() {
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+  const yearGroup = draftContextData.cover?.year || draftContextData.introduction?.year || draftContextData.justification?.year || '';
+  const authorName = draftContextData.cover?.name || '';
+  const orderedSections = DRAFT_SECTIONS.filter(s => draftSelectedSections.has(s.id) && draftGeneratedSections[s.id]);
+  const toc = orderedSections.map(s =>
+    `<li><a href="#sec-${s.id}">${s.num ? s.num + '. ' : ''}${s.label}</a></li>`).join('');
+  const body = orderedSections.map(s => {
+    const content = markdownToHtml(draftGeneratedSections[s.id] || '');
+    return `
+    <div class="section" id="sec-${s.id}">
+      <div class="watermark">DRAFT — Adapt before submission</div>
+      <h1>${s.num ? s.num + '. ' : ''}${s.label}</h1>
+      <div class="section-body">${content}</div>
+    </div>`;
+  }).join('');
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FUSTERSAURA Draft — ${yearGroup}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;color:#2d2a26;background:#f8f6f2}
+  .header{background:#1B2A4A;color:#fff;padding:20px 48px 16px;display:flex;align-items:center;justify-content:space-between}
+  .header-brand{font-family:'DM Serif Display',serif;font-size:24px;letter-spacing:.06em}
+  .header-sub{font-size:12px;color:#dfc97a;text-align:right;line-height:1.5}
+  .red-bar{background:#8B0000;height:6px}
+  .doc-title-block{max-width:860px;margin:40px auto 0;padding:0 40px}
+  .doc-title{font-family:'DM Serif Display',serif;font-size:28px;color:#1B2A4A;margin-bottom:8px}
+  .doc-meta{font-size:13px;color:#5a5550;margin-bottom:24px}
+  .disclaimer{background:#fff8e6;border:2px solid #C8A951;border-radius:8px;padding:14px 18px;font-size:13px;color:#7a4f00;margin-bottom:32px;line-height:1.5}
+  .toc{background:#fff;border:1px solid #e2ddd6;border-radius:8px;padding:20px 24px;margin-bottom:40px;max-width:860px;margin-left:auto;margin-right:auto}
+  .toc h2{font-family:'DM Serif Display',serif;color:#1B2A4A;font-size:16px;margin-bottom:12px}
+  .toc ol{padding-left:20px}
+  .toc li{margin-bottom:6px}
+  .toc a{color:#8B0000;text-decoration:none;font-size:13px}
+  .toc a:hover{text-decoration:underline}
+  .content{max-width:860px;margin:0 auto;padding:0 40px 80px}
+  .section{position:relative;margin-bottom:48px;padding:32px;background:#fff;border-radius:8px;border:1px solid #e2ddd6;box-shadow:0 2px 8px rgba(27,42,74,.06);overflow:hidden}
+  .watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:52px;font-weight:900;color:rgba(0,0,0,.03);white-space:nowrap;pointer-events:none;user-select:none;z-index:0}
+  .section>*:not(.watermark){position:relative;z-index:1}
+  h1{font-family:'DM Serif Display',serif;color:#1B2A4A;font-size:22px;border-bottom:3px solid #8B0000;padding-bottom:10px;margin-bottom:20px}
+  h2{font-family:'DM Serif Display',serif;color:#8B0000;font-size:17px;margin:22px 0 10px}
+  h3{font-size:15px;font-weight:700;color:#1B2A4A;margin:16px 0 8px}
+  h4{font-size:13px;font-weight:700;color:#5a5550;margin:12px 0 6px}
+  p{font-size:13.5px;line-height:1.75;margin:0 0 10px;color:#2d2a26}
+  ul,ol{padding-left:22px;margin:0 0 10px}
+  li{font-size:13.5px;line-height:1.7;margin-bottom:4px}
+  table{width:100%;border-collapse:collapse;font-size:12px;margin:16px 0}
+  th{background:#1B2A4A;color:#fff;padding:8px 10px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.04em}
+  td{padding:7px 10px;border:1px solid #e2ddd6}
+  tr:nth-child(even) td{background:#f8f6f2}
+  .legislation{font-size:11.5px;color:#9d978c;margin-top:8px;font-style:italic}
+  .print-btn{display:block;margin:0 auto 40px;padding:11px 32px;background:#8B0000;color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.04em}
+  .print-btn:hover{background:#6a0000}
+  @media print{
+    .print-btn{display:none}
+    body{background:#fff}
+    .header,.red-bar{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .section{break-inside:avoid;box-shadow:none;border:none;padding:16px 0}
+    .watermark{font-size:80px;color:rgba(0,0,0,.04)}
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-brand">FUSTERSAURA</div>
+  <div class="header-sub">Teaching Plan Draft · Primary Education 2025–26<br>AI-generated starting point</div>
+</div>
+<div class="red-bar"></div>
+<div class="doc-title-block">
+  <h1 class="doc-title">Teaching Plan Draft — ${yearGroup} Primary Education</h1>
+  <div class="doc-meta">${authorName ? 'Author: ' + authorName + ' · ' : ''}Generated: ${dateStr}</div>
+  <div class="disclaimer">⚠️ This is an AI-generated draft starting point based on the FUSTERSAURA model. You must read, adapt, and make it genuinely yours before submission. The content reflects the information you provided and standard model content.</div>
+</div>
+<div class="toc" style="max-width:860px;margin:24px auto;padding:20px 40px">
+  <h2>Table of Contents</h2>
+  <ol>${toc}</ol>
+</div>
+<button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+<div class="content">
+${body}
+</div>
+</body>
+</html>`;
+}
+
+document.getElementById('btn-draft-view').addEventListener('click', () => {
+  const html = buildDraftHtmlDoc();
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  window.open(URL.createObjectURL(blob), '_blank');
+});
+
+document.getElementById('btn-draft-dl').addEventListener('click', () => {
+  const html = buildDraftHtmlDoc();
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const name = (draftContextData.cover?.name || 'draft').replace(/\s+/g, '_');
+  a.download = `FUSTERSAURA_Draft_${name}_${new Date().toISOString().slice(0,10)}.html`;
+  a.click();
+});
+
+// Initialize draft tab when first shown
+let draftTabInitialized = false;
+function initDraftTab() {
+  if (draftTabInitialized) return;
+  draftTabInitialized = true;
+  buildDraftSectionGrid();
+}
+
+/* ═══════════════════════════════════════════════
    TAB SWITCHING
    ═══════════════════════════════════════════════ */
 function switchTab(n) {
-  [1,2,3].forEach(i => {
+  [1,2,3,4].forEach(i => {
     const btn = document.getElementById(`tab-btn-${i}`);
     if (btn) btn.classList.toggle('active', i === n);
     const main = document.getElementById(`tab${i}-main`);
     if (main) main.style.display = i === n ? '' : 'none';
   });
   document.getElementById('sidebar-controls').style.display = n === 1 ? '' : 'none';
-  if (n === 3) loadAdminDashboard();
+  if (n === 3) initDraftTab();
+  if (n === 4) loadAdminDashboard();
 }
 
 /* ═══════════════════════════════════════════════
