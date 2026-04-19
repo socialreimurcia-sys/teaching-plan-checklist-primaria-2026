@@ -1303,6 +1303,70 @@
     font-style: italic;
     padding: 4px 0;
   }
+
+  /* ─── PER-SECTION REPORT BUTTON ─── */
+  .btn-sec-report {
+    padding: 2px 8px; border-radius: 10px;
+    border: 1px solid var(--granate); background: var(--white);
+    color: var(--granate); font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem; font-weight: 600; cursor: pointer;
+    transition: all 0.15s; white-space: nowrap; position: relative;
+  }
+  .btn-sec-report:hover:not([disabled]) { background: var(--granate); color: var(--white); }
+  .btn-sec-report[disabled] { border-color: var(--grey-200); color: var(--grey-400); cursor: not-allowed; }
+  .btn-sec-report .sec-rep-tip {
+    display: none; position: absolute; bottom: calc(100% + 6px); left: 50%;
+    transform: translateX(-50%); width: 220px; background: var(--navy);
+    color: var(--white); font-size: 0.72rem; font-weight: 400; line-height: 1.4;
+    padding: 7px 10px; border-radius: var(--radius-sm); z-index: 200;
+    pointer-events: none; white-space: normal; text-align: center;
+  }
+  .btn-sec-report[disabled]:hover .sec-rep-tip { display: block; }
+
+  /* ─── PER-SECTION REPORT MODAL OVERLAY ─── */
+  .sec-report-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(27,42,74,0.55); z-index: 10001;
+    overflow-y: auto; padding: 32px 16px;
+  }
+  .sec-report-overlay.visible { display: block; }
+
+  /* ─── COMPLETED ITEMS COLLAPSIBLE BLOCK ─── */
+  .completed-block {
+    border: 1.5px solid var(--success); border-radius: var(--radius-sm);
+    overflow: hidden; margin-bottom: 20px;
+  }
+  .completed-block-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px; background: var(--success-bg); cursor: pointer;
+    user-select: none;
+  }
+  .completed-block-header:hover { filter: brightness(0.97); }
+  .completed-block-title { font-size: 0.88rem; font-weight: 700; color: var(--success); }
+  .completed-block-chevron { font-size: 0.8rem; color: var(--success); transition: transform 0.3s; }
+  .completed-block.open .completed-block-chevron { transform: rotate(180deg); }
+  .completed-block-body { display: none; padding: 10px 14px; }
+  .completed-block.open .completed-block-body { display: block; }
+  .completed-item-row {
+    display: flex; align-items: flex-start; gap: 8px; padding: 5px 0;
+    border-bottom: 1px solid rgba(45,106,79,0.12); font-size: 0.82rem; color: var(--grey-600);
+  }
+  .completed-item-row:last-child { border-bottom: none; }
+  .completed-item-check { color: var(--success); flex-shrink: 0; margin-top: 1px; }
+  .completed-item-num { color: var(--grey-400); font-size: 0.75rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* ─── MISSING SECTION LABEL ─── */
+  .report-missing-label {
+    font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--granate);
+    margin: 24px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--granate);
+  }
+
+  /* ─── SECTION COMPLETE CONGRATS ─── */
+  .sec-report-complete {
+    padding: 24px; text-align: center; background: var(--success-bg);
+    border-radius: var(--radius-sm); color: var(--success); font-weight: 600;
+    font-size: 1rem; margin: 20px 0; border: 1.5px solid var(--success);
+  }
 </style>
 </head>
 <body>
@@ -1418,7 +1482,7 @@
         </div>
         <button class="btn-generate-report" id="btn-generate-report">
           📋 Generate Report
-          <span class="report-tooltip">Generates a visual report of all unticked items with model suggestions for each one. No AI required — instant and free.</span>
+          <span class="report-tooltip">Generates a full report across all sections. To generate a report for one section only, use the Report button inside each section header.</span>
         </button>
       </div>
       <div id="sections-container"></div>
@@ -1637,6 +1701,18 @@
     <div class="report-modal-actions">
       <button class="btn-report-close" id="btn-report-close">✕ Close</button>
       <button class="btn-report-dl" id="btn-report-dl">⬇ Download as PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- PER-SECTION REPORT MODAL -->
+<div class="sec-report-overlay" id="sec-report-overlay">
+  <div class="report-modal">
+    <div class="report-body" id="sec-report-body"></div>
+    <div class="report-modal-actions">
+      <button class="btn-report-close" id="sec-btn-close">✕ Close</button>
+      <button class="btn-report-dl" id="sec-btn-dl-html" style="background:var(--gold-pale);color:var(--navy);border:1.5px solid var(--gold)">🌐 Download HTML Report</button>
+      <button class="btn-report-dl" id="sec-btn-dl-pdf">⬇ Download PDF</button>
     </div>
   </div>
 </div>
@@ -2629,6 +2705,7 @@ function renderChecklist() {
           </div>
         </div>
         <div class="section-header-right">
+          <button class="btn-sec-report" onclick="event.stopPropagation();openSectionReport('${section.id}')">📄 Report<span class="sec-rep-tip">No items visible in this section. Clear your search filter to generate a report.</span></button>
           <button class="btn-sec-all" onclick="event.stopPropagation();sectionSelectAll('${section.id}',true)">✓ All</button>
           <button class="btn-sec-all deselect" onclick="event.stopPropagation();sectionSelectAll('${section.id}',false)">✕ None</button>
           <span class="section-pct-pill ${pillClass}">${pct}% · ${sectionDone}/${sectionTotal}</span>
@@ -4286,6 +4363,242 @@ document.getElementById('btn-report-dl').addEventListener('click', () => {
     },
     autoPaging: 'text'
   });
+});
+
+/* ═══════════════════════════════════════════════
+   PER-SECTION REPORT
+   ═══════════════════════════════════════════════ */
+let currentSectionReportId = null;
+
+function openSectionReport(sectionId) {
+  const section = CHECKLIST.find(s => s.id === sectionId);
+  if (!section) return;
+  currentSectionReportId = sectionId;
+
+  const allItems = section.subsections.flatMap(s => s.items);
+  const ticked = allItems.filter(i => state.checked.has(i.id));
+  const unticked = allItems.filter(i => !state.checked.has(i.id));
+  const total = allItems.length;
+  const done = ticked.length;
+
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+  const sectionTitle = (section.num ? section.num + '. ' : '') + section.label;
+
+  // Completed items — collapsible, collapsed by default
+  const completedHtml = done > 0 ? `
+    <div class="completed-block" id="sec-completed-block">
+      <div class="completed-block-header" onclick="this.closest('.completed-block').classList.toggle('open')">
+        <div class="completed-block-title">What you have \u2705 (${done} item${done !== 1 ? 's' : ''})</div>
+        <span class="completed-block-chevron">\u25be</span>
+      </div>
+      <div class="completed-block-body">
+        ${ticked.map(item => `
+          <div class="completed-item-row">
+            <span class="completed-item-check">\u2713</span>
+            <span class="completed-item-num">#${item.id}</span>
+            <span>${item.text}</span>
+          </div>`).join('')}
+      </div>
+    </div>` : '';
+
+  // Missing items
+  let missingHtml = '';
+  if (unticked.length > 0) {
+    const itemsHtml = unticked.map(item => {
+      const tip = TIPS[item.id];
+      const suggBlock = tip ? `
+        <div class="report-suggestion">
+          <div class="report-suggestion-label">\ud83d\udca1 Suggested content</div>
+          <div class="report-suggestion-text">${tip.example}</div>
+        </div>` : '';
+      return `
+        <div class="report-item">
+          <div class="report-item-label"><span class="report-item-num">#${item.id}</span>${item.text}</div>
+          <div class="report-missing">\u26a0\ufe0f This seems to be missing</div>
+          ${suggBlock}
+        </div>`;
+    }).join('');
+    missingHtml = `<div class="report-missing-label">What needs attention \u26a0\ufe0f</div>${itemsHtml}`;
+  }
+
+  const bodyContent = unticked.length === 0
+    ? `<div class="sec-report-complete">\ud83c\udf89 This section is complete! All items are present.</div>`
+    : completedHtml + missingHtml;
+
+  document.getElementById('sec-report-body').innerHTML = `
+    <div class="report-header-block">
+      <img class="report-logo" src="./logo fustersaura sin fondo.png" alt="FUSTERSAURA" onerror="this.style.display='none'">
+      <div class="report-header-text">
+        <div class="report-title">${sectionTitle}</div>
+        <div class="report-meta">Generated: ${dateStr} \u00b7 FUSTERSAURA \u00b7 Primary 2025\u201326</div>
+      </div>
+    </div>
+    <div class="report-summary">
+      <span class="report-summary-pill total">\ud83d\udccb ${done} of ${total} items completed in this section</span>
+      ${unticked.length > 0 ? `<span class="report-summary-pill pending">\u26a0\ufe0f ${unticked.length} pending</span>` : '<span class="report-summary-pill done">\u2705 All complete</span>'}
+    </div>
+    ${bodyContent}
+  `;
+
+  document.getElementById('sec-report-overlay').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSectionReport() {
+  document.getElementById('sec-report-overlay').classList.remove('visible');
+  document.body.style.overflow = '';
+  currentSectionReportId = null;
+}
+
+document.getElementById('sec-btn-close').addEventListener('click', closeSectionReport);
+
+document.getElementById('sec-report-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('sec-report-overlay')) closeSectionReport();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (document.getElementById('sec-report-overlay').classList.contains('visible')) closeSectionReport();
+  }
+});
+
+// Per-section PDF download
+document.getElementById('sec-btn-dl-pdf').addEventListener('click', () => {
+  const btn = document.getElementById('sec-btn-dl-pdf');
+  btn.disabled = true;
+  btn.textContent = 'Generating PDF\u2026';
+
+  const section = CHECKLIST.find(s => s.id === currentSectionReportId);
+  const sectionLabel = section ? section.label.replace(/\s+/g, '_') : 'Section';
+  const dateFile = new Date().toISOString().slice(0, 10);
+  const reportBody = document.getElementById('sec-report-body');
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+
+  pdf.html(reportBody, {
+    callback(doc) {
+      doc.save(`FUSTERSAURA_Report_${sectionLabel}_${dateFile}.pdf`);
+      btn.disabled = false;
+      btn.textContent = '\u2b07 Download PDF';
+    },
+    x: 10, y: 10, width: 190,
+    windowWidth: reportBody.offsetWidth || 800,
+    html2canvas: { scale: 0.75, useCORS: true, backgroundColor: '#ffffff', logging: false },
+    autoPaging: 'text'
+  });
+});
+
+// Per-section HTML download
+document.getElementById('sec-btn-dl-html').addEventListener('click', () => {
+  const section = CHECKLIST.find(s => s.id === currentSectionReportId);
+  if (!section) return;
+
+  const allItems = section.subsections.flatMap(s => s.items);
+  const ticked = allItems.filter(i => state.checked.has(i.id));
+  const unticked = allItems.filter(i => !state.checked.has(i.id));
+  const total = allItems.length;
+  const done = ticked.length;
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+  const dateFile = new Date().toISOString().slice(0, 10);
+  const sectionTitle = (section.num ? section.num + '. ' : '') + section.label;
+  const sectionLabel = section.label.replace(/\s+/g, '_');
+
+  const completedRowsHtml = ticked.map(item =>
+    `<div class="c-row"><span class="c-check">\u2713</span><span class="c-num">#${item.id}</span><span>${item.text}</span></div>`
+  ).join('');
+
+  const missingItemsHtml = unticked.map(item => {
+    const tip = TIPS[item.id];
+    const sugg = tip ? `<div class="sugg"><div class="sugg-label">\ud83d\udca1 Suggested content</div><div class="sugg-text">${tip.example}</div></div>` : '';
+    return `<div class="m-item"><div class="m-label"><span class="m-num">#${item.id}</span>${item.text}</div><div class="m-missing">\u26a0\ufe0f This seems to be missing</div>${sugg}</div>`;
+  }).join('');
+
+  const bodySection = unticked.length === 0
+    ? `<div class="complete-box">\ud83c\udf89 This section is complete! All items are present.</div>`
+    : (done > 0 ? `
+        <details class="c-block">
+          <summary class="c-header">What you have \u2705 &mdash; ${done} item${done !== 1 ? 's' : ''} (click to expand)</summary>
+          <div class="c-body">${completedRowsHtml}</div>
+        </details>` : '')
+      + `<div class="m-header">What needs attention \u26a0\ufe0f</div>${missingItemsHtml}`;
+
+  const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FUSTERSAURA Report \u2013 ${sectionTitle}</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;color:#2d2a26;background:#f8f6f2}
+  .hdr{background:#8B0000;color:#fff;padding:18px 40px 14px;display:flex;align-items:center;justify-content:space-between}
+  .hdr-brand{font-family:'DM Serif Display',serif;font-size:22px;letter-spacing:.06em}
+  .hdr-sub{font-size:11px;color:#dfc97a;text-align:right}
+  .navy-bar{background:#1B2A4A;height:5px}
+  .content{max-width:820px;margin:40px auto;padding:0 30px 60px}
+  .meta{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:24px;padding-bottom:18px;border-bottom:2px solid #C8A951}
+  .meta-item{display:flex;flex-direction:column;gap:2px}
+  .meta-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8B0000}
+  .meta-value{font-size:13px;color:#1B2A4A;font-weight:500}
+  .pills{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+  .pill{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600}
+  .pill-total{background:#f0eeea;color:#1B2A4A}
+  .pill-done{background:#d8f3dc;color:#2d6a4f}
+  .pill-pend{background:#fdf0f0;color:#8B0000}
+  .complete-box{padding:22px;text-align:center;background:#d8f3dc;border-radius:8px;color:#2d6a4f;font-weight:600;font-size:1rem;border:1.5px solid #2d6a4f;margin-bottom:24px}
+  .c-block{border:1.5px solid #2d6a4f;border-radius:6px;overflow:hidden;margin-bottom:20px}
+  .c-block summary{list-style:none;padding:10px 14px;background:#d8f3dc;cursor:pointer;font-size:14px;font-weight:700;color:#2d6a4f}
+  .c-block summary:hover{filter:brightness(.97)}
+  .c-body{padding:10px 14px}
+  .c-row{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid rgba(45,106,79,.12);font-size:13px;color:#5a5550}
+  .c-row:last-child{border-bottom:none}
+  .c-check{color:#2d6a4f;flex-shrink:0}
+  .c-num{color:#9d978c;font-size:12px;flex-shrink:0;margin-top:1px}
+  .m-header{font-family:'DM Serif Display',serif;font-size:1rem;color:#8B0000;margin:24px 0 12px;padding-bottom:6px;border-bottom:2px solid #8B0000}
+  .m-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f0eeea}
+  .m-item:last-child{border-bottom:none;margin-bottom:0}
+  .m-label{font-size:14px;font-weight:700;color:#2d2a26;margin-bottom:6px}
+  .m-num{color:#9d978c;font-weight:400;font-size:12px;margin-right:6px}
+  .m-missing{font-size:13px;color:#8B0000;font-weight:600;margin-bottom:6px}
+  .sugg{background:#fdf8ec;border-left:3px solid #C8A951;padding:8px 12px;border-radius:0 6px 6px 0;font-size:12.5px;line-height:1.6}
+  .sugg-label{font-weight:700;color:#1B2A4A;margin-bottom:3px}
+  .sugg-text{color:#5a5550;font-style:italic}
+  .print-btn{display:block;margin:30px auto 0;padding:10px 28px;background:#8B0000;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer}
+  .print-btn:hover{background:#6a0000}
+  .footer{text-align:center;font-size:10px;color:#aaa;margin-top:50px;padding-top:18px;border-top:1px solid #e0dbd0}
+  @media print{.print-btn{display:none}body{background:#fff}.hdr{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-brand">FUSTERSAURA</div>
+  <div class="hdr-sub">Section Report<br>Modelo FUSTERSAURA \u00b7 Primaria 2026</div>
+</div>
+<div class="navy-bar"></div>
+<div class="content">
+  <div class="meta">
+    <div class="meta-item"><span class="meta-label">Section</span><span class="meta-value">${sectionTitle}</span></div>
+    <div class="meta-item"><span class="meta-label">Generated</span><span class="meta-value">${dateStr}</span></div>
+  </div>
+  <div class="pills">
+    <span class="pill pill-total">\ud83d\udccb ${done} of ${total} items completed</span>
+    ${unticked.length > 0 ? `<span class="pill pill-pend">\u26a0\ufe0f ${unticked.length} pending</span>` : '<span class="pill pill-done">\u2705 All complete</span>'}
+  </div>
+  ${bodySection}
+  <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+  <div class="footer">FUSTERSAURA \u00b7 Primary Teaching Plan 2025\u201326 \u00b7 Section Report</div>
+</div>
+</body>
+</html>`;
+
+  const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `FUSTERSAURA_Report_${sectionLabel}_${dateFile}.html`;
+  a.click();
 });
 
 // Filters
