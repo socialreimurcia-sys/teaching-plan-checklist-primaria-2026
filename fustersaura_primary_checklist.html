@@ -2958,6 +2958,27 @@ function processInline(text) {
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>');
 }
+
+function convertMarkdownTable(tableLines) {
+  const G = '#8B0000', N = '#1B2A4A';
+  const isSep = l => /^\|[\s\-|:]+\|$/.test(l);
+  const parseCells = l => l.replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+  let header = [], rows = [], seenSep = false;
+  for (const l of tableLines) {
+    if (isSep(l)) { seenSep = true; continue; }
+    if (!seenSep) header = parseCells(l);
+    else rows.push(parseCells(l));
+  }
+  if (!header.length) return '';
+  const thHtml = header.map(h => `<th style="padding:8px 10px;border:1px solid ${G};font-size:11px;font-weight:700;text-align:left">${processInline(h)}</th>`).join('');
+  const tbHtml = rows.map((cells, ri) => {
+    const bg = ri % 2 === 0 ? '#fff' : '#f9f9f9';
+    const tds = cells.map(c => `<td style="padding:6px 10px;border:1px solid #ddd;font-size:12px;color:${N}">${processInline(c)}</td>`).join('');
+    return `<tr style="background:${bg}">${tds}</tr>`;
+  }).join('');
+  return `<div style="overflow-x:auto;margin:12px 0"><table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif"><thead><tr style="background:${G};color:#fff">${thHtml}</tr></thead><tbody>${tbHtml}</tbody></table></div>`;
+}
+
 function markdownToHtml(md) {
   const lines = md.split('\n');
   let html = '';
@@ -2981,7 +3002,15 @@ function markdownToHtml(md) {
       html += line + '\n';
       continue;
     }
-    // Markdown
+    // Markdown pipe tables
+    if (trimmed.startsWith('|')) {
+      if (inUl) { html += '</ul>'; inUl = false; }
+      const tableLines = [trimmed];
+      while (i + 1 < lines.length && lines[i + 1].trim().startsWith('|')) { i++; tableLines.push(lines[i].trim()); }
+      html += convertMarkdownTable(tableLines);
+      continue;
+    }
+    // Markdown headings, lists, paragraphs
     if (/^#{1}\s/.test(trimmed)) {
       if (inUl) { html += '</ul>'; inUl = false; }
       html += `<h2>${processInline(trimmed.replace(/^#+\s/, ''))}</h2>`;
@@ -3738,6 +3767,27 @@ function buildMarkingAcTableHtml(contextData) {
   const spcMap = {};
   spcWeightsRaw.forEach(x => { spcMap[parseInt((x.spc||'').replace(/\D/g,''))] = parseInt(x.pct) || 0; });
   const G = '#8B0000', N = '#1B2A4A', LB = '#dce6f1', GO = '#C8A951';
+
+  const gradeTable = `<h3 style="color:${N};font-size:14px;font-weight:700;margin:20px 0 8px">Numerical Score to Official Grade Conversion</h3>
+<div style="overflow-x:auto;margin:0 0 16px"><table style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:12px;min-width:320px">
+<thead><tr style="background:${G};color:#fff"><th style="padding:8px 14px;border:1px solid ${G}">Score</th><th style="padding:8px 14px;border:1px solid ${G}">Grade</th><th style="padding:8px 14px;border:1px solid ${G}">Category</th></tr></thead>
+<tbody>
+<tr style="background:#fff"><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">0 \u2013 4.9</td><td style="padding:7px 14px;border:1px solid #ddd;font-weight:700;color:${G}">INS</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">Insuficiente</td></tr>
+<tr style="background:#f9f9f9"><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">5.0 \u2013 5.9</td><td style="padding:7px 14px;border:1px solid #ddd;font-weight:700;color:${G}">SU</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">Suficiente</td></tr>
+<tr style="background:#fff"><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">6.0 \u2013 6.9</td><td style="padding:7px 14px;border:1px solid #ddd;font-weight:700;color:${G}">BI</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">Bien</td></tr>
+<tr style="background:#f9f9f9"><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">7.0 \u2013 7.9</td><td style="padding:7px 14px;border:1px solid #ddd;font-weight:700;color:${G}">NOT</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">Notable</td></tr>
+<tr style="background:#fff"><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">8.0 \u2013 9.9</td><td style="padding:7px 14px;border:1px solid #ddd;font-weight:700;color:${G}">SOB</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">Sobresaliente</td></tr>
+</tbody></table></div>`;
+
+  const termTable = `<h3 style="color:${N};font-size:14px;font-weight:700;margin:20px 0 8px">Term Weighting System</h3>
+<div style="overflow-x:auto;margin:0 0 16px"><table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:12px">
+<thead><tr style="background:${G};color:#fff"><th style="padding:8px 14px;border:1px solid ${G}">Term</th><th style="padding:8px 14px;border:1px solid ${G}">Multiplier</th><th style="padding:8px 14px;border:1px solid ${G}">Units</th><th style="padding:8px 14px;border:1px solid ${G}">Contribution to Final Grade</th></tr></thead>
+<tbody>
+<tr style="background:#fff"><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">Term 1</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">\u00d7 1</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">Units 1\u20134</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">\u2248 16.7%</td></tr>
+<tr style="background:#f9f9f9"><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">Term 2</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">\u00d7 2</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">Units 5\u20138</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">\u2248 33.3%</td></tr>
+<tr style="background:#fff"><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">Term 3</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">\u00d7 3</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">Units 9\u201312</td><td style="padding:7px 14px;border:1px solid #ddd;color:${N}">\u2248 50.0%</td></tr>
+<tr style="background:${N}"><td colspan="4" style="padding:8px 14px;border:1px solid ${N};color:${GO};font-weight:700"><strong>Final Score = [(T1 \u00d7 1) + (T2 \u00d7 2) + (T3 \u00d7 3)] / 6</strong></td></tr>
+</tbody></table></div>`;
   let rows = '', total = 0;
   STANDARD_AC_DATA_C3.forEach(({ spc, spcLabel, defaultPct, ratios, acs }) => {
     const spcPct = (spcMap[spc] > 0) ? spcMap[spc] : defaultPct;
@@ -3765,7 +3815,8 @@ function buildMarkingAcTableHtml(contextData) {
       </tr>`;
     });
   });
-  return `<div style="overflow-x:auto;margin:16px 0">
+  const acTable = `<h3 style="color:${N};font-size:14px;font-weight:700;margin:20px 0 8px">Assessment Criteria, Weights &amp; Instruments Table</h3>
+<div style="overflow-x:auto;margin:0 0 16px">
 <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:12px">
 <thead>
   <tr style="background:${G};color:#fff">
@@ -3787,6 +3838,7 @@ ${rows}
 </tbody>
 </table>
 </div>`;
+  return gradeTable + termTable + acTable;
 }
 
 function getCycleFromYear(yearStr) {
@@ -4831,15 +4883,10 @@ INTRODUCTION (no heading, 2 paragraphs): Assessment is a continuous, transparent
 Distinguish formative (ongoing feedback, lower grade weight) and summative (measures consolidated achievement, end of unit). Formative selected by user: ${fInstr}. Summative selected: ${sInstr}. Describe each instrument by name with abbreviation in brackets, one sentence on its role. Write as connected academic prose under Formative and Summative subheadings. Do NOT use a bullet list.
 
 ## Calculating Grades: A Step-by-Step Process
-Three steps in academic prose: Step 1 \u2014 unit grade: all evidence compiled against relevant ACs proportional to their weights, typically across approximately ${d.sessionsPerUnit||'10'} sessions per unit; Step 2 \u2014 term grade: (U1+U2+U3+U4)/4; Step 3 \u2014 final yearly grade: ${formulaText}
-
-After the prose, output these two tables as raw HTML (NOT markdown). Table 1 \u2014 Grade conversion (title: "Numerical Score to Official Grade Conversion"):
-<table style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:11pt;margin:10px 0"><thead><tr style="background:#8B0000;color:#fff"><th style="padding:7px 14px;border:1px solid #8B0000">Score</th><th style="padding:7px 14px;border:1px solid #8B0000">Grade</th><th style="padding:7px 14px;border:1px solid #8B0000">Category</th></tr></thead><tbody><tr style="background:#fff;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">0 \u2013 4.9</td><td style="padding:6px 14px;border:1px solid #ddd;font-weight:700">INS</td><td style="padding:6px 14px;border:1px solid #ddd">Insuficiente</td></tr><tr style="background:#f9f9f9;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">5.0 \u2013 5.9</td><td style="padding:6px 14px;border:1px solid #ddd;font-weight:700">SU</td><td style="padding:6px 14px;border:1px solid #ddd">Suficiente</td></tr><tr style="background:#fff;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">6.0 \u2013 6.9</td><td style="padding:6px 14px;border:1px solid #ddd;font-weight:700">BI</td><td style="padding:6px 14px;border:1px solid #ddd">Bien</td></tr><tr style="background:#f9f9f9;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">7.0 \u2013 7.9</td><td style="padding:6px 14px;border:1px solid #ddd;font-weight:700">NOT</td><td style="padding:6px 14px;border:1px solid #ddd">Notable</td></tr><tr style="background:#fff;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">8.0 \u2013 9.9</td><td style="padding:6px 14px;border:1px solid #ddd;font-weight:700">SOB</td><td style="padding:6px 14px;border:1px solid #ddd">Sobresaliente</td></tr></tbody></table>
-Table 2 \u2014 Term weighting (title: "Term Weighting System"):
-<table style="border-collapse:collapse;width:100%;font-family:Arial,sans-serif;font-size:11pt;margin:10px 0"><thead><tr style="background:#8B0000;color:#fff"><th style="padding:7px 14px;border:1px solid #8B0000">Term</th><th style="padding:7px 14px;border:1px solid #8B0000">Multiplier</th><th style="padding:7px 14px;border:1px solid #8B0000">Units</th><th style="padding:7px 14px;border:1px solid #8B0000">Contribution</th></tr></thead><tbody><tr style="background:#fff;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">Term 1</td><td style="padding:6px 14px;border:1px solid #ddd">\u00d7 1</td><td style="padding:6px 14px;border:1px solid #ddd">Units 1\u20134</td><td style="padding:6px 14px;border:1px solid #ddd">\u2248 16.7%</td></tr><tr style="background:#f9f9f9;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">Term 2</td><td style="padding:6px 14px;border:1px solid #ddd">\u00d7 2</td><td style="padding:6px 14px;border:1px solid #ddd">Units 5\u20138</td><td style="padding:6px 14px;border:1px solid #ddd">\u2248 33.3%</td></tr><tr style="background:#fff;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">Term 3</td><td style="padding:6px 14px;border:1px solid #ddd">\u00d7 3</td><td style="padding:6px 14px;border:1px solid #ddd">Units 9\u201312</td><td style="padding:6px 14px;border:1px solid #ddd">\u2248 50.0%</td></tr><tr style="background:#8B0000;color:#fff"><td colspan="4" style="padding:6px 14px;border:1px solid #8B0000"><strong>Final Score = [(T1 \u00d7 1) + (T2 \u00d7 2) + (T3 \u00d7 3)] / 6</strong></td></tr></tbody></table>
+Three steps in academic prose: Step 1 \u2014 unit grade: all evidence compiled against relevant ACs proportional to their weights, typically across approximately ${d.sessionsPerUnit||'10'} sessions per unit; Step 2 \u2014 term grade: (U1+U2+U3+U4)/4; Step 3 \u2014 final yearly grade: ${formulaText}. After the prose, state that the official grade conversion scale and the full AC table are provided below.
 
 ## Assessment Criteria, Weights and Instruments \u2014 ${yearGroup}
-Write one introductory paragraph (3\u20134 sentences): explain that this table serves as the primary grading reference for the year, describe how the SPC weights (${spcWeights}) reflect the relative curricular importance of each competency, and state that AC weights within each SPC determine the precise contribution of each criterion to the final grade. Do NOT output an HTML table here \u2014 the complete AC table with instruments will be appended automatically by the system.`;
+Write one introductory paragraph (3\u20134 sentences): explain that this table serves as the primary grading reference for the year, describe how the SPC weights (${spcWeights}) reflect the relative curricular importance of each competency, and state that AC weights within each SPC determine the precise contribution of each criterion to the final grade. Do NOT output any tables here \u2014 the grade conversion, term weighting and complete AC instrument tables are appended automatically by the system.`;
   }
 
   const userMessage = `Generate the named section of a Primary Education English Teaching Plan for the Region of Murcia following the FUSTERSAURA model exactly. Use the user\u2019s context answers to personalise the content. Write in connected academic prose, British English. Include all required legislation references.
