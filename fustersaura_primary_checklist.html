@@ -2032,6 +2032,9 @@ const TIPS = {
   153: { explain: "FUSTERSAURA acronyms: OBS, PLK, EDPZ, ENT, EXT, QUIZ, ROLP, ORAS, WRAS, RLC, LIC, JSWR, PROJ, PORT, LDIA, EXAM. Must match unit charts.", example: "'OBS (Systematic Observation), PLK (Plickers), EDPZ (EdPuzzle), EXT (Exit Tickets), ROLP (Role Plays), ORAS (Oral Assignments), WRAS (Written Assignments), PORT (Portfolio), LDIA (Learning Diary), EXAM.'", error: "Using instrument names without acronyms — or using different acronyms here and in the unit charts." },
   159: { explain: "The main reference for grading is the evaluation criteria (ACs), not instruments. The weight of each AC determines the weight of the instrument used to assess it.", example: "'Grades are determined by the evaluation criteria in Annex III D.209/2022. The weight assigned to each AC in the unit chart determines the corresponding instrument's weight in the final grade.'", error: "Suggesting grades are based on a simple average of all instruments equally — AC weights must drive the grading system." },
   160: { explain: "Marking chart must show: SPC | AC codes | Weight (%) | Instruments (formative and summative). All AC weights must add up to 100%.", example: "SPC1 (20%): AC1.1 (10%) — OBS/PLK [F], EXAM [S]. AC1.2 (10%) — EDPZ [F], EXAM [S]. SPC2 (15%): AC2.1 (5%)... [Total: 100%]", error: "A marking chart where weights do not add up to 100%, or where SPCs have weights but ACs do not." },
+  163: { explain: "The marking section translates the assessment framework into concrete grades. It must explain both the instruments used and the formula applied so students and families can understand how grades are calculated.", example: "The foundation of our assessment lies in the Specific Competencies established by RD 157/2022 and their regional implementation through Decree 209/2022. Each Specific Competency is made measurable through its associated Assessment Criteria, each carrying a pre-defined percentage weight.", error: "Describing only the instruments without explaining how scores are calculated — families need to understand the full grading process." },
+  167: { explain: "The progressive weighting formula rewards growth over the year. Term 3 carries the most weight because it reflects the highest level of competence development.", example: "Final Score = [(Term 1 × 1) + (Term 2 × 2) + (Term 3 × 3)] / 6. This means Term 1 contributes 16.7%, Term 2 33.3%, and Term 3 50% of the final grade.", error: "Using equal weighting across all three terms (33/33/33) — this does not reflect LOMLOE emphasis on progressive learning and growth over time." },
+  169: { explain: "The AC table is the core reference document for grading. It must show every AC with its weight and the specific instruments used to assess it, both formative and summative.", example: "SPC1 Receptive (20%): AC1.1 (10%) — Formative: EdP, ExT, PLK. Summative: Qz, EnT. AC1.2 (10%) — Formative: PLK, EdP, ExT. Summative: ExT, EnT, Qz.", error: "Presenting an AC table with SPC weights but no individual AC weights — assessors need to see how the weight is distributed within each SPC." },
   176: { explain: "Evaluation of teaching means assessing how well the teaching plan itself worked — its realism, coherence, and effectiveness as a quality-assurance tool.", example: "'Evaluation of teaching is the process by which teachers assess the effectiveness of their own planning and practice, using evidence from pupil outcomes, self-reflection, and stakeholder feedback.'", error: "Confusing evaluation of teaching with assessment of learning — they are distinct processes with different purposes." },
   177: { explain: "Legal basis: Art. 19.5 (teachers must evaluate teaching processes and own practice), Art. 33.h (teaching plan must include strategies for evaluating teaching), Art. 34 (Annual Report must include results).", example: "'Decree 209/2022 makes teacher self-evaluation a legal requirement: teachers must evaluate not only pupil learning but also the teaching process (Art. 19.5), with findings in the Annual Report (Art. 34).'", error: "Only citing Art. 19.5 and omitting Art. 33.h and Art. 34." },
   179: { explain: "Use a table showing planned vs delivered units and sessions per term, with columns for reasons and improvement proposals.", example: "Term 1: Units planned 4, delivered 4 (100%). Sessions planned 32, delivered 30 (94%). Reason: session lost to school event. Improvement: build in a buffer session per term.", error: "Only stating whether targets were met without providing reasons or improvement proposals — required by Art. 34." },
@@ -2471,6 +2474,14 @@ const CHECKLIST = [
           { id: 160, text: 'Clearly states that the main reference are competences and evaluation criteria: the weight of each EC defines the weight of the instrument used' },
           { id: 161, text: 'Presents a chart with the weight of each specific competence and evaluation criteria' },
           { id: 162, text: 'The chart can also include the instruments used to evaluate the different evaluation criteria' },
+          { id: 163, text: 'Defines marking and explains its role in the assessment process' },
+          { id: 164, text: 'Mentions relevant legislation: RD 157/2022 and Decree 209/2022 Art. 37.2' },
+          { id: 165, text: 'Distinguishes formative and summative instruments with descriptions and abbreviations' },
+          { id: 166, text: 'Explains the three-step grade calculation: unit grade, term grade, final yearly grade' },
+          { id: 167, text: 'Includes the progressive term weighting formula: Final Score = [(T1\u00d71)+(T2\u00d72)+(T3\u00d73)]/6' },
+          { id: 168, text: 'Includes numerical score to official grade conversion table INS/SU/BI/NOT/SOB' },
+          { id: 169, text: 'Presents the complete AC table with SPC weights, AC weights, formative and summative instruments' },
+          { id: 170, text: 'All AC weights add up to exactly 100%' },
         ]
       }
     ]
@@ -2612,6 +2623,8 @@ GROUPINGS: U-shape as default (communicative activities). Flexible. Individual (
 READING HABITS: RD 157/2022 art. 6.8 + D.209/2022 art. 14. Daily reading time. Measures: Mini-Reading Moments, Class Library, Reading Record, cooperative work, reward chart, storytelling, drama techniques, Bookcrossing, World Book Day, Reading Club, Graded Readers (one per term).
 
 ASSESSMENT OF LEARNING: Art. 19 D.209/2022 (global, continuous, formative). Types: diagnostic (start of year + each unit), formative (ongoing), summative (end of unit/term). Self, peer, co-evaluation. Instruments with acronyms: OBS, PLK, EDPZ, ENT, EXT, QUIZ, ROLP, ORAS, WRAS, RLC, LIC, JSWR, PROJ, PORT, LDIA, EXAM. Resources: RBK, CHK, TDIA, SES.
+
+MARKING AND GRADING CRITERIA: The standard FUSTERSAURA grading formula uses progressive term weighting: Final Score = [(T1 × 1) + (T2 × 2) + (T3 × 3)] / 6. Term 1 contributes 16.7%, Term 2 33.3%, Term 3 50%. Standard SPC weights: SPC1 Receptive 20% (AC1.1 10%, AC1.2 10%), SPC2 Productive 15% (AC2.1 5%, AC2.2 5%, AC2.3 5%), SPC3 Interaction 15% (AC3.1 10%, AC3.2 5%), SPC4 Mediation 20% (AC4.1 10%, AC4.2 10%), SPC5 Plurilingual 15% (AC5.1 5%, AC5.2 5%, AC5.3 5%), SPC6 Intercultural 10% (AC6.1 4%, AC6.2 3%, AC6.3 3%). Total AC weights: 100%. Official grade conversion (Art. 37.2 D.209/2022): 0–4.9 INS (Insuficiente), 5.0–5.9 SU (Suficiente), 6.0–6.9 BI (Bien), 7.0–7.9 NOT (Notable), 8.0–9.9 SOB (Sobresaliente). Assessment instruments — Formative: EdPuzzle (EdP), Plickers (PLK), Exit Tickets (ExT), Entry Tickets (EnT), Direct Observation/Teacher Diary (DO/TD), Learning Diary/ELP (LD/ELP), Self-Assessment Quiz (QzSe). Summative: Oral Assignments (O.A), Written Assignments (W.A), Rubrics (RbK), Portfolio, Projects (PJ), Quizzes (Qz), Role Plays (RLP), Cued Dialogues (CD), Google Classroom Tasks (Google CL), Jigsaw Reading (JgswR). Legislative basis: RD 157/2022 Art. 1 March, Decreto 209/2022 Art. 37.2, Anexo III Tercer Ciclo. The Marking section must include: (1) introduction citing RD 157/2022 and Decreto 209/2022, (2) instruments subsection distinguishing formative and summative with abbreviations, (3) step-by-step grade calculation: unit grade → term grade → final yearly grade with progressive weighting formula, (4) numerical score to official grade conversion table, (5) term weighting table showing multipliers and percentage contributions, (6) complete AC table in HTML format with FUSTERSAURA styling — granate (#8B0000) header row, alternating white and light grey (#f9f9f9) rows, navy (#1B2A4A) text — showing SPC, AC description, AC weight %, formative instruments, summative instruments for all 15 ACs. Write sections 1–5 in connected academic prose; section 6 must be a properly formatted HTML table.
 
 EVALUATION OF TEACHING: Art. 19.5, Art. 33.h, Art. 34 D.209/2022. Three families of indicators: (A) Adjustment of teaching plan (units/sessions planned vs delivered, EC coverage, quality indicators for spaces/timing/resources/diversity). (B) Students' results (IN/SU/BI/NT/SB distribution per term, criterion-by-criterion tracking). (C) Students' and families' perception (exit slips, mini questionnaire, family survey).
 
@@ -2871,6 +2884,7 @@ const SECTION_NAMES = {
   groupings: 'Groupings & Classroom Layout (12)',
   reading: 'Promotion of Reading Habits (15)',
   assessment_learning: 'Assessment of Learning (15)',
+  marking: 'Marking & Grading Criteria (15.4)',
   eval_teaching: 'Evaluation of Teaching (16)',
   communication: 'Communication (17)',
   bibliography: 'Bibliography (18)'
@@ -3328,12 +3342,13 @@ const DRAFT_SECTIONS = [
   { id: 'materials',          num: '11',  label: 'Materials & Resources' },
   { id: 'groupings',          num: '12',  label: 'Groupings & Classroom Layout' },
   { id: 'assessment_learning',num: '15',  label: 'Assessment of Learning' },
+  { id: 'marking',            num: '15.4',label: 'Marking & Grading Criteria', byline: 'Grading formula, AC weights, instruments table', author: 'EM' },
   { id: 'eval_teaching',      num: '16',  label: 'Evaluation of Teaching' },
   { id: 'communication',      num: '17',  label: 'Communication' },
   { id: 'bibliography',       num: '18',  label: 'Bibliography' },
 ];
 
-const DRAFT_RECOMMENDED = ['justification','setting','diversity','stage_obj','methodology','assessment_learning','communication','bibliography'];
+const DRAFT_RECOMMENDED = ['justification','setting','diversity','stage_obj','methodology','assessment_learning','marking','communication','bibliography'];
 
 const AUTO_SECTIONS = ['key_comp','spc','assessment_criteria','basic_knowledge','transversal'];
 
@@ -3347,8 +3362,9 @@ function buildDraftSectionGrid() {
   if (!grid) return;
   grid.innerHTML = DRAFT_SECTIONS.map(s => `
     <div class="ds-card${draftSelectedSections.has(s.id) ? ' selected' : ''}" data-id="${s.id}" onclick="dsToggle('${s.id}')">
-      <div class="ds-card-num">${s.num ? 'Section ' + s.num : 'Cover'}</div>
+      <div class="ds-card-num">${s.num ? 'Section ' + s.num : 'Cover'}${s.author ? ' <span style="font-size:.65rem;opacity:.7">' + s.author + '</span>' : ''}</div>
       <div class="ds-card-name">${s.label}</div>
+      ${s.byline ? '<div style="font-size:.7rem;color:var(--grey-500);margin-top:2px">' + s.byline + '</div>' : ''}
     </div>`).join('');
   updateDsCounter();
 }
@@ -3546,6 +3562,7 @@ const AUTOFILL_TEXTS = {
   'seq-intro': () => { const spp = ucv('sessionCount','[N]'); const tot = parseInt(spp) ? parseInt(spp)*35 : '[total]'; return `Our teaching programme foresees a total of approximately ${tot} sessions per academic year, based on ${spp} sessions per week across approximately 35 teaching weeks. Taking into account the time devoted to diagnostic evaluation, summative assessment sessions, and complementary activities, we have planned a total of 12 didactic units distributed across the three terms as shown in the table below.`; },
   'comm-edvoice': () => `EdVoice is our priority official communication application, featuring a corporate licence provided by the regional educational authorities. It includes read receipts, giving communications an official status, and allows the management team and teachers to send general, group, or individual notifications to families. It is also the official channel for collecting digital signatures for excursion authorisations.`,
   'biblio-standard': () => `Ausubel, D.P. (1960). The use of advance organizers in the learning and retention of meaningful verbal material. Journal of Educational Psychology, 51(5), 267–272.\nBruner, J.S. (1960). The process of education. Harvard University Press.\nCanale, M. & Swain, M. (1980). Theoretical bases of communicative approaches to second language teaching and testing. Applied Linguistics, 1(1), 1–47.\nCorder, S.P. (1967). The significance of learner's errors. International Review of Applied Linguistics, 5(4), 161–170.\nEllis, R. (1991). The study of second language acquisition. Oxford University Press.\nHymes, D.H. (1972). On communicative competence. In J.B. Pride & J. Holmes (Eds.), Sociolinguistics (pp. 269–293). Penguin.\nKrashen, S. (1982). Principles and practice in second language acquisition. Pergamon Press.\nLittlewood, W. (1981). Communicative language teaching. Cambridge University Press.\nLong, M.H. (1991). Focus on form: A design feature in language teaching methodology. In K. De Bot et al. (Eds.), Foreign language research in cross-cultural perspective (pp. 39–52). John Benjamins.\nMeyer, A., Rose, D.H. & Gordon, D. (2014). Universal Design for Learning: Theory and practice. CAST Professional Publishing.\nPiaget, J. (1954). The construction of reality in the child. Basic Books.\nPrabhu, N.S. (1987). Second language pedagogy. Oxford University Press.\nRosenshine, B. (2010). Principles of instruction. International Bureau of Education, UNESCO.\nSchmidt, R. (1990). The role of consciousness in second language learning. Applied Linguistics, 11(2), 129–158.\nSelinker, L. (1972). Interlanguage. International Review of Applied Linguistics, 10(3), 209–231.\nSmith, F. (1996). Reading without nonsense (4th ed.). Teachers College Press.\nVygotsky, L.S. (1978). Mind in society. Harvard University Press.\nWood, D., Bruner, J.S. & Ross, G. (1976). The role of tutoring in problem solving. Journal of Child Psychology and Psychiatry, 17(2), 89–100.`,
+  'marking-instruments': () => `To gather evidence of how students are performing against the Assessment Criteria, we use a variety of activities and instruments throughout our teaching units. Their use is organised into two main categories: formative instruments, used primarily to provide timely feedback to both students and teachers, and summative instruments, used towards the end of a unit or learning sequence to measure consolidated achievement.\n\nFormative instruments include: EdPuzzle (EdP), which assigns interactive video activities that check listening comprehension in real time; Plickers (PLK), which provides quick digital polls to gauge whole-class understanding; Exit Tickets (ExT) and Entry Tickets (EnT), which serve as brief checks at the close or opening of sessions; Direct Observation through the Teacher Diary (DO/TD), which captures qualitative data on participation and communicative behaviour; the Learning Diary / European Language Portfolio (LD/ELP), which encourages students to record and reflect on their own progress; and the Self-Assessment Quiz (QzSe), which builds self-regulation skills.\n\nSummative instruments include: Oral Assignments (O.A) and Written Assignments (W.A), assessed through Rubrics (RbK); the Portfolio, which collects curated work samples over time; Projects (PJ), which integrate competencies holistically within a Learning Situation; Quizzes (Qz), which consolidate specific ACs at the close of a unit; Role Plays (RLP) and Cued Dialogues (CD), which assess interactive communicative skills; Google Classroom Tasks (Google CL), which extend assessment into digital environments; and Jigsaw Reading activities (JgswR), which collect evidence of mediation and cooperative reading skills.`,
   'laws-paragraph': () => { const yr = ucv('yearGroup','this year group'); return `The present programme has been designed in accordance with the main legislative framework governing Primary Education. At the national level, Ley Orgánica 3/2020, de 29 de diciembre, de modificación de la LOMCE (LOMLOE) constitutes the overarching legal framework, complemented by Real Decreto 157/2022, de 1 de marzo (RD 157/2022), which establishes the minimum teaching requirements and curricular structure for Primary Education across Spain. At the regional level, Decreto 209/2022, de 17 de noviembre (D.209/2022) adapts this national framework to the specific educational context of the Región de Murcia. In matters of attention to diversity and inclusion, reference is made to Decreto 359/2009, de 30 de octubre (D.359/2009) and the Resolución de 20 de noviembre de 2023. The design of language learning experiences is further informed by the Common European Framework of Reference for Languages (CEFR) published by the Council of Europe (2001, updated 2018), which provides the reference framework for the progressive development of communicative competence throughout the ${yr} stage.`; },
 };
 
@@ -4067,6 +4084,122 @@ function getSectionQuestions(id) {
         </div>
       </div>`;
 
+    case 'marking': return `
+      <div class="dc-q-card">
+        <div class="dc-q-label-row">
+          <label class="dc-q-label">Do you use the standard progressive term weighting? <span class="dc-req">*</span>
+            <span class="dc-q-tip">\u24d8<span class="dc-tip-content">This progressive weighting formula is the FUSTERSAURA standard for Primary. It rewards growth over the year. Common error: using equal weighting across all three terms (33/33/33) which does not reflect LOMLOE\u2019s emphasis on progressive learning.</span></span>
+          </label>
+        </div>
+        <select class="dc-select" id="dc-mk-term-toggle" required onchange="toggleMkTermFormula();scheduleSave()">
+          <option value="yes" selected>Yes \u2014 use standard FUSTERSAURA formula</option>
+          <option value="no">No \u2014 enter custom formula</option>
+        </select>
+        <div id="dc-mk-term-formula-wrap" style="margin-top:8px">
+          <textarea class="dc-q-textarea" id="dc-mk-term-formula" rows="4" oninput="scheduleSave()">The final yearly grade applies a progressive weighting to the three term grades, recognising that competencies increase in complexity throughout the year. The formula applied is: Final Score = [(Term 1 \u00d7 1) + (Term 2 \u00d7 2) + (Term 3 \u00d7 3)] / 6. This formula ensures that Term 3 contributes 50% of the final grade, Term 2 contributes 33.3%, and Term 1 contributes 16.7%, reflecting the cumulative and progressive nature of competence development.</textarea>
+        </div>
+      </div>
+      <div class="dc-q-card">
+        <div class="dc-q-label-row">
+          <label class="dc-q-label">Confirm the weight of each Specific Competence (must total 100%) <span class="dc-req">*</span>
+            <span class="dc-q-tip">\u24d8<span class="dc-tip-content">These weights are the main reference for grading. The weight of each AC determines the weight of the instrument used to assess it. Common error: assigning equal weight to all SPCs \u2014 SPC4 Mediation and SPC1 Receptive carry more weight because they require higher cognitive demand.</span></span>
+          </label>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px 16px;margin-bottom:8px">
+          ${[{n:1,d:'Receptive',v:20},{n:2,d:'Productive',v:15},{n:3,d:'Interaction',v:15},{n:4,d:'Mediation',v:20},{n:5,d:'Plurilingual',v:15},{n:6,d:'Intercultural',v:10}].map(({n,d,v})=>`
+          <div style="display:flex;align-items:center;gap:6px">
+            <label style="font-size:.82rem;font-weight:600;min-width:110px">SPC${n} ${d}</label>
+            <input type="number" class="dc-input dc-mk-spc-input" id="dc-mk-spc-${n}" value="${v}" min="0" max="100" step="5" style="width:64px" oninput="updateMkSpcTotal();scheduleSave()">
+            <span style="font-size:.82rem;color:var(--grey-500)">%</span>
+          </div>`).join('')}
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <span style="font-size:.83rem;color:var(--grey-600)">Total:</span>
+          <span class="dc-spc-total" id="dc-mk-spc-total">95 / 100</span>
+        </div>
+        <div style="background:var(--grey-50,#f5f5f5);border-radius:6px;padding:10px;font-size:.78rem;color:var(--grey-600);line-height:1.7">
+          <strong style="display:block;margin-bottom:4px;color:var(--navy)">Standard AC breakdown (read-only reference):</strong>
+          SPC1: AC1.1 10% + AC1.2 10% &nbsp;\u2022&nbsp;
+          SPC2: AC2.1 5% + AC2.2 5% + AC2.3 5% &nbsp;\u2022&nbsp;
+          SPC3: AC3.1 10% + AC3.2 5%<br>
+          SPC4: AC4.1 10% + AC4.2 10% &nbsp;\u2022&nbsp;
+          SPC5: AC5.1 5% + AC5.2 5% + AC5.3 5% &nbsp;\u2022&nbsp;
+          SPC6: AC6.1 4% + AC6.2 3% + AC6.3 3%
+        </div>
+      </div>
+      <div class="dc-q-card">
+        <div class="dc-q-label-row">
+          <label class="dc-q-label">Do you use the standard Murcia Primary grade conversion scale? <span class="dc-req">*</span>
+            <span class="dc-q-tip">\u24d8<span class="dc-tip-content">This scale is established by Art. 37.2 of Decreto 209/2022. Common error: using a 0\u201310 numerical scale as the official grade without converting to these categories.</span></span>
+          </label>
+        </div>
+        <select class="dc-select" id="dc-mk-grade-toggle" required onchange="toggleMkGradeCustom();scheduleSave()">
+          <option value="yes" selected>Yes \u2014 use standard scale</option>
+          <option value="no">No \u2014 enter custom scale</option>
+        </select>
+        <div style="background:var(--grey-50,#f5f5f5);border-radius:6px;padding:10px;margin-top:8px;font-size:.78rem;color:var(--grey-600);line-height:1.7">
+          <strong style="display:block;margin-bottom:4px;color:var(--navy)">Standard scale (Art. 37.2 D.209/2022):</strong>
+          0\u20134.9 \u2014 INS (Insuficiente) &nbsp;&bull;&nbsp;
+          5.0\u20135.9 \u2014 SU (Suficiente) &nbsp;&bull;&nbsp;
+          6.0\u20136.9 \u2014 BI (Bien) &nbsp;&bull;&nbsp;
+          7.0\u20137.9 \u2014 NOT (Notable) &nbsp;&bull;&nbsp;
+          8.0\u20139.9 \u2014 SOB (Sobresaliente)
+        </div>
+        <div id="dc-mk-grade-custom-wrap" style="display:none;margin-top:8px">
+          <label class="dc-label">Custom grade scale</label>
+          <textarea class="dc-q-textarea" id="dc-mk-grade-custom" rows="2" placeholder="Describe your custom grade conversion scale\u2026" oninput="scheduleSave()"></textarea>
+        </div>
+      </div>
+      <div class="dc-q-card">
+        <div class="dc-q-label-row">
+          <label class="dc-q-label">Which assessment instruments do you use? Select all that apply <span class="dc-req">*</span>
+            <span class="dc-q-tip">\u24d8<span class="dc-tip-content">Select all instruments used in your programme. Formative instruments gather ongoing evidence; summative instruments measure consolidated achievement. Assessors look for a balance across both categories and across the four language skills.</span></span>
+          </label>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px">
+          <div>
+            <p style="font-size:.8rem;font-weight:700;color:var(--navy);margin:0 0 6px">Formative</p>
+            <div class="dc-checkgroup">
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-edp" checked onchange="scheduleSave()"> <span title="Category: Formative. Primarily assesses AC 1.1 and AC 1.2">EdPuzzle (EdP)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-plk" checked onchange="scheduleSave()"> <span title="Category: Formative. Primarily assesses AC 1.1, 1.2, 5.1, 5.2">Plickers (PLK)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-ext" checked onchange="scheduleSave()"> <span title="Category: Formative. End-of-session check across all ACs">Exit Tickets (ExT)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-ent" checked onchange="scheduleSave()"> <span title="Category: Formative. Activates prior knowledge, AC 1.1\u20131.2">Entry Tickets (EnT)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-dotd" checked onchange="scheduleSave()"> <span title="Category: Formative. Captures qualitative data, AC 2.1, 3.1\u20133.2, 4.1\u20134.2">Direct Observation / Teacher Diary (DO/TD)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-ldepl" checked onchange="scheduleSave()"> <span title="Category: Formative + Summative. Primarily AC 5.3">Learning Diary / ELP (LD/ELP)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-qzse" onchange="scheduleSave()"> <span title="Category: Formative. Supports metacognition and self-regulation, AC 5.3">Self-Assessment Quiz (QzSe)</span></label>
+            </div>
+          </div>
+          <div>
+            <p style="font-size:.8rem;font-weight:700;color:var(--navy);margin:0 0 6px">Summative</p>
+            <div class="dc-checkgroup">
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-oa" checked onchange="scheduleSave()"> <span title="Category: Summative. Primarily AC 2.1, 3.1\u20133.2, 4.1">Oral Assignments (O.A)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-wa" checked onchange="scheduleSave()"> <span title="Category: Summative. Primarily AC 2.2\u20132.3, 4.2">Written Assignments (W.A)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-rbk" checked onchange="scheduleSave()"> <span title="Resource used alongside O.A, W.A, Projects to ensure transparent scoring">Rubrics (RbK)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-port" checked onchange="scheduleSave()"> <span title="Category: Summative. Primarily AC 2.2\u20132.3, 5.2\u20135.3">Portfolio</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-pj" onchange="scheduleSave()"> <span title="Category: Summative. Holistic, covers AC 1.1\u20136.3">Projects (PJ)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-qz" checked onchange="scheduleSave()"> <span title="Category: Summative. Primarily AC 1.1, 1.2, 5.1, 5.2">Quizzes (Qz)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-rlp" checked onchange="scheduleSave()"> <span title="Category: Summative. Primarily AC 3.1\u20133.2, 4.1">Role Plays (RLP)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-cd" onchange="scheduleSave()"> <span title="Category: Summative. Primarily AC 3.1\u20133.2">Cued Dialogues (CD)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-gcl" onchange="scheduleSave()"> <span title="Category: Summative. AC 4.2, digital tasks">Google Classroom (Google CL)</span></label>
+              <label class="dc-check-item"><input type="checkbox" id="dc-mk-instr-jgswr" onchange="scheduleSave()"> <span title="Category: Summative. AC 4.1\u20134.2, cooperative reading">Jigsaw Reading (JgswR)</span></label>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:12px">
+          <label class="dc-label">Additional instruments or full instruments description (optional)</label>
+          <textarea class="dc-q-textarea" id="dc-mk-instr-desc" rows="4" placeholder="Additional instruments, or click Autofill to insert the complete instruments description paragraph from the FUSTERSAURA marking model\u2026" oninput="scheduleSave()"></textarea>
+          <button class="dc-autofill-btn" style="margin-top:6px" onclick="doAutofill('dc-mk-instr-desc','marking-instruments')">Autofill instruments description</button>
+        </div>
+      </div>
+      <div class="dc-q-card">
+        <div class="dc-q-label-row">
+          <label class="dc-q-label">Any specific grading considerations for your group? <span style="font-size:.8rem;color:var(--grey-500)">(optional)</span>
+            <span class="dc-q-tip">\u24d8<span class="dc-tip-content">Add any group-specific grading considerations, such as SEN students assessed against adapted criteria, recovery procedures for failed units, or exceptional circumstances affecting grading.</span></span>
+          </label>
+        </div>
+        <textarea class="dc-q-textarea" id="dc-mk-extra" rows="3" placeholder="e.g. one SEN student assessed against adapted criteria, or specific recovery procedure for failed units." oninput="scheduleSave()"></textarea>
+      </div>`;
+
     case 'eval_teaching': return `
       <div class="dc-q-card">
         <div class="dc-q-label-row">
@@ -4128,6 +4261,7 @@ function wireStep2Events() {
   updateSpcTotal();
   updateTermTotal();
   updateAcTotal();
+  updateMkSpcTotal();
 }
 
 function toggleAssistantDetail() {
@@ -4159,6 +4293,35 @@ function updateTermTotal() {
   const total = vals.reduce((a,b)=>a+b,0);
   const el = document.getElementById('dc-term-total');
   if (el) { el.textContent = `${total} / 12`; el.classList.toggle('valid', total === 12); }
+}
+
+function updateMkSpcTotal() {
+  let total = 0;
+  document.querySelectorAll('.dc-mk-spc-input').forEach(i => total += parseInt(i.value || 0, 10));
+  const el = document.getElementById('dc-mk-spc-total');
+  if (el) { el.textContent = `${total} / 100`; el.classList.toggle('valid', total === 100); }
+}
+
+function toggleMkTermFormula() {
+  const toggle = document.getElementById('dc-mk-term-toggle');
+  const wrap = document.getElementById('dc-mk-term-formula-wrap');
+  const textarea = document.getElementById('dc-mk-term-formula');
+  if (!toggle || !wrap) return;
+  if (toggle.value === 'yes') {
+    wrap.style.display = '';
+    if (textarea && !textarea.value.trim()) {
+      textarea.value = 'The final yearly grade applies a progressive weighting to the three term grades, recognising that competencies increase in complexity throughout the year. The formula applied is: Final Score = [(Term 1 \u00d7 1) + (Term 2 \u00d7 2) + (Term 3 \u00d7 3)] / 6. This formula ensures that Term 3 contributes 50% of the final grade, Term 2 contributes 33.3%, and Term 1 contributes 16.7%, reflecting the cumulative and progressive nature of competence development.';
+    }
+  } else {
+    wrap.style.display = '';
+    if (textarea) textarea.value = '';
+  }
+}
+
+function toggleMkGradeCustom() {
+  const toggle = document.getElementById('dc-mk-grade-toggle');
+  const wrap = document.getElementById('dc-mk-grade-custom-wrap');
+  if (wrap && toggle) wrap.style.display = toggle.value === 'no' ? '' : 'none';
 }
 
 /* ─── Step navigation ─── */
@@ -4278,6 +4441,22 @@ function collectContextData() {
         d.yearGroup       = userContext.yearGroup;
         break;
       }
+      case 'marking': {
+        const _mF = {edp:'EdPuzzle (EdP)',plk:'Plickers (PLK)',ext:'Exit Tickets (ExT)',ent:'Entry Tickets (EnT)',dotd:'Direct Observation/Teacher Diary (DO/TD)',ldepl:'Learning Diary/ELP (LD/ELP)',qzse:'Self-Assessment Quiz (QzSe)'};
+        const _mS = {oa:'Oral Assignments (O.A)',wa:'Written Assignments (W.A)',rbk:'Rubrics (RbK)',port:'Portfolio',pj:'Projects (PJ)',qz:'Quizzes (Qz)',rlp:'Role Plays (RLP)',cd:'Cued Dialogues (CD)',gcl:'Google Classroom (Google CL)',jgswr:'Jigsaw Reading (JgswR)'};
+        d.termWeighting   = ft('dc-mk-term-toggle') || 'yes';
+        d.termFormula     = ft('dc-mk-term-formula');
+        d.spcWeights      = [1,2,3,4,5,6].map(n => ({ spc:`SPC${n}`, pct: document.getElementById(`dc-mk-spc-${n}`)?.value || '0' }));
+        d.gradeScale      = ft('dc-mk-grade-toggle') || 'yes';
+        d.gradeCustom     = ft('dc-mk-grade-custom');
+        d.instrFormative  = Object.entries(_mF).filter(([k]) => document.getElementById('dc-mk-instr-'+k)?.checked).map(([,v]) => v);
+        d.instrSummative  = Object.entries(_mS).filter(([k]) => document.getElementById('dc-mk-instr-'+k)?.checked).map(([,v]) => v);
+        d.instrDesc       = ft('dc-mk-instr-desc');
+        d.extra           = ft('dc-mk-extra');
+        d.yearGroup       = userContext.yearGroup;
+        d.cycle           = getCycleFromYear(userContext.yearGroup);
+        break;
+      }
       case 'eval_teaching':
         d.terms = [1,2,3].map(n => ({ term: n, units: ft(`dc-term-${n}`) || '0' }));
         break;
@@ -4340,6 +4519,7 @@ const DRAFT_SECTION_LABELS = {
   materials: 'Writing Materials & Resources...',
   groupings: 'Writing Groupings & Layout...',
   assessment_learning: 'Writing Assessment of Learning...',
+  marking: 'Writing Marking & Grading Criteria...',
   eval_teaching: 'Writing Evaluation of Teaching...',
   communication: 'Writing Communication section...',
   bibliography: 'Finalising Bibliography...',
@@ -4430,6 +4610,20 @@ async function callDraftAPI(sectionIds, contextData) {
   const contextSummary = buildContextSummary(sectionIds, contextData);
   const yearGroup = contextData.cover?.year || contextData.introduction?.year || contextData.justification?.year || 'Year [unspecified]';
 
+  const isMarkingSection = sectionIds.includes('marking');
+  const markingInstruction = isMarkingSection ? `
+
+MARKING SECTION INSTRUCTIONS: Generate the Marking and Grading Criteria section following the FUSTERSAURA model exactly. Include:
+(1) An introductory paragraph explaining the role of marking in the assessment process, citing RD 157/2022 and Decreto 209/2022 Art. 37.2.
+(2) A subsection "Using Instruments as Tools" distinguishing formative and summative instruments. Describe each instrument selected by the user by name with its abbreviation in brackets. Write in connected prose, not a list.
+(3) A subsection "Calculating Grades: A Step-by-Step Process" explaining unit grade, term grade, and final yearly grade. Include the progressive weighting formula if selected: Final Score = [(Term 1 × 1) + (Term 2 × 2) + (Term 3 × 3)] / 6.
+(4) A conversion table from numerical score to official categories using this exact HTML structure (do NOT use markdown for the table):
+<table style="border-collapse:collapse;width:100%;font-family:Arial,sans-serif;font-size:11pt"><thead><tr style="background:#8B0000;color:#fff"><th style="padding:6px 10px;text-align:left">Score</th><th style="padding:6px 10px;text-align:left">Grade</th><th style="padding:6px 10px;text-align:left">Category</th></tr></thead><tbody>[rows with alternating white/#f9f9f9 background, navy text]</tbody></table>
+(5) A term weighting table showing Term 1 (×1, 16.7%), Term 2 (×2, 33.3%), Term 3 (×3, 50%), using the same HTML table style.
+(6) The complete AC table using this exact HTML structure:
+<table style="border-collapse:collapse;width:100%;font-family:Arial,sans-serif;font-size:10pt"><thead><tr style="background:#8B0000;color:#fff"><th style="padding:6px 8px">SPC & Weight</th><th style="padding:6px 8px">Assessment Criteria (AC)</th><th style="padding:6px 8px">AC Wt.</th><th style="padding:6px 8px">Formative Instruments</th><th style="padding:6px 8px">Summative Instruments</th></tr></thead><tbody>[all 15 AC rows, alternating white/#f9f9f9, color:#1B2A4A]</tbody></table>
+Use the user-provided SPC weights and instruments. If the user kept standard weights, use the exact AC breakdown: SPC1 (AC1.1 10%, AC1.2 10%), SPC2 (AC2.1 5%, AC2.2 5%, AC2.3 5%), SPC3 (AC3.1 10%, AC3.2 5%), SPC4 (AC4.1 10%, AC4.2 10%), SPC5 (AC5.1 5%, AC5.2 5%, AC5.3 5%), SPC6 (AC6.1 4%, AC6.2 3%, AC6.3 3%).` : '';
+
   const userMessage = `Generate the named sections of a Primary Education English Teaching Plan for the Region of Murcia following the FUSTERSAURA model exactly. Use the user's context answers to personalise the content. Write in connected academic prose, British English, Arial 11pt register. Do not use bullet points in the main prose. Include all required legislation references. Each section should be the correct length as per the FUSTERSAURA model — not too short, not too long.
 
 Year group: ${yearGroup}
@@ -4441,7 +4635,7 @@ ${contextSummary}
 
 For the sequencing section, if unit titles were provided, generate a schematic HTML table showing the correct chart structure with placeholder text clearly marked in square brackets for the user to fill in.
 
-If generating multiple sections, use a level-2 markdown heading (##) for each section name before its content.`;
+If generating multiple sections, use a level-2 markdown heading (##) for each section name before its content.${markingInstruction}`;
 
   const headers = { 'Content-Type': 'application/json', 'mode': 'draft' };
   if (currentStudentId) {
