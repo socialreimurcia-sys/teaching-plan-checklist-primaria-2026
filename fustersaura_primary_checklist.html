@@ -3398,6 +3398,7 @@ function ucv(key, fallback = '[not specified]') {
 }
 
 function syncUserContext() {
+  const _prevYear = userContext.yearGroup;
   userContext.yearGroup    = document.getElementById('dc-cover-year')?.value || document.getElementById('dc-intro-year')?.value || '';
   userContext.studentName  = document.getElementById('dc-cover-name')?.value || '';
   userContext.classSize    = document.getElementById('dc-setting-pupils')?.value || '';
@@ -3415,6 +3416,9 @@ function syncUserContext() {
   const locLine = document.getElementById('dc-ft-setting-location')?.value || '';
   userContext.schoolLocation = locLine.split('\n')[0].slice(0, 35);
   updateContextBanner();
+  if (_prevYear !== userContext.yearGroup && draftSelectedSections.has('assessment_learning')) {
+    initAssessmentLearningAC(false);
+  }
 }
 
 function updateContextBanner() {
@@ -3443,11 +3447,16 @@ function scheduleSave() {
       if (el.type === 'checkbox') data[el.id] = el.checked;
       else if (el.value !== undefined) data[el.id] = el.value;
     });
-    const groups = { laws: {}, divMeasures: {}, objChecks: {}, commPlatforms: {} };
+    const groups = { laws: {}, divMeasures: {}, objChecks: {}, commPlatforms: {}, methBasic: {}, methEfl: {}, matSupp: {}, grpLayout: {}, grpStrat: {} };
     document.querySelectorAll('[data-lawid]').forEach(cb => { groups.laws[cb.dataset.lawid] = cb.checked; });
     document.querySelectorAll('.dc-div-measure').forEach(cb => { groups.divMeasures[cb.value] = cb.checked; });
     document.querySelectorAll('.dc-obj-check').forEach(cb => { groups.objChecks[cb.value] = cb.checked; });
     document.querySelectorAll('.dc-comm-platform').forEach(cb => { groups.commPlatforms[cb.value] = cb.checked; });
+    document.querySelectorAll('.dc-meth-basic-check').forEach(cb => { groups.methBasic[cb.value] = cb.checked; });
+    document.querySelectorAll('.dc-meth-efl-check').forEach(cb => { groups.methEfl[cb.value] = cb.checked; });
+    document.querySelectorAll('.dc-mat-supp-check').forEach(cb => { groups.matSupp[cb.value] = cb.checked; });
+    document.querySelectorAll('.dc-grp-layout-check').forEach(cb => { groups.grpLayout[cb.value] = cb.checked; });
+    document.querySelectorAll('.dc-grp-strat-check').forEach(cb => { groups.grpStrat[cb.value] = cb.checked; });
     data.__groups = groups;
     // Save unit titles / SDGs by data attrs
     const units = {}, sdgs = {};
@@ -3486,6 +3495,11 @@ function restoreStep2Answers() {
       document.querySelectorAll('.dc-div-measure').forEach(cb => { if (g.divMeasures?.[cb.value] !== undefined) cb.checked = g.divMeasures[cb.value]; });
       document.querySelectorAll('.dc-obj-check').forEach(cb => { if (g.objChecks?.[cb.value] !== undefined) cb.checked = g.objChecks[cb.value]; });
       document.querySelectorAll('.dc-comm-platform').forEach(cb => { if (g.commPlatforms?.[cb.value] !== undefined) cb.checked = g.commPlatforms[cb.value]; });
+      document.querySelectorAll('.dc-meth-basic-check').forEach(cb => { if (g.methBasic?.[cb.value] !== undefined) cb.checked = g.methBasic[cb.value]; });
+      document.querySelectorAll('.dc-meth-efl-check').forEach(cb => { if (g.methEfl?.[cb.value] !== undefined) cb.checked = g.methEfl[cb.value]; });
+      document.querySelectorAll('.dc-mat-supp-check').forEach(cb => { if (g.matSupp?.[cb.value] !== undefined) cb.checked = g.matSupp[cb.value]; });
+      document.querySelectorAll('.dc-grp-layout-check').forEach(cb => { if (g.grpLayout?.[cb.value] !== undefined) cb.checked = g.grpLayout[cb.value]; });
+      document.querySelectorAll('.dc-grp-strat-check').forEach(cb => { if (g.grpStrat?.[cb.value] !== undefined) cb.checked = g.grpStrat[cb.value]; });
     }
     if (data.__units) { Object.entries(data.__units).forEach(([u, v]) => { const el = document.querySelector(`.dc-unit-title[data-unit="${u}"]`); if (el) el.value = v; }); }
     if (data.__sdgs) { Object.entries(data.__sdgs).forEach(([u, v]) => { const el = document.querySelector(`[data-sdg="${u}"]`); if (el) el.value = v; }); }
@@ -3565,6 +3579,139 @@ function qCard({ id, label, tip, structured, placeholder, autofillKey, optional 
   </div>`;
 }
 
+/* ─── Assessment Criteria data — Decree 209/2022 Annex III ─── */
+const AC_DATA = {
+  1: [
+    { spc:1, acs:[
+      {id:'1.1',label:'Recognise and interpret familiar words and expressions in brief and simple everyday texts.'},
+      {id:'1.2',label:'Apply elementary comprehension strategies guided by context, images and co-text.'},
+    ]},
+    { spc:2, acs:[
+      {id:'2.1',label:'Express short and simple oral sentences with basic information, guided by models.'},
+      {id:'2.2',label:'Write words, expressions and sentences based on models for a specific purpose.'},
+      {id:'2.3',label:'Apply basic strategies to produce brief and simple messages for communicative intentions.'},
+    ]},
+    { spc:3, acs:[
+      {id:'3.1',label:'Participate, guided, in elementary face-to-face interactions on everyday topics.'},
+      {id:'3.2',label:'Use elementary interaction strategies: greetings, introducing oneself, basic questions.'},
+    ]},
+    { spc:4, acs:[
+      {id:'4.1',label:'Interpret and explain basic information in simple texts in situations requiring attention to diversity.'},
+    ]},
+    { spc:5, acs:[
+      {id:'5.1',label:'Compare evident similarities and differences between languages, reflecting in a guided way.'},
+      {id:'5.2',label:'Identify and apply, guided, knowledge and strategies to communicate and learn the foreign language.'},
+      {id:'5.3',label:'Identify own progress and difficulties in foreign language learning in a guided way.'},
+    ]},
+    { spc:6, acs:[
+      {id:'6.1',label:'Show interest in intercultural communication; identify discrimination and stereotypes.'},
+      {id:'6.2',label:'Recognise and appreciate linguistic and cultural diversity of the foreign language.'},
+    ]},
+  ],
+  2: [
+    { spc:1, acs:[
+      {id:'1.1',label:'Recognise and interpret overall meaning and key words in brief and simple texts on everyday topics.'},
+      {id:'1.2',label:'Select and apply appropriate strategies to grasp meaning and process explicit information.'},
+    ]},
+    { spc:2, acs:[
+      {id:'2.1',label:'Express short oral sentences about everyday matters using verbal and non-verbal resources, guided.'},
+      {id:'2.2',label:'Write very brief and simple texts based on models, using elementary structures and vocabulary.'},
+      {id:'2.3',label:'Select and apply strategies to produce brief messages appropriate to communicative intentions.'},
+    ]},
+    { spc:3, acs:[
+      {id:'3.1',label:'Participate in brief interactive situations; show empathy and respect for linguistic politeness.'},
+      {id:'3.2',label:'Use elementary strategies for greeting, expressing brief messages, and asking and answering.'},
+    ]},
+    { spc:4, acs:[
+      {id:'4.1',label:'Interpret and explain, guided, brief texts and communications in situations requiring attention to diversity.'},
+      {id:'4.2',label:'Apply elementary strategies to build bridges and facilitate comprehension and production.'},
+    ]},
+    { spc:5, acs:[
+      {id:'5.1',label:'Compare and contrast similarities and differences between languages; reflect on how they work.'},
+      {id:'5.2',label:'Use and distinguish, guided, strategies to communicate and learn the foreign language.'},
+      {id:'5.3',label:'Record progress and difficulties; self- and peer-assessment activities including the ELP.'},
+    ]},
+    { spc:6, acs:[
+      {id:'6.1',label:'Act respectfully in intercultural situations; reject discrimination, prejudice and stereotypes.'},
+      {id:'6.2',label:'Recognise and appreciate linguistic, cultural and artistic diversity as personal enrichment.'},
+      {id:'6.3',label:'Apply basic strategies to understand and appreciate linguistic, cultural and artistic diversity.'},
+    ]},
+  ],
+  3: [
+    { spc:1, acs:[
+      {id:'1.1',label:'Recognise, interpret and analyse overall meaning and specific words in brief and simple texts on everyday topics.'},
+      {id:'1.2',label:'Select, organise and apply strategies to grasp overall meaning and process explicit information.'},
+    ]},
+    { spc:2, acs:[
+      {id:'2.1',label:'Express orally brief and simple prepared texts using verbal and non-verbal resources, guided.'},
+      {id:'2.2',label:'Organise and write brief and simple prepared texts using basic structures and vocabulary.'},
+      {id:'2.3',label:'Select, organise and apply strategies for producing texts appropriate to communicative intentions.'},
+    ]},
+    { spc:3, acs:[
+      {id:'3.1',label:'Plan and participate in brief interactive situations; show empathy and respect for politeness.'},
+      {id:'3.2',label:'Select, organise and use elementary strategies for greeting, Q&A, expressing and managing turns.'},
+    ]},
+    { spc:4, acs:[
+      {id:'4.1',label:'Infer and explain, guided, brief texts and communications in situations requiring attention to diversity.'},
+      {id:'4.2',label:'Select and apply basic strategies to build bridges and facilitate comprehension and production.'},
+    ]},
+    { spc:5, acs:[
+      {id:'5.1',label:'Compare and contrast between languages; reflect with progressively greater autonomy.'},
+      {id:'5.2',label:'Use and distinguish, with growing autonomy, strategies to communicate and learn the foreign language.'},
+      {id:'5.3',label:'Record progress and difficulties; self- and peer-assessment including ELP / learning journal.'},
+    ]},
+    { spc:6, acs:[
+      {id:'6.1',label:'Act with appreciation and respect in intercultural situations; build links between languages and cultures.'},
+      {id:'6.2',label:'Accept and respect linguistic, cultural and artistic diversity; foster sustainability and democracy.'},
+      {id:'6.3',label:'Apply basic strategies to understand and appreciate linguistic, cultural and artistic diversity.'},
+    ]},
+  ],
+};
+
+function getCycleFromYear(yearStr) {
+  const n = parseInt((yearStr || '').replace(/\D/g, '')) || 0;
+  if (n <= 2) return 1;
+  if (n <= 4) return 2;
+  return 3;
+}
+
+function updateAcTotal() {
+  let total = 0;
+  document.querySelectorAll('.dc-ac-input').forEach(s => total += parseInt(s.value || 0, 10));
+  const el = document.getElementById('dc-ac-total');
+  if (el) { el.textContent = `${total} / 100`; el.classList.toggle('valid', total === 100); }
+}
+
+function initAssessmentLearningAC(restoreValues) {
+  const container = document.getElementById('dc-ac-container');
+  if (!container) return;
+  const cycle = getCycleFromYear(userContext.yearGroup);
+  const spcs = AC_DATA[cycle] || AC_DATA[3];
+  const opts = [0,5,10,15,20,25,30].map(v => `<option value="${v}">${v}%</option>`).join('');
+  container.innerHTML = spcs.map(({spc, acs}) => `
+    <div style="margin-bottom:10px">
+      <div style="font-size:.82rem;font-weight:700;color:var(--granate);margin-bottom:4px">SPC ${spc}</div>
+      ${acs.map(({id, label}) => `
+      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:4px">
+        <select class="dc-select dc-ac-input" id="dc-ac-${id}" data-acid="${id}" style="width:70px;flex-shrink:0" onchange="updateAcTotal();scheduleSave()">
+          ${opts}
+        </select>
+        <span style="font-size:.8rem;color:var(--grey-600);line-height:1.4;padding-top:2px"><strong>AC ${id}</strong> \u2014 ${label}</span>
+      </div>`).join('')}
+    </div>`).join('');
+  updateAcTotal();
+  if (restoreValues) {
+    const raw = localStorage.getItem(getDraftSaveKey());
+    if (raw) {
+      try {
+        const saved = JSON.parse(raw);
+        container.querySelectorAll('.dc-ac-input').forEach(s => { if (saved[s.id] !== undefined) s.value = saved[s.id]; });
+        updateAcTotal();
+      } catch(e) {}
+    }
+  }
+}
+
 /* ─── Step 2: Context Form ─── */
 function buildContextForm() {
   const form = document.getElementById('draft-context-form');
@@ -3573,6 +3720,7 @@ function buildContextForm() {
   form.innerHTML = selected.map(s => buildSectionCard(s)).join('');
   wireStep2Events();
   restoreStep2Answers();
+  if (draftSelectedSections.has('assessment_learning')) initAssessmentLearningAC(true);
 }
 
 function buildSectionCard(s) {
@@ -3845,18 +3993,77 @@ function getSectionQuestions(id) {
     case 'assessment_learning': return `
       <div class="dc-q-card">
         <div class="dc-q-label-row">
-          <label class="dc-q-label">Percentage weight per specific competence (must total 100%) <span class="dc-req">*</span></label>
-          <span class="dc-q-tip">ⓘ<span class="dc-tip-content">Assign a percentage to each of the 6 specific competences (SPC1–SPC6). The total must be exactly 100. Assessors check that weightings are reasonable (no single competence over 35%). Common error: giving equal weighting to all six without justifying it.</span></span>
+          <label class="dc-q-label">SPC weights \u2014 must total 100% <span class="dc-req">*</span></label>
+          <span class="dc-q-tip">\u24d8<span class="dc-tip-content">Assign a percentage weight to each of the 6 Specific Competences. Total must equal exactly 100%. Assessors check that no single SPC exceeds 35% and that the distribution is pedagogically justified. Common error: equal weighting to all six without justification.</span></span>
         </div>
-        ${[1,2,3,4,5,6].map(n=>`
-        <div class="dc-spc-row">
-          <label>SPC${n}</label>
-          <input type="number" class="dc-input dc-spc-input" id="dc-spc-${n}" min="0" max="100" value="0" oninput="updateSpcTotal();scheduleSave()">
-          <span style="font-size:.8rem;color:var(--grey-400)">%</span>
-        </div>`).join('')}
-        <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <div style="display:flex;flex-wrap:wrap;gap:8px 16px;margin-bottom:8px">
+          ${[1,2,3,4,5,6].map(n=>`
+          <div style="display:flex;align-items:center;gap:6px">
+            <label style="font-size:.85rem;font-weight:600;min-width:36px">SPC${n}</label>
+            <select class="dc-select dc-spc-input" id="dc-spc-${n}" onchange="updateSpcTotal();scheduleSave()" style="width:72px">
+              ${[0,5,10,15,20,25,30].map(v=>`<option value="${v}"${v===0?' selected':''}>${v}%</option>`).join('')}
+            </select>
+          </div>`).join('')}
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
           <span style="font-size:.83rem;color:var(--grey-600)">Total:</span>
           <span class="dc-spc-total" id="dc-spc-total">0 / 100</span>
+        </div>
+      </div>
+      <div class="dc-q-card">
+        <div class="dc-q-label-row">
+          <label class="dc-q-label">AC weights per Specific Competence \u2014 must total 100% <span class="dc-req">*</span></label>
+          <span class="dc-q-tip">\u24d8<span class="dc-tip-content">Each SPC is assessed through its Assessment Criteria (ACs) from Annex III of Decree 209/2022. Assign a percentage to each AC. The sum of all AC weights must equal 100%. The AC list is determined automatically by your year group (First Cycle Y1\u20132, Second Cycle Y3\u20134, Third Cycle Y5\u20136).</span></span>
+        </div>
+        <div id="dc-ac-container">
+          <p style="font-size:.83rem;color:var(--grey-500);font-style:italic">Set your year group in the Cover section to load the Assessment Criteria for your cycle.</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+          <span style="font-size:.83rem;color:var(--grey-600)">AC total:</span>
+          <span class="dc-spc-total" id="dc-ac-total">0 / 100</span>
+        </div>
+      </div>
+      <div class="dc-q-card">
+        <div class="dc-q-label-row">
+          <label class="dc-q-label">Sessions per unit <span class="dc-req">*</span></label>
+          <span class="dc-q-tip">\u24d8<span class="dc-tip-content">Approximate number of sessions in each teaching unit. Used to describe the unit grade arc. The standard FUSTERSAURA model uses approximately 8\u201310 sessions per unit.</span></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input type="number" class="dc-input" id="dc-asl-sessions" min="4" max="20" value="10" style="width:80px" oninput="scheduleSave()">
+          <span style="font-size:.83rem;color:var(--grey-500)">sessions per unit (approx.)</span>
+        </div>
+      </div>
+      <div class="dc-q-card">
+        <div class="dc-q-label-row">
+          <label class="dc-q-label">Assessment instruments used <span class="dc-req">*</span></label>
+          <span class="dc-q-tip">\u24d8<span class="dc-tip-content">Select all instruments used in your programme. Formative instruments gather ongoing evidence; summative instruments measure consolidated achievement. Assessors look for a balance across both categories and across the four language skills.</span></span>
+        </div>
+        <p style="font-size:.8rem;font-weight:700;color:var(--navy);margin:6px 0 4px">Formative</p>
+        <div class="dc-checkgroup">
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-edp" onchange="scheduleSave()"> EdPuzzle (EdP)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-plk" onchange="scheduleSave()"> Plickers (PLK)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-ext" onchange="scheduleSave()"> Exit Tickets (ExT)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-ent" onchange="scheduleSave()"> Entry Tickets (EnT)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-dotd" onchange="scheduleSave()"> Direct Observation / Teacher Diary (DO/TD)</label>
+        </div>
+        <p style="font-size:.8rem;font-weight:700;color:var(--navy);margin:10px 0 4px">Summative</p>
+        <div class="dc-checkgroup">
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-oa" onchange="scheduleSave()"> Oral Assignments (O.A)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-wa" onchange="scheduleSave()"> Written Assignments (W.A)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-rbk" onchange="scheduleSave()"> Rubrics (RbK)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-port" onchange="scheduleSave()"> Portfolio</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-pj" onchange="scheduleSave()"> Projects (PJ)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-qz" onchange="scheduleSave()"> Quizzes (Qz)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-rlp" onchange="scheduleSave()"> Role Plays (RLP)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-cd" onchange="scheduleSave()"> Cued Dialogues (CD)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-elpld" onchange="scheduleSave()"> Learning Diary / ELP (LD/ELP)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-qzse" onchange="scheduleSave()"> Self-Assessment Quiz (QzSe)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-gcl" onchange="scheduleSave()"> Google Classroom Tasks (Google CL)</label>
+          <label class="dc-check-item"><input type="checkbox" id="dc-instr-jgswr" onchange="scheduleSave()"> Jigsaw Reading (JgswR)</label>
+        </div>
+        <div style="margin-top:10px">
+          <label class="dc-label">Other instruments (optional)</label>
+          <input class="dc-input" id="dc-instr-others" placeholder="e.g. Drama performances, collaborative posters\u2026" oninput="scheduleSave()">
         </div>
       </div>`;
 
@@ -3920,6 +4127,7 @@ function wireStep2Events() {
   });
   updateSpcTotal();
   updateTermTotal();
+  updateAcTotal();
 }
 
 function toggleAssistantDetail() {
@@ -4057,9 +4265,19 @@ function collectContextData() {
           sdg: document.querySelector(`[data-sdg="${el.dataset.unit}"]`)?.value || ''
         }));
         break;
-      case 'assessment_learning':
-        d.spc = [1,2,3,4,5,6].map(n => ({ name: `SPC${n}`, pct: ft(`dc-spc-${n}`) || '0' }));
+      case 'assessment_learning': {
+        const _iF = {edp:'EdPuzzle (EdP)',plk:'Plickers (PLK)',ext:'Exit Tickets (ExT)',ent:'Entry Tickets (EnT)',dotd:'Direct Observation/Teacher Diary (DO/TD)'};
+        const _iS = {oa:'Oral Assignments (O.A)',wa:'Written Assignments (W.A)',rbk:'Rubrics (RbK)',port:'Portfolio',pj:'Projects (PJ)',qz:'Quizzes (Qz)',rlp:'Role Plays (RLP)',cd:'Cued Dialogues (CD)',elpld:'Learning Diary/ELP (LD/ELP)',qzse:'Self-Assessment Quiz (QzSe)',gcl:'Google Classroom Tasks (Google CL)',jgswr:'Jigsaw Reading (JgswR)'};
+        d.spc         = [1,2,3,4,5,6].map(n => ({ name:`SPC${n}`, pct: document.getElementById(`dc-spc-${n}`)?.value || '0' }));
+        d.acWeights   = Array.from(document.querySelectorAll('.dc-ac-input')).map(s => ({ ac: s.dataset.acid, pct: s.value || '0' }));
+        d.sessionsPerUnit = ft('dc-asl-sessions') || '10';
+        d.instrFormative  = Object.entries(_iF).filter(([k]) => document.getElementById('dc-instr-'+k)?.checked).map(([,v]) => v);
+        d.instrSummative  = Object.entries(_iS).filter(([k]) => document.getElementById('dc-instr-'+k)?.checked).map(([,v]) => v);
+        d.instrOthers     = ft('dc-instr-others');
+        d.cycle           = getCycleFromYear(userContext.yearGroup);
+        d.yearGroup       = userContext.yearGroup;
         break;
+      }
       case 'eval_teaching':
         d.terms = [1,2,3].map(n => ({ term: n, units: ft(`dc-term-${n}`) || '0' }));
         break;
@@ -4084,11 +4302,16 @@ function validateContextForm() {
     if (!el.value.trim()) { el.style.borderColor = 'var(--granate)'; valid = false; }
     else el.style.borderColor = '';
   });
-  // SPC must total 100
+  // SPC must total 100 and AC weights must also total 100
   if (draftSelectedSections.has('assessment_learning')) {
     let total = 0;
     document.querySelectorAll('.dc-spc-input').forEach(i => total += parseInt(i.value||0,10));
     if (total !== 100) { showToast('SPC percentages must add up to 100%'); valid = false; }
+    if (document.querySelectorAll('.dc-ac-input').length > 0) {
+      let acTotal = 0;
+      document.querySelectorAll('.dc-ac-input').forEach(s => acTotal += parseInt(s.value||0,10));
+      if (acTotal !== 100) { showToast('AC weights must also add up to 100%'); valid = false; }
+    }
   }
   // terms must total 12
   if (draftSelectedSections.has('eval_teaching')) {
