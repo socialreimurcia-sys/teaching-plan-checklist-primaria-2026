@@ -2962,9 +2962,26 @@ function markdownToHtml(md) {
   const lines = md.split('\n');
   let html = '';
   let inUl = false;
+  let inHtmlBlock = false;
+  let htmlBlockTag = '';
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     const trimmed = line.trim();
+    // Pass raw HTML blocks (tables, divs, figures) through unchanged
+    if (inHtmlBlock) {
+      html += line + '\n';
+      if (trimmed.toLowerCase().includes('</' + htmlBlockTag + '>')) inHtmlBlock = false;
+      continue;
+    }
+    const htmlOpen = trimmed.match(/^<(table|div|figure|section)[\s>]/i);
+    if (htmlOpen) {
+      if (inUl) { html += '</ul>'; inUl = false; }
+      htmlBlockTag = htmlOpen[1].toLowerCase();
+      inHtmlBlock = !trimmed.toLowerCase().includes('</' + htmlBlockTag + '>');
+      html += line + '\n';
+      continue;
+    }
+    // Markdown
     if (/^#{1}\s/.test(trimmed)) {
       if (inUl) { html += '</ul>'; inUl = false; }
       html += `<h2>${processInline(trimmed.replace(/^#+\s/, ''))}</h2>`;
@@ -4602,40 +4619,87 @@ function buildContextSummary(ids, contextData) {
 }
 
 async function callDraftAPI(sectionIds, contextData) {
-  const sectionList = sectionIds.map(id => {
-    const s = DRAFT_SECTIONS.find(x => x.id === id);
-    return s ? `${s.num ? s.num + '. ' : ''}${s.label}` : id;
-  }).join(', ');
+  const id = sectionIds[0];
+  const s = DRAFT_SECTIONS.find(x => x.id === id);
+  const sectionList = s ? `${s.num ? s.num + '. ' : ''}${s.label}` : id;
 
   const contextSummary = buildContextSummary(sectionIds, contextData);
   const yearGroup = contextData.cover?.year || contextData.introduction?.year || contextData.justification?.year || 'Year [unspecified]';
 
-  const isMarkingSection = sectionIds.includes('marking');
-  const markingInstruction = isMarkingSection ? `
+  // Build section-specific instruction and token budget
+  let sectionInstruction = '';
+  let maxTokens = 1500;
 
-MARKING SECTION INSTRUCTIONS: Generate the Marking and Grading Criteria section following the FUSTERSAURA model exactly. Include:
-(1) An introductory paragraph explaining the role of marking in the assessment process, citing RD 157/2022 and Decreto 209/2022 Art. 37.2.
-(2) A subsection "Using Instruments as Tools" distinguishing formative and summative instruments. Describe each instrument selected by the user by name with its abbreviation in brackets. Write in connected prose, not a list.
-(3) A subsection "Calculating Grades: A Step-by-Step Process" explaining unit grade, term grade, and final yearly grade. Include the progressive weighting formula if selected: Final Score = [(Term 1 × 1) + (Term 2 × 2) + (Term 3 × 3)] / 6.
-(4) A conversion table from numerical score to official categories using this exact HTML structure (do NOT use markdown for the table):
-<table style="border-collapse:collapse;width:100%;font-family:Arial,sans-serif;font-size:11pt"><thead><tr style="background:#8B0000;color:#fff"><th style="padding:6px 10px;text-align:left">Score</th><th style="padding:6px 10px;text-align:left">Grade</th><th style="padding:6px 10px;text-align:left">Category</th></tr></thead><tbody>[rows with alternating white/#f9f9f9 background, navy text]</tbody></table>
-(5) A term weighting table showing Term 1 (×1, 16.7%), Term 2 (×2, 33.3%), Term 3 (×3, 50%), using the same HTML table style.
-(6) The complete AC table using this exact HTML structure:
-<table style="border-collapse:collapse;width:100%;font-family:Arial,sans-serif;font-size:10pt"><thead><tr style="background:#8B0000;color:#fff"><th style="padding:6px 8px">SPC & Weight</th><th style="padding:6px 8px">Assessment Criteria (AC)</th><th style="padding:6px 8px">AC Wt.</th><th style="padding:6px 8px">Formative Instruments</th><th style="padding:6px 8px">Summative Instruments</th></tr></thead><tbody>[all 15 AC rows, alternating white/#f9f9f9, color:#1B2A4A]</tbody></table>
-Use the user-provided SPC weights and instruments. If the user kept standard weights, use the exact AC breakdown: SPC1 (AC1.1 10%, AC1.2 10%), SPC2 (AC2.1 5%, AC2.2 5%, AC2.3 5%), SPC3 (AC3.1 10%, AC3.2 5%), SPC4 (AC4.1 10%, AC4.2 10%), SPC5 (AC5.1 5%, AC5.2 5%, AC5.3 5%), SPC6 (AC6.1 4%, AC6.2 3%, AC6.3 3%).` : '';
+  if (id === 'assessment_learning') {
+    maxTokens = 3000;
+    const d = contextData.assessment_learning || {};
+    const spcLine = (d.spc||[]).map(x=>`${x.name} ${x.pct}%`).join(', ') || 'SPC1 20%, SPC2 15%, SPC3 15%, SPC4 20%, SPC5 15%, SPC6 10%';
+    const fInstr = (d.instrFormative||[]).join(', ') || 'EdPuzzle (EdP), Plickers (PLK), Exit Tickets (ExT), Entry Tickets (EnT), Direct Observation/Teacher Diary (DO/TD)';
+    const sInstr = (d.instrSummative||[]).join(', ') || 'Oral Assignments (O.A), Written Assignments (W.A), Rubrics (RbK), Portfolio, Quizzes (Qz), Role Plays (RLP)';
+    const acLine = (d.acWeights||[]).filter(x=>parseInt(x.pct)>0).map(x=>`AC${x.ac} ${x.pct}%`).join(', ') || 'standard FUSTERSAURA distribution';
+    sectionInstruction = `
 
-  const userMessage = `Generate the named sections of a Primary Education English Teaching Plan for the Region of Murcia following the FUSTERSAURA model exactly. Use the user's context answers to personalise the content. Write in connected academic prose, British English, Arial 11pt register. Do not use bullet points in the main prose. Include all required legislation references. Each section should be the correct length as per the FUSTERSAURA model — not too short, not too long.
+STRUCTURE INSTRUCTIONS FOR ASSESSMENT OF LEARNING (15b):
+Generate four numbered subsections with ## markdown headings:
+
+## 15.1 Legal Framework
+Cite Art. 19 (continuous, global, formative), Art. 21, Art. 22, Art. 36 and Art. 37.2 of Decreto 209/2022; LOMLOE Art. 28; RD 157/2022. State official grade categories per Art. 37.2: IN (0\u20134.9 Insuficiente), SU (5.0\u20135.9 Suficiente), BI (6.0\u20136.9 Bien), NOT (7.0\u20137.9 Notable), SOB (8.0\u20139.9 Sobresaliente). Write 2 paragraphs in academic prose.
+
+## 15.2 Types of Evaluation
+Write in connected prose (no bullet lists). Cover all six types: diagnostic (start-of-year KWL, entry tickets, beginning-of-unit pre-assessment), formative (exit tickets, observation, Plickers, EdPuzzle throughout each unit), summative (end-of-unit quizzes, projects, oral and written assignments), self-evaluation (ELP, self-assessment quizzes), peer evaluation (structured peer feedback), co-evaluation (joint teacher-student assessment). Approx. 200 words.
+
+## 15.3 Instruments and Resources
+Describe each selected instrument by name with its abbreviation in brackets. Group under two sub-headings: Formative instruments (${fInstr}) then Summative instruments (${sInstr}). One sentence per instrument explaining its specific role. Then add a sentence on assessment resources: Rubrics (RbK) for transparent scoring, Teacher\u2019s Diary (TDIA) for systematic observation, Summative Evaluation Sheets (SES). Academic prose throughout.
+
+## 15.4 Marking Criteria
+Explain that grades derive from AC weights, not instrument averages. State: SPC weights: ${spcLine}. AC weights: ${acLine}. Explain the three-step calculation: Step 1 \u2014 unit grade from weighted AC evidence; Step 2 \u2014 term grade = average of four unit grades; Step 3 \u2014 final grade = [(T1\u00d71)+(T2\u00d72)+(T3\u00d73)]/6. Then output a compact HTML summary table (granate #8B0000 header, alternating white/#f9f9f9 rows, navy #1B2A4A text) showing all ACs and their weights. IMPORTANT: output the table as raw HTML, not markdown.`;
+  }
+
+  if (id === 'marking') {
+    maxTokens = 3500;
+    const d = contextData.marking || {};
+    const spcWeights = (d.spcWeights||[]).map(x=>`${x.spc} ${x.pct}%`).join(', ') || 'SPC1 20%, SPC2 15%, SPC3 15%, SPC4 20%, SPC5 15%, SPC6 10%';
+    const fInstr = (d.instrFormative||[]).join(', ') || 'EdPuzzle (EdP), Plickers (PLK), Exit Tickets (ExT), Entry Tickets (EnT), Direct Observation/Teacher Diary (DO/TD), Learning Diary/ELP (LD/ELP)';
+    const sInstr = (d.instrSummative||[]).join(', ') || 'Oral Assignments (O.A), Written Assignments (W.A), Rubrics (RbK), Portfolio, Quizzes (Qz), Role Plays (RLP)';
+    const useStdFormula = (d.termWeighting||'yes') === 'yes';
+    const formulaText = useStdFormula
+      ? 'Final Score = [(Term\u00a01\u00a0\u00d7\u00a01)\u00a0+\u00a0(Term\u00a02\u00a0\u00d7\u00a02)\u00a0+\u00a0(Term\u00a03\u00a0\u00d7\u00a03)]\u00a0/\u00a06. Term\u00a01 contributes 16.7%, Term\u00a02 33.3%, Term\u00a03 50%.'
+      : (d.termFormula || 'as specified.');
+    const gradeNote = (d.gradeScale||'yes') === 'yes'
+      ? 'Use the standard Murcia Primary scale: 0\u20134.9 INS, 5.0\u20135.9 SU, 6.0\u20136.9 BI, 7.0\u20137.9 NOT, 8.0\u20139.9 SOB (Art. 37.2 D.209/2022).'
+      : (d.gradeCustom || 'Use the standard scale.');
+    sectionInstruction = `
+
+STRUCTURE INSTRUCTIONS FOR MARKING & GRADING CRITERIA (15.4):
+This section is a standalone marking document. Follow the FUSTERSAURA model precisely. Generate these subsections using ## markdown headings:
+
+INTRODUCTION (no heading, 2 paragraphs): Assessment is a continuous, transparent process. Cite RD 157/2022 and Decreto 209/2022 Art. 37.2 as the legislative basis. Each SPC is measurable through its ACs, each carrying a pre-defined weight. SPC weights used: ${spcWeights}.
+
+## Using Instruments as Tools
+Distinguish formative (ongoing feedback, lower grade weight) and summative (measures consolidated achievement, end of unit). Formative selected by user: ${fInstr}. Summative selected: ${sInstr}. Describe each instrument by name with abbreviation in brackets, one sentence on its role. Write as connected academic prose under Formative and Summative subheadings. Do NOT use a bullet list.
+
+## Calculating Grades: A Step-by-Step Process
+Three steps in academic prose: Step 1 \u2014 unit grade: all evidence compiled against relevant ACs proportional to their weights, typically across approximately ${d.sessionsPerUnit||'10'} sessions per unit; Step 2 \u2014 term grade: (U1+U2+U3+U4)/4; Step 3 \u2014 final yearly grade: ${formulaText}
+
+After the prose, output these two tables as raw HTML (NOT markdown). Table 1 \u2014 Grade conversion (title: "Numerical Score to Official Grade Conversion"):
+<table style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:11pt;margin:10px 0"><thead><tr style="background:#8B0000;color:#fff"><th style="padding:7px 14px;border:1px solid #8B0000">Score</th><th style="padding:7px 14px;border:1px solid #8B0000">Grade</th><th style="padding:7px 14px;border:1px solid #8B0000">Category</th></tr></thead><tbody><tr style="background:#fff;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">0 \u2013 4.9</td><td style="padding:6px 14px;border:1px solid #ddd;font-weight:700">INS</td><td style="padding:6px 14px;border:1px solid #ddd">Insuficiente</td></tr><tr style="background:#f9f9f9;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">5.0 \u2013 5.9</td><td style="padding:6px 14px;border:1px solid #ddd;font-weight:700">SU</td><td style="padding:6px 14px;border:1px solid #ddd">Suficiente</td></tr><tr style="background:#fff;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">6.0 \u2013 6.9</td><td style="padding:6px 14px;border:1px solid #ddd;font-weight:700">BI</td><td style="padding:6px 14px;border:1px solid #ddd">Bien</td></tr><tr style="background:#f9f9f9;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">7.0 \u2013 7.9</td><td style="padding:6px 14px;border:1px solid #ddd;font-weight:700">NOT</td><td style="padding:6px 14px;border:1px solid #ddd">Notable</td></tr><tr style="background:#fff;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">8.0 \u2013 9.9</td><td style="padding:6px 14px;border:1px solid #ddd;font-weight:700">SOB</td><td style="padding:6px 14px;border:1px solid #ddd">Sobresaliente</td></tr></tbody></table>
+Table 2 \u2014 Term weighting (title: "Term Weighting System"):
+<table style="border-collapse:collapse;width:100%;font-family:Arial,sans-serif;font-size:11pt;margin:10px 0"><thead><tr style="background:#8B0000;color:#fff"><th style="padding:7px 14px;border:1px solid #8B0000">Term</th><th style="padding:7px 14px;border:1px solid #8B0000">Multiplier</th><th style="padding:7px 14px;border:1px solid #8B0000">Units</th><th style="padding:7px 14px;border:1px solid #8B0000">Contribution</th></tr></thead><tbody><tr style="background:#fff;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">Term 1</td><td style="padding:6px 14px;border:1px solid #ddd">\u00d7 1</td><td style="padding:6px 14px;border:1px solid #ddd">Units 1\u20134</td><td style="padding:6px 14px;border:1px solid #ddd">\u2248 16.7%</td></tr><tr style="background:#f9f9f9;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">Term 2</td><td style="padding:6px 14px;border:1px solid #ddd">\u00d7 2</td><td style="padding:6px 14px;border:1px solid #ddd">Units 5\u20138</td><td style="padding:6px 14px;border:1px solid #ddd">\u2248 33.3%</td></tr><tr style="background:#fff;color:#1B2A4A"><td style="padding:6px 14px;border:1px solid #ddd">Term 3</td><td style="padding:6px 14px;border:1px solid #ddd">\u00d7 3</td><td style="padding:6px 14px;border:1px solid #ddd">Units 9\u201312</td><td style="padding:6px 14px;border:1px solid #ddd">\u2248 50.0%</td></tr><tr style="background:#8B0000;color:#fff"><td colspan="4" style="padding:6px 14px;border:1px solid #8B0000"><strong>Final Score = [(T1 \u00d7 1) + (T2 \u00d7 2) + (T3 \u00d7 3)] / 6</strong></td></tr></tbody></table>
+
+## Assessment Criteria, Weights and Instruments \u2014 ${yearGroup}
+Write one paragraph: this table is the primary grading reference. SPC weights used: ${spcWeights}. Each AC weight determines the weight of instruments used to assess it.
+Then output the complete 15-AC table as raw HTML with FUSTERSAURA styling (granate #8B0000 header row, alternating white/#f9f9f9 body rows, all text #1B2A4A, border:1px solid #ddd). Columns: "SPC & Weight" | "Assessment Criteria (AC)" | "AC Wt." | "Formative Instruments" | "Summative Instruments". Use these exact AC weights: AC1.1 10%, AC1.2 10%, AC2.1 5%, AC2.2 5%, AC2.3 5%, AC3.1 10%, AC3.2 5%, AC4.1 10%, AC4.2 10%, AC5.1 5%, AC5.2 5%, AC5.3 5%, AC6.1 4%, AC6.2 3%, AC6.3 3% (unless user changed SPC weights, in which case redistribute proportionally within each SPC). For each AC, assign the most pedagogically appropriate subset of the user\u2019s selected instruments: formative (${fInstr}) and summative (${sInstr}).`;
+  }
+
+  const userMessage = `Generate the named section of a Primary Education English Teaching Plan for the Region of Murcia following the FUSTERSAURA model exactly. Use the user\u2019s context answers to personalise the content. Write in connected academic prose, British English. Include all required legislation references.
 
 Year group: ${yearGroup}
-
-Sections to generate: ${sectionList}
+Section to generate: ${sectionList}
 
 User context:
 ${contextSummary}
 
-For the sequencing section, if unit titles were provided, generate a schematic HTML table showing the correct chart structure with placeholder text clearly marked in square brackets for the user to fill in.
-
-If generating multiple sections, use a level-2 markdown heading (##) for each section name before its content.${markingInstruction}`;
+For the sequencing section, generate a schematic HTML table if unit titles were provided.${sectionInstruction}`;
 
   const headers = { 'Content-Type': 'application/json', 'mode': 'draft' };
   if (currentStudentId) {
@@ -4643,14 +4707,14 @@ If generating multiple sections, use a level-2 markdown heading (##) for each se
     headers['x-section'] = sectionIds.join(',');
   }
 
-  const DRAFT_SYSTEM = 'You are a specialist in Spanish Primary Education Teaching Plan writing with deep expertise in LOMLOE, RD\u00a0157/2022, and Decree\u00a0209/2022 (Murcia). Generate well-structured, complete sections for a Primary English Teaching Plan following the FUSTERSAURA model. Write in formal academic British English prose. Include all required legislation references. Be precise and thorough.';
+  const DRAFT_SYSTEM = 'You are a specialist in Spanish Primary Education Teaching Plan writing with deep expertise in LOMLOE, RD\u00a0157/2022, and Decreto\u00a0209/2022 (Murcia). Generate well-structured, complete sections for a Primary English Teaching Plan following the FUSTERSAURA model. Write in formal academic British English prose. Include all required legislation references. When instructed to output HTML tables, output them as raw HTML exactly as specified \u2014 never use markdown table syntax for these.';
 
   const response = await fetch('/.netlify/functions/anthropic-proxy', {
     method: 'POST',
     headers,
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1500,
+      max_tokens: maxTokens,
       system: DRAFT_SYSTEM,
       messages: [{ role: 'user', content: userMessage }],
       mode: 'draft'
