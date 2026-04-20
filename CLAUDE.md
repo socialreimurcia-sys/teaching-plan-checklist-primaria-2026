@@ -212,5 +212,19 @@ function processInline(text) // procesa negrita, cursiva, código inline
 - [x] Proxy Netlify Function con token tracking Supabase
 - [x] Fix sintaxis: apóstrofe en string → \u2019
 
+## 15. Reference Documents
+
+### `Marking_Primary_VersionB_Prose_Year5.md`
+Official FUSTERSAURA marking model for Primary Year 5. Source of truth for:
+- AC weights (per-AC percentages for Third Cycle / Year 5)
+- Full instrument list with abbreviations (formative + summative)
+- Grade calculation formula: `Final = [(T1×1)+(T2×2)+(T3×3)]/6`
+- Grade conversion scale (INS/SU/BI/NOT/SOB)
+- AC descriptions for all 15 ACs in Third Cycle (SPC1–SPC6)
+
+When generating the `assessment_learning` section draft, read this file for the exact AC labels, weights, and instrument references. Do not invent or paraphrase them.
+
+---
+
 ## Tareas pendientes
 *(ninguna pendiente explícita — esperar nuevas peticiones del usuario)*
