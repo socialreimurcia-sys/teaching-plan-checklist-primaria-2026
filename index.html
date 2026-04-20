@@ -3711,16 +3711,57 @@ function getSectionQuestions(id) {
         placeholder:'e.g. Objectives b, f and h are those English contributes to most directly. Objective b (communication) is addressed in Unit 3 through the "My City" project where pupils give spoken presentations…' })}`;
 
     case 'methodology': return `
+      ${qCard({ id:'dc-ft-meth-basic', label:'Basic psycho-pedagogical principles', rows:3,
+        tip:'Select the learning theories underpinning your methodology and explain how each manifests in your teaching. Assessors look for coherent application of theory to practice, not just a list of names. Common error: listing all theorists without distinguishing primary influences.',
+        structured:`<div class="dc-checkgroup">
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-basic-check" value="piaget" onchange="scheduleSave()"> Piaget (constructivism)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-basic-check" value="vygotsky" onchange="scheduleSave()"> Vygotsky (ZPD, scaffolding)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-basic-check" value="ausubel" onchange="scheduleSave()"> Ausubel (meaningful learning)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-basic-check" value="bruner" onchange="scheduleSave()"> Bruner (discovery learning)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-basic-check" value="rosenshine" onchange="scheduleSave()"> Rosenshine (Principles of Instruction)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-basic-check" value="alc" onchange="scheduleSave()"> Smith\u2019s ALC (Accelerated Learning Cycle)</label>
+        </div>`,
+        placeholder:'e.g. Our methodology is grounded primarily in Vygotsky\u2019s Zone of Proximal Development, with scaffolding gradually reduced as pupils gain autonomy. Rosenshine\u2019s Principles of Instruction inform our daily lesson structure through systematic review and small-step presentation\u2026' })}
+      ${qCard({ id:'dc-ft-meth-efl', label:'Specific EFL principles', rows:3,
+        tip:'Indicate which EFL-specific frameworks inform your approach. Assessors look for a clear connection between theory and classroom practice. Common error: listing all frameworks without distinguishing which are primary influences.',
+        structured:`<div class="dc-checkgroup">
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-efl-check" value="clt" onchange="scheduleSave()"> CLT (Communicative Language Teaching)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-efl-check" value="tbl" onchange="scheduleSave()"> TBL (Task-Based Learning)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-efl-check" value="schmidt" onchange="scheduleSave()"> Schmidt\u2019s Noticing Hypothesis</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-efl-check" value="ellis" onchange="scheduleSave()"> Ellis\u2019 Consciousness-Raising</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-efl-check" value="long" onchange="scheduleSave()"> Long\u2019s Focus on Form</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-efl-check" value="krashen" onchange="scheduleSave()"> Krashen (Input Hypothesis, i+1)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-efl-check" value="corder" onchange="scheduleSave()"> Corder (Interlanguage)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-meth-efl-check" value="selinker" onchange="scheduleSave()"> Selinker (Fossilisation)</label>
+        </div>`,
+        placeholder:'e.g. CLT is our primary framework, with meaningful interaction as the core vehicle of acquisition. Schmidt\u2019s Noticing Hypothesis informs form-focused activities where attention is drawn to target structures through input enhancement and consciousness-raising tasks\u2026' })}
+      ${qCard({ id:'dc-ft-meth-macro', label:'Macrostructure \u2014 unit arc', rows:3,
+        tip:'Describe the overall shape of a unit. The standard FUSTERSAURA macrostructure uses an 8-session arc: sessions 1\u20134 are input/receptive phases (reading, listening, vocabulary, grammar in context) and sessions 5\u20138 are output/production phases (speaking, writing, project work). Confirm or adapt this model.',
+        structured:`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px">
+          <div class="dc-field"><label class="dc-label">Sessions per unit</label>
+            <input type="number" class="dc-input" id="dc-meth-macro-sessions" min="4" max="20" value="8" style="width:80px" oninput="scheduleSave()">
+          </div>
+          <div class="dc-field"><label class="dc-label">Input sessions</label>
+            <input type="number" class="dc-input" id="dc-meth-macro-input" min="1" max="10" value="4" style="width:80px" oninput="scheduleSave()">
+          </div>
+          <div class="dc-field"><label class="dc-label">Output sessions</label>
+            <input type="number" class="dc-input" id="dc-meth-macro-output" min="1" max="10" value="4" style="width:80px" oninput="scheduleSave()">
+          </div>
+        </div>`,
+        placeholder:'e.g. Each unit follows an 8-session arc. Sessions 1\u20134 are the receptive/input phase: session 1 activates prior knowledge and introduces topic lexicon; sessions 2\u20133 develop reading and listening; session 4 consolidates grammar in context. Sessions 5\u20138 shift to the productive/output phase, culminating in a performance task in session 8\u2026' })}
+      ${qCard({ id:'dc-ft-meth-micro', label:'Microstructure \u2014 session design', rows:3,
+        tip:'Describe the internal structure of a typical lesson. The standard FUSTERSAURA model uses Connect \u2192 Activate \u2192 Demonstrate \u2192 Consolidate (based on Rosenshine/Smith\u2019s ALC). For skill lessons a pre-while-post structure applies; for language lessons, PPP (Presentation-Practice-Production). Confirm or adapt.',
+        placeholder:'e.g. Every lesson follows the Connect\u2013Activate\u2013Demonstrate\u2013Consolidate sequence. Connect (5 min) reviews prior learning through retrieval practice. Activate (10 min) presents new focus via modelling. Demonstrate (20 min) involves structured pair or group practice. Consolidate (10 min) provides independent production and self-assessment. Skill lessons use a pre\u2013while\u2013post structure; language lessons follow PPP\u2026' })}
       ${qCard({ id:'dc-ft-meth-tools', label:'Digital tools and apps used', optional:true, rows:2,
         tip:'List any apps or digital tools used beyond the standard textbook platform. Assessors appreciate specific tool names with brief explanations of their pedagogical purpose. Common error: listing tools without linking them to specific activities or learning outcomes.',
-        structured:`<input class="dc-input" id="dc-meth-tools" placeholder="e.g. Kahoot, Genially, Canva for Education…" oninput="scheduleSave()">`,
-        placeholder:'e.g. Beyond the standard platform, we use Kahoot for vocabulary review, Genially for interactive reading tasks, and Canva to develop digital literacy…' })}
+        structured:`<input class="dc-input" id="dc-meth-tools" placeholder="e.g. Kahoot, Genially, Canva for Education\u2026" oninput="scheduleSave()">`,
+        placeholder:'e.g. Beyond the standard platform, we use Kahoot for vocabulary review, Genially for interactive reading tasks, and Canva to develop digital literacy\u2026' })}
       ${qCard({ id:'dc-ft-meth-assistant', label:'Language assistant', rows:3,
         tip:'If you have a language assistant, describe their role clearly. Assessors look for: nationality, sessions per week, specific activities they lead, and their cultural contribution. Common error: writing "we have an assistant" without specifying their role.',
         structured:`<div class="dc-row-2">
           <div class="dc-field"><label class="dc-label">Language assistant? *</label>
             <select class="dc-select" id="dc-meth-assistant" required onchange="scheduleSave();syncUserContext();toggleAssistantDetail()">
-              <option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option>
+              <option value="">Select\u2026</option><option value="yes">Yes</option><option value="no">No</option>
             </select>
           </div>
           <div class="dc-field" id="dc-meth-assistant-detail-wrap" style="display:none">
@@ -3728,8 +3769,56 @@ function getSectionQuestions(id) {
             <input class="dc-input" id="dc-meth-assistant-detail" placeholder="e.g. American, 2 sessions/week" oninput="scheduleSave();syncUserContext()">
           </div>
         </div>`,
-        placeholder:'e.g. Our group benefits from a language assistant of American origin, attending 2 sessions per week. They lead authentic conversation activities and provide cultural insights…',
+        placeholder:'e.g. Our group benefits from a language assistant of American origin, attending 2 sessions per week. They lead authentic conversation activities and provide cultural insights\u2026',
         autofillKey:'meth-assistant' })}`;
+
+    case 'materials': return `
+      ${qCard({ id:'dc-ft-mat-textbook', label:'Main textbook and digital platform', rows:2,
+        tip:'State the textbook series, publisher, and the digital platform it includes. Assessors check that the textbook is appropriate for the year group and that the digital platform is actively integrated. Common error: naming only the textbook without mentioning the accompanying digital platform.',
+        structured:`<div class="dc-row-2">
+          <div class="dc-field"><label class="dc-label">Textbook series &amp; publisher *</label>
+            <input class="dc-input" id="dc-mat-textbook" required placeholder="e.g. Explore 5, Burlington Books" oninput="scheduleSave()">
+          </div>
+          <div class="dc-field"><label class="dc-label">Digital platform</label>
+            <input class="dc-input" id="dc-mat-platform" placeholder="e.g. Burlington Online Platform" oninput="scheduleSave()">
+          </div>
+        </div>`,
+        placeholder:'e.g. Our main resource is Explore 5 (Burlington Books), supported by the Burlington Online Platform for interactive activities, listening practice, and digital homework. The textbook provides a coherent sequence aligned with the Murcia curriculum\u2026' })}
+      ${qCard({ id:'dc-ft-mat-supplementary', label:'Supplementary materials', rows:3,
+        tip:'Classify supplementary materials into three types: print (worksheets, graded readers, flashcards, magazines, dictionaries), audiovisual (videos, audio clips, EdPuzzle), and realia (authentic texts, real objects, menus, leaflets). Assessors check for variety across types. Common error: listing only digital tools and ignoring analogue materials.',
+        structured:`<div class="dc-checkgroup">
+          <label class="dc-check-item"><input type="checkbox" class="dc-mat-supp-check" value="worksheets" onchange="scheduleSave()"> Worksheets (teacher-made)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-mat-supp-check" value="graded-readers" onchange="scheduleSave()"> Graded readers</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-mat-supp-check" value="flashcards" onchange="scheduleSave()"> Flashcards</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-mat-supp-check" value="magazines" onchange="scheduleSave()"> Magazines / authentic texts</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-mat-supp-check" value="dictionaries" onchange="scheduleSave()"> Dictionaries</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-mat-supp-check" value="videos" onchange="scheduleSave()"> Video / audio clips</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-mat-supp-check" value="realia" onchange="scheduleSave()"> Realia (menus, leaflets, objects)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-mat-supp-check" value="digital-tools" onchange="scheduleSave()"> Digital tools (Kahoot, Genially, Canva\u2026)</label>
+        </div>`,
+        placeholder:'e.g. Print materials include teacher-made scaffolded worksheets, a class set of graded readers, and Oxford bilingual dictionaries. Audiovisual materials include short authentic video clips and EdPuzzle interactive tasks. Realia include authentic menus, product labels, and cultural artefacts to contextualise vocabulary\u2026' })}`;
+
+    case 'groupings': return `
+      ${qCard({ id:'dc-ft-grp-layout', label:'Main classroom layout', rows:2,
+        tip:'Describe the default classroom arrangement and its pedagogical rationale. The U-shape is recommended as it facilitates whole-class discussion and teacher-student interaction. Assessors look for a stated rationale. Common error: describing only rows without acknowledging that layout adapts for different activity types.',
+        structured:`<div class="dc-checkgroup">
+          <label class="dc-check-item"><input type="checkbox" class="dc-grp-layout-check" value="u-shape" onchange="scheduleSave()"> U-shape (default)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-grp-layout-check" value="rows" onchange="scheduleSave()"> Traditional rows</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-grp-layout-check" value="islands" onchange="scheduleSave()"> Islands/clusters (for group work)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-grp-layout-check" value="corners" onchange="scheduleSave()"> Corners (reading, computer, cultural\u2026)</label>
+        </div>`,
+        placeholder:'e.g. The primary classroom organisation is the U-shape, as it facilitates materials presentation, learner-to-learner interaction, and whole-class discussion. For group and project work, desks are rearranged into islands. A reading corner with graded readers and a digital corner with tablets are available for independent tasks\u2026' })}
+      ${qCard({ id:'dc-ft-grp-strategies', label:'Grouping strategies', rows:3,
+        tip:'Describe the range of grouping strategies used and link each to specific activity types. Assessors look for: whole-class, pairs, small groups, and individual work; flexible grouping; and at least one example of how groupings support diversity. Common error: stating groupings will be flexible without explaining how.',
+        structured:`<div class="dc-checkgroup">
+          <label class="dc-check-item"><input type="checkbox" class="dc-grp-strat-check" value="whole-class" onchange="scheduleSave()"> Whole-class</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-grp-strat-check" value="pairs" onchange="scheduleSave()"> Pairs</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-grp-strat-check" value="small-groups" onchange="scheduleSave()"> Small groups (3\u20134)</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-grp-strat-check" value="individual" onchange="scheduleSave()"> Individual</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-grp-strat-check" value="flexible" onchange="scheduleSave()"> Flexible / mixed-attainment groupings</label>
+          <label class="dc-check-item"><input type="checkbox" class="dc-grp-strat-check" value="cooperative" onchange="scheduleSave()"> Cooperative learning (jigsaw, think-pair-share\u2026)</label>
+        </div>`,
+        placeholder:'e.g. Groupings are flexible and adapted to the nature of each activity. Whole-class organisation is used for presentations and shared reading. Pair work is the default for communicative tasks and controlled practice. Small groups of 3\u20134 are used for project and cooperative tasks. Individual work is reserved for written assessments. Groupings are regularly rotated to ensure mixed-attainment interaction\u2026' })}`;
 
     case 'sequencing': return `
       ${qCard({ id:'dc-ft-seq-intro', label:'Programme overview and sequencing', rows:3,
@@ -3932,11 +4021,33 @@ function collectContextData() {
         d.text = ft('dc-ft-stage-obj');
         break;
       case 'methodology':
-        d.tools          = ft('dc-meth-tools');
-        d.toolsText      = ft('dc-ft-meth-tools');
-        d.assistant      = ft('dc-meth-assistant');
+        d.basicPrinciples = Array.from(document.querySelectorAll('.dc-meth-basic-check:checked')).map(cb => cb.value);
+        d.basicText       = ft('dc-ft-meth-basic');
+        d.eflPrinciples   = Array.from(document.querySelectorAll('.dc-meth-efl-check:checked')).map(cb => cb.value);
+        d.eflText         = ft('dc-ft-meth-efl');
+        d.macroSessions   = ft('dc-meth-macro-sessions');
+        d.macroInput      = ft('dc-meth-macro-input');
+        d.macroOutput     = ft('dc-meth-macro-output');
+        d.macroText       = ft('dc-ft-meth-macro');
+        d.microText       = ft('dc-ft-meth-micro');
+        d.tools           = ft('dc-meth-tools');
+        d.toolsText       = ft('dc-ft-meth-tools');
+        d.assistant       = ft('dc-meth-assistant');
         d.assistantDetail = ft('dc-meth-assistant-detail');
-        d.assistantText  = ft('dc-ft-meth-assistant');
+        d.assistantText   = ft('dc-ft-meth-assistant');
+        break;
+      case 'materials':
+        d.textbook   = ft('dc-mat-textbook');
+        d.platform   = ft('dc-mat-platform');
+        d.supplementary = Array.from(document.querySelectorAll('.dc-mat-supp-check:checked')).map(cb => cb.value);
+        d.suppText   = ft('dc-ft-mat-supplementary');
+        d.textbookText = ft('dc-ft-mat-textbook');
+        break;
+      case 'groupings':
+        d.layout     = Array.from(document.querySelectorAll('.dc-grp-layout-check:checked')).map(cb => cb.value);
+        d.layoutText = ft('dc-ft-grp-layout');
+        d.strategies = Array.from(document.querySelectorAll('.dc-grp-strat-check:checked')).map(cb => cb.value);
+        d.stratText  = ft('dc-ft-grp-strategies');
         break;
       case 'sequencing':
         d.sessions   = ft('dc-seq-sessions');
