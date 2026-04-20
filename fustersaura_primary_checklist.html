@@ -3680,6 +3680,68 @@ function updateAcTotal() {
   document.querySelectorAll('.dc-ac-input').forEach(s => total += parseInt(s.value || 0, 10));
   const el = document.getElementById('dc-ac-total');
   if (el) { el.textContent = `${total} / 100`; el.classList.toggle('valid', total === 100); }
+  updateAcSubtotals();
+}
+
+function updateAcSubtotals() {
+  const cycle = getCycleFromYear(userContext.yearGroup);
+  const spcs = AC_DATA[cycle] || AC_DATA[3];
+  spcs.forEach(({spc, acs}) => {
+    const spcWeight = parseInt(document.getElementById('dc-spc-' + spc)?.value || 0, 10);
+    let acSum = 0;
+    acs.forEach(({id}) => { acSum += parseInt(document.getElementById('dc-ac-' + id)?.value || 0, 10); });
+    const el = document.getElementById('dc-ac-subtotal-' + spc);
+    if (!el) return;
+    if (spcWeight === 0) {
+      el.textContent = '\u2014';
+      el.style.color = 'var(--grey-400)';
+    } else if (acSum === spcWeight) {
+      el.textContent = '\u2705 ' + acSum + '% = SPC' + spc + ' (' + spcWeight + '%)';
+      el.style.color = 'var(--success, #2e7d32)';
+    } else if (acSum > spcWeight) {
+      el.textContent = '\u26a0\ufe0f ' + acSum + '% > SPC' + spc + ' (' + spcWeight + '%) \u2014 exceeds limit!';
+      el.style.color = '#c62828';
+    } else {
+      el.textContent = acSum + '% / ' + spcWeight + '% \u2014 ' + (spcWeight - acSum) + '% remaining';
+      el.style.color = '#e65100';
+    }
+  });
+}
+
+function autoDistributeAcForSpc(spc) {
+  const cycle = getCycleFromYear(userContext.yearGroup);
+  const spcs = AC_DATA[cycle] || AC_DATA[3];
+  const spcDef = spcs.find(x => x.spc === spc);
+  if (!spcDef) return;
+  const spcWeight = parseInt(document.getElementById('dc-spc-' + spc)?.value || 0, 10);
+  const { acs } = spcDef;
+  let ratios;
+  if (spc === 3 && acs.length === 2) ratios = [2/3, 1/3];
+  else if (spc === 6 && acs.length === 3) ratios = [0.4, 0.3, 0.3];
+  else ratios = acs.map(() => 1 / acs.length);
+  let remaining = spcWeight;
+  acs.forEach(({id}, i) => {
+    const input = document.getElementById('dc-ac-' + id);
+    if (!input) return;
+    const val = i === acs.length - 1 ? remaining : Math.round(spcWeight * ratios[i]);
+    input.value = Math.max(0, val);
+    if (i < acs.length - 1) remaining -= Math.max(0, val);
+  });
+  updateAcTotal();
+}
+
+function clampAcInput(input) {
+  const spc = parseInt((input.dataset.acid || '').split('.')[0]);
+  if (!spc) return;
+  const spcWeight = parseInt(document.getElementById('dc-spc-' + spc)?.value || 0, 10);
+  if (spcWeight <= 0) { input.value = 0; updateAcTotal(); return; }
+  let otherSum = 0;
+  document.querySelectorAll('.dc-ac-input[data-acid^="' + spc + '."]').forEach(s => {
+    if (s !== input) otherSum += parseInt(s.value || 0, 10);
+  });
+  const maxVal = Math.max(0, spcWeight - otherSum);
+  if (parseInt(input.value || 0) > maxVal) input.value = maxVal;
+  updateAcTotal();
 }
 
 function initAssessmentLearningAC(restoreValues) {
@@ -3687,17 +3749,15 @@ function initAssessmentLearningAC(restoreValues) {
   if (!container) return;
   const cycle = getCycleFromYear(userContext.yearGroup);
   const spcs = AC_DATA[cycle] || AC_DATA[3];
-  const opts = [0,5,10,15,20,25,30].map(v => `<option value="${v}">${v}%</option>`).join('');
   container.innerHTML = spcs.map(({spc, acs}) => `
-    <div style="margin-bottom:10px">
-      <div style="font-size:.82rem;font-weight:700;color:var(--granate);margin-bottom:4px">SPC ${spc}</div>
+    <div style="margin-bottom:12px;padding:8px 10px;background:var(--grey-50,#f8f8f8);border-radius:6px;border-left:3px solid var(--granate)">
+      <div style="font-size:.82rem;font-weight:700;color:var(--granate);margin-bottom:6px">SPC ${spc}</div>
       ${acs.map(({id, label}) => `
       <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:4px">
-        <select class="dc-select dc-ac-input" id="dc-ac-${id}" data-acid="${id}" style="width:70px;flex-shrink:0" onchange="updateAcTotal();scheduleSave()">
-          ${opts}
-        </select>
-        <span style="font-size:.8rem;color:var(--grey-600);line-height:1.4;padding-top:2px"><strong>AC ${id}</strong> \u2014 ${label}</span>
+        <input type="number" class="dc-input dc-ac-input" id="dc-ac-${id}" data-acid="${id}" min="0" max="100" value="0" style="width:60px;flex-shrink:0;text-align:center;padding:4px 6px" oninput="clampAcInput(this);scheduleSave()">
+        <span style="font-size:.8rem;color:var(--grey-600);line-height:1.4;padding-top:4px"><strong>AC ${id}</strong> \u2014 ${label}</span>
       </div>`).join('')}
+      <div id="dc-ac-subtotal-${spc}" style="font-size:.78rem;margin-top:4px;font-weight:600">\u2014</div>
     </div>`).join('');
   updateAcTotal();
   if (restoreValues) {
@@ -4000,14 +4060,15 @@ function getSectionQuestions(id) {
           ${[1,2,3,4,5,6].map(n=>`
           <div style="display:flex;align-items:center;gap:6px">
             <label style="font-size:.85rem;font-weight:600;min-width:36px">SPC${n}</label>
-            <select class="dc-select dc-spc-input" id="dc-spc-${n}" onchange="updateSpcTotal();scheduleSave()" style="width:72px">
+            <select class="dc-select dc-spc-input" id="dc-spc-${n}" onchange="updateSpcTotal();autoDistributeAcForSpc(${n});scheduleSave()" style="width:72px">
               ${[0,5,10,15,20,25,30].map(v=>`<option value="${v}"${v===0?' selected':''}>${v}%</option>`).join('')}
             </select>
           </div>`).join('')}
         </div>
-        <div style="display:flex;align-items:center;gap:8px">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
           <span style="font-size:.83rem;color:var(--grey-600)">Total:</span>
           <span class="dc-spc-total" id="dc-spc-total">0 / 100</span>
+          <button type="button" class="dc-autofill-btn" style="margin:0" onclick="loadSpcDefaults()">Load FUSTERSAURA defaults</button>
         </div>
       </div>
       <div class="dc-q-card">
@@ -4152,6 +4213,17 @@ function updateSpcTotal() {
   document.querySelectorAll('.dc-spc-input').forEach(i => total += parseInt(i.value || 0, 10));
   const el = document.getElementById('dc-spc-total');
   if (el) { el.textContent = `${total} / 100`; el.classList.toggle('valid', total === 100); }
+}
+
+function loadSpcDefaults() {
+  const defaults = {1:20, 2:15, 3:15, 4:20, 5:15, 6:10};
+  [1,2,3,4,5,6].forEach(n => {
+    const el = document.getElementById('dc-spc-' + n);
+    if (el) el.value = defaults[n];
+  });
+  updateSpcTotal();
+  [1,2,3,4,5,6].forEach(n => autoDistributeAcForSpc(n));
+  scheduleSave();
 }
 
 function updateTermTotal() {
