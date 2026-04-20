@@ -3903,6 +3903,41 @@ function autoDistributeAcWeights() {
   showToast('AC weights distributed from SPC weights using standard proportions');
 }
 
+function autoDistributeAcForSpc(spc) {
+  const cycle = getCycleFromYear(userContext.yearGroup);
+  const spcs = AC_DATA[cycle] || AC_DATA[3];
+  const spcDef = spcs.find(x => x.spc === spc);
+  if (!spcDef) return;
+  const spcWeight = parseInt(document.getElementById('dc-spc-' + spc)?.value || 0, 10);
+  const { acs } = spcDef;
+  let ratios;
+  if (spc === 3 && acs.length === 2) ratios = [2/3, 1/3];
+  else if (spc === 6 && acs.length === 3) ratios = [0.4, 0.3, 0.3];
+  else ratios = acs.map(() => 1 / acs.length);
+  let remaining = spcWeight;
+  acs.forEach(({ id }, i) => {
+    const input = document.getElementById('dc-ac-' + id);
+    if (!input) return;
+    const val = i === acs.length - 1 ? remaining : Math.round(spcWeight * ratios[i]);
+    input.value = Math.max(0, val);
+    if (i < acs.length - 1) remaining -= Math.max(0, val);
+  });
+  updateAcTotal();
+}
+
+function clampAcInput(input) {
+  const spc = parseInt((input.dataset.acid || '').split('.')[0]);
+  if (!spc) return;
+  const spcWeight = parseInt(document.getElementById('dc-spc-' + spc)?.value || 0, 10);
+  if (spcWeight <= 0) return;
+  let otherSum = 0;
+  document.querySelectorAll('.dc-ac-input[data-acid^="' + spc + '."]').forEach(s => {
+    if (s !== input) otherSum += parseInt(s.value || 0, 10);
+  });
+  const maxVal = Math.max(0, spcWeight - otherSum);
+  if (parseInt(input.value || 0) > maxVal) input.value = maxVal;
+}
+
 function initAssessmentLearningAC(restoreValues) {
   const container = document.getElementById('dc-ac-container');
   if (!container) return;
@@ -3916,7 +3951,7 @@ function initAssessmentLearningAC(restoreValues) {
       </div>
       ${acs.map(({id, label}) => `
       <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:4px">
-        <input type="number" class="dc-input dc-ac-input" id="dc-ac-${id}" data-acid="${id}" min="0" max="30" step="1" value="0" style="width:60px;flex-shrink:0" oninput="updateAcTotal();scheduleSave()">
+        <input type="number" class="dc-input dc-ac-input" id="dc-ac-${id}" data-acid="${id}" min="0" max="30" step="1" value="0" style="width:60px;flex-shrink:0" oninput="clampAcInput(this);updateAcTotal();scheduleSave()">
         <span style="font-size:.8rem;color:var(--grey-600);line-height:1.4;padding-top:3px"><strong>AC ${id}</strong> \u2014 ${label}</span>
       </div>`).join('')}
     </div>`).join('')
@@ -4222,7 +4257,7 @@ function getSectionQuestions(id) {
           ${[1,2,3,4,5,6].map(n=>`
           <div style="display:flex;align-items:center;gap:6px">
             <label style="font-size:.85rem;font-weight:600;min-width:36px">SPC${n}</label>
-            <select class="dc-select dc-spc-input" id="dc-spc-${n}" onchange="updateSpcTotal();scheduleSave()" style="width:72px">
+            <select class="dc-select dc-spc-input" id="dc-spc-${n}" onchange="updateSpcTotal();autoDistributeAcForSpc(${n});scheduleSave()" style="width:72px">
               ${[0,5,10,15,20,25,30].map(v=>`<option value="${v}"${v===0?' selected':''}>${v}%</option>`).join('')}
             </select>
           </div>`).join('')}
