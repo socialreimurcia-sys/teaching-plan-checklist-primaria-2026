@@ -4567,7 +4567,31 @@ If generating multiple sections, use a level-2 markdown heading (##) for each se
     headers['x-section'] = sectionIds.join(',');
   }
 
-  const DRAFT_SYSTEM = 'You are a specialist in Spanish Primary Education Teaching Plan writing with deep expertise in LOMLOE, RD\u00a0157/2022, and Decree\u00a0209/2022 (Murcia). Generate well-structured, complete sections for a Primary English Teaching Plan following the FUSTERSAURA model. Write in formal academic British English prose. Include all required legislation references. Be precise and thorough. Where the FUSTERSAURA model uses tables (e.g. stage objectives: letter | objective text | key competences; unit sequencing: term | unit number | title | sessions | dates; communication plan: audience | digital channel | face-to-face channel; assessment criteria weights), output them using markdown pipe-table syntax with a header separator row (|---|---|).';
+  const DRAFT_SYSTEM = `You are a specialist in Spanish Primary Education Teaching Plan writing with deep expertise in LOMLOE, RD\u00a0157/2022, and Decree\u00a0209/2022 (Murcia). Generate well-structured, complete sections for a Primary English Teaching Plan following the FUSTERSAURA model. Write in formal academic British English prose. Include all required legislation references. Be precise and thorough.
+
+OUTPUT FORMAT \u2014 MANDATORY: Where the FUSTERSAURA model uses a table, you MUST output a markdown pipe table. Do NOT replace tables with prose or bullet points. Tables required:
+- Stage Objectives: | Obj | Stage Objective (Art.\u00a07 RD\u00a0157/2022 & D.\u00a0209/2022) | English Contribution | Key Competences | with all 14 objectives a\u2013n using their exact legal text.
+- Unit Sequencing: | Term | Unit | Title | Sessions | Dates |
+- Communication Plan: | Audience | Digital Channel | Face-to-Face |
+- Assessment criteria weighting: | AC Code | Description | Weight (%) |
+
+STAGE OBJECTIVES \u2014 exact legal text (Art.\u00a07 RD\u00a0157/2022):
+a) Conocer y apreciar los valores y las normas de convivencia, aprender a obrar de acuerdo con ellas, prepararse para el ejercicio activo de la ciudadan\u00eda y respetar los derechos humanos, as\u00ed como el pluralismo propio de una sociedad democr\u00e1tica. (PSLLC, CC)
+b) Desarrollar h\u00e1bitos de trabajo individual y de equipo, de esfuerzo y de responsabilidad en el estudio, as\u00ed como actitudes de confianza en s\u00ed mismo, sentido cr\u00edtico, iniciativa personal, curiosidad, inter\u00e9s y creatividad en el aprendizaje, y esp\u00edritu emprendedor. (PSLLC, ENT)
+c) Adquirir habilidades para la prevenci\u00f3n y para la resoluci\u00f3n pac\u00edfica de conflictos, que les permitan desenvolverse con autonom\u00eda en el \u00e1mbito familiar y dom\u00e9stico, as\u00ed como en los grupos sociales con los que se relacionan. (PSLLC, CC)
+d) Conocer, comprender y respetar las diferentes culturas y las diferencias entre las personas, la igualdad de derechos y oportunidades de hombres y mujeres y la no discriminaci\u00f3n de personas con discapacidad. (PSLLC, CC, CAEC)
+e) Conocer y utilizar de manera apropiada la lengua castellana y, si la hubiere, la lengua cooficial de la Comunidad Aut\u00f3noma, y desarrollar h\u00e1bitos de lectura. (LCC, PLC)
+f) Adquirir en, al menos, una lengua extranjera la competencia comunicativa b\u00e1sica que les permita expresar y comprender mensajes sencillos y desenvolverse en situaciones cotidianas. (PLC, LCC)
+g) Desarrollar las competencias matem\u00e1ticas b\u00e1sicas e iniciarse en la resoluci\u00f3n de problemas que requieran la realizaci\u00f3n de operaciones elementales de c\u00e1lculo, conocimientos geom\u00e9tricos y estimaciones, as\u00ed como ser capaces de aplicarlos a las situaciones de su vida cotidiana. (STEM)
+h) Conocer los aspectos fundamentales de las Ciencias de la Naturaleza, las Ciencias Sociales, la Geograf\u00eda, la Historia y la Cultura. (STEM, CC, CAEC)
+i) Iniciarse en la utilizaci\u00f3n, para el aprendizaje, de las tecnolog\u00edas de la informaci\u00f3n y la comunicaci\u00f3n desarrollando un esp\u00edritu cr\u00edtico ante los mensajes que reciben y elaboran. (DC, STEM)
+j) Utilizar diferentes representaciones y expresiones art\u00edsticas e iniciarse en la construcci\u00f3n de propuestas visuales y audiovisuales. (CAEC, LCC)
+k) Valorar la higiene y la salud, aceptar el propio cuerpo y el de los otros, respetar las diferencias y utilizar la educaci\u00f3n f\u00edsica y el deporte como medios para favorecer el desarrollo personal y social. (PSLLC)
+l) Conocer y valorar los animales m\u00e1s pr\u00f3ximos al ser humano y adoptar modos de comportamiento que favorezcan su cuidado. (PSLLC, STEM)
+m) Desarrollar sus capacidades afectivas en todos los \u00e1mbitos de la personalidad y en sus relaciones con los dem\u00e1s, as\u00ed como una actitud contraria a la violencia, a los prejuicios de cualquier tipo y a los estereotipos sexistas. (PSLLC, CC)
+n) Fomentar la educaci\u00f3n vial y actitudes de respeto que incidan en la prevenci\u00f3n de los accidentes de tr\u00e1fico. (PSLLC, CC)
+
+Key competence acronyms: LCC (Linguistic), PLC (Plurilingual), STEM, DC (Digital), PSLLC (Personal-Social), CIT (Citizenship), ENT (Entrepreneurship), CAEC (Cultural Awareness).`;
 
   const response = await fetch('/.netlify/functions/anthropic-proxy', {
     method: 'POST',

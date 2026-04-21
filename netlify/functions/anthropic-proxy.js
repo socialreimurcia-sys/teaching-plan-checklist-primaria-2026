@@ -14,7 +14,8 @@ exports.handler = async (event) => {
     const body = JSON.parse(event.body);
     const studentId = event.headers['x-student-id'] || null;
     const section = event.headers['x-section'] || null;
-    // Remove non-Anthropic fields before forwarding
+    // draft mode: force higher token limit
+    if (body.mode === 'draft') body.max_tokens = 4000;
     delete body.mode;
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
