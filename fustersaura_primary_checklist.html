@@ -1188,6 +1188,12 @@
   }
   .admin-stat-value { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--navy); }
   .admin-stat-label { font-size: 0.75rem; color: var(--grey-600); margin-top: 2px; }
+  .md-table-wrap { overflow-x: auto; margin: 12px 0; }
+  .md-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .md-table th { background: var(--navy); color: var(--white); padding: 8px 12px; text-align: left; font-weight: 600; font-size: 0.8rem; }
+  .md-table td { padding: 8px 12px; border-bottom: 1px solid var(--grey-100); vertical-align: top; }
+  .md-table tr:last-child td { border-bottom: none; }
+  .md-table tr:nth-child(even) td { background: var(--grey-50); }
   .admin-table-wrap { overflow-x: auto; }
   .admin-table {
     width: 100%;
@@ -2948,31 +2954,66 @@ function markdownToHtml(md) {
   const lines = md.split('\n');
   let html = '';
   let inUl = false;
+  let tableRows = [];
+
+  function flushTable() {
+    if (tableRows.length < 2) {
+      tableRows.forEach(r => { html += `<p>${processInline(r)}</p>`; });
+      tableRows = [];
+      return;
+    }
+    const isSep = row => /^\|?[\s|:\-]+\|?$/.test(row);
+    const sepIdx = tableRows.findIndex(isSep);
+    if (sepIdx === -1) {
+      tableRows.forEach(r => { html += `<p>${processInline(r)}</p>`; });
+      tableRows = [];
+      return;
+    }
+    const parseRow = (row, tag) => {
+      const cells = row.replace(/^\||\|$/g, '').split('|');
+      return '<tr>' + cells.map(c => `<${tag}>${processInline(c.trim())}</${tag}>`).join('') + '</tr>';
+    };
+    const headRows = tableRows.slice(0, sepIdx);
+    const bodyRows = tableRows.slice(sepIdx + 1);
+    html += '<div class="md-table-wrap"><table class="md-table">';
+    if (headRows.length) html += '<thead>' + headRows.map(r => parseRow(r, 'th')).join('') + '</thead>';
+    if (bodyRows.length) html += '<tbody>' + bodyRows.map(r => parseRow(r, 'td')).join('') + '</tbody>';
+    html += '</table></div>';
+    tableRows = [];
+  }
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     const trimmed = line.trim();
-    if (/^#{1}\s/.test(trimmed)) {
+    if (/^\|/.test(trimmed)) {
       if (inUl) { html += '</ul>'; inUl = false; }
-      html += `<h2>${processInline(trimmed.replace(/^#+\s/, ''))}</h2>`;
-    } else if (/^#{2}\s/.test(trimmed)) {
-      if (inUl) { html += '</ul>'; inUl = false; }
-      html += `<h3>${processInline(trimmed.replace(/^#+\s/, ''))}</h3>`;
-    } else if (/^#{3,}\s/.test(trimmed)) {
-      if (inUl) { html += '</ul>'; inUl = false; }
-      html += `<h4>${processInline(trimmed.replace(/^#+\s/, ''))}</h4>`;
-    } else if (/^[-*]\s/.test(trimmed)) {
-      if (!inUl) { html += '<ul>'; inUl = true; }
-      html += `<li>${processInline(trimmed.replace(/^[-*]\s/, ''))}</li>`;
-    } else if (/^\d+\.\s/.test(trimmed)) {
-      if (inUl) { html += '</ul>'; inUl = false; }
-      html += `<li>${processInline(trimmed.replace(/^\d+\.\s/, ''))}</li>`;
-    } else if (trimmed === '') {
-      if (inUl) { html += '</ul>'; inUl = false; }
+      tableRows.push(trimmed);
     } else {
-      if (inUl) { html += '</ul>'; inUl = false; }
-      html += `<p>${processInline(trimmed)}</p>`;
+      if (tableRows.length) flushTable();
+      if (/^#{1}\s/.test(trimmed)) {
+        if (inUl) { html += '</ul>'; inUl = false; }
+        html += `<h2>${processInline(trimmed.replace(/^#+\s/, ''))}</h2>`;
+      } else if (/^#{2}\s/.test(trimmed)) {
+        if (inUl) { html += '</ul>'; inUl = false; }
+        html += `<h3>${processInline(trimmed.replace(/^#+\s/, ''))}</h3>`;
+      } else if (/^#{3,}\s/.test(trimmed)) {
+        if (inUl) { html += '</ul>'; inUl = false; }
+        html += `<h4>${processInline(trimmed.replace(/^#+\s/, ''))}</h4>`;
+      } else if (/^[-*]\s/.test(trimmed)) {
+        if (!inUl) { html += '<ul>'; inUl = true; }
+        html += `<li>${processInline(trimmed.replace(/^[-*]\s/, ''))}</li>`;
+      } else if (/^\d+\.\s/.test(trimmed)) {
+        if (inUl) { html += '</ul>'; inUl = false; }
+        html += `<li>${processInline(trimmed.replace(/^\d+\.\s/, ''))}</li>`;
+      } else if (trimmed === '') {
+        if (inUl) { html += '</ul>'; inUl = false; }
+      } else {
+        if (inUl) { html += '</ul>'; inUl = false; }
+        html += `<p>${processInline(trimmed)}</p>`;
+      }
     }
   }
+  if (tableRows.length) flushTable();
   if (inUl) html += '</ul>';
   return html;
 }
