@@ -4544,7 +4544,13 @@ async function callDraftAPI(sectionIds, contextData) {
   const contextSummary = buildContextSummary(sectionIds, contextData);
   const yearGroup = contextData.cover?.year || contextData.introduction?.year || contextData.justification?.year || 'Year [unspecified]';
 
-  const userMessage = `Generate the named sections of a Primary Education English Teaching Plan for the Region of Murcia following the FUSTERSAURA model exactly. Use the user's context answers to personalise the content. Write in connected academic prose, British English, Arial 11pt register. Do not use bullet points in the main prose. Include all required legislation references. Each section should be the correct length as per the FUSTERSAURA model — not too short, not too long.
+  const userMessage = `Generate the named sections of a Primary Education English Teaching Plan for the Region of Murcia following the FUSTERSAURA model exactly. Use the user\u2019s context answers to personalise the content. Write in connected academic prose, British English, Arial 11pt register. Do not use bullet points in the main prose. Include all required legislation references. Each section should be the correct length as per the FUSTERSAURA model \u2014 not too short, not too long.
+
+IMPORTANT \u2014 USE MARKDOWN TABLES: Wherever the FUSTERSAURA model presents information in a table, you MUST output a markdown pipe table (| Col | Col |\n|---|---|\n| val | val |). Sections that require tables:
+- Stage Objectives: a table with columns | Objective | Text | Key Competences |, all 14 objectives (a\u2013n)
+- Unit Sequencing: a table with columns | Term | Unit | Title | Sessions | Dates |
+- Communication Plan: a table with columns | Audience | Digital Channel | Face-to-Face |
+- Assessment criteria or weighting: a table showing AC codes and percentages
 
 Year group: ${yearGroup}
 
@@ -4552,8 +4558,6 @@ Sections to generate: ${sectionList}
 
 User context:
 ${contextSummary}
-
-For the sequencing section, if unit titles were provided, generate a schematic HTML table showing the correct chart structure with placeholder text clearly marked in square brackets for the user to fill in.
 
 If generating multiple sections, use a level-2 markdown heading (##) for each section name before its content.`;
 
@@ -4570,7 +4574,7 @@ If generating multiple sections, use a level-2 markdown heading (##) for each se
     headers,
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1500,
+      max_tokens: 2000,
       system: DRAFT_SYSTEM,
       messages: [{ role: 'user', content: userMessage }],
       mode: 'draft'
